@@ -6,36 +6,13 @@
 <body>
 
 		<div id="jquery_jplayer_1" class="jp-jplayer"></div>
-<!--  
-  cssSelector: {
-  videoPlay: ".jp-video-play",
-  play: ".jp-play",
-  pause: ".jp-pause",
-  stop: ".jp-stop",
-  seekBar: ".jp-seek-bar",
-  playBar: ".jp-play-bar",
-  mute: ".jp-mute",
-  unmute: ".jp-unmute",
-  volumeBar: ".jp-volume-bar",
-  volumeBarValue: ".jp-volume-bar-value",
-  volumeMax: ".jp-volume-max",
-  currentTime: ".jp-current-time",
-  duration: ".jp-duration",
-  fullScreen: ".jp-full-screen",
-  restoreScreen: ".jp-restore-screen",
-  repeat: ".jp-repeat",
-  repeatOff: ".jp-repeat-off",
-  gui: ".jp-gui",
-  noSolution: ".jp-no-solution"
-} -->
+
 		<div id="jp_container_1" class="jp-audio-stream">
-			<p><a href="javascript:;" class="jp-play">play</a> | <a href="javascript:;" class="jp-pause" tabindex="1">pause</a><br />
-			<a href="javascript:;" class="jp-mute" title="mute">mute</a> | 
-			<a href="javascript:;" class="jp-unmute" title="unmute">unmute</a> |
+			<p><a href="javascript:;" class="jp-play">play</a><a href="javascript:;" class="jp-pause" tabindex="1">pause</a><br />
+			<a href="javascript:;" class="jp-mute" title="mute">mute</a><a href="javascript:;" class="jp-unmute" title="unmute">unmute</a> |
 			<a href="javascript:;" class="jp-volume-max" title="max volume">max volume</a><br />
 			<a href="javascript:;" class="jp-share" title="share">share</a> | <a href="javascript:;" class="jp-pop" title="pop">pop</a></p>
-			
-			<p class="jp-poster">Imagery Here.....</p>
+			 
 			<li class="song"></li><br />
 			<li class="station"></li><br />
 
@@ -48,6 +25,10 @@
 			<div class="jp-no-solution">
 				<span>Update Required</span>
 				To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+			</div>
+			
+			<div class="jp-stream-list">
+				<ul class="jp-streams"></ul>
 			</div>
 		</div>
 	
@@ -77,9 +58,16 @@
 				title:	'li.song',
 				station: 'li.station'
 			},
-			overrideStream: stream,
+			//overrideStream: stream,
+			config: 'mbn',
 			trackingEnabled: true,
-			metadataStreamEnabled: true
+			metadataStreamEnabled: true,
+			playerOpts: {
+				size: { 
+					width: 236,
+					height: 143
+				}
+			}
 		});
 	});
 </script>
