@@ -2,7 +2,6 @@
 <html>
 <head>
 	<title>Radio Sawa Streaming Player</title>
-	<script type="text/javascript" src="js/lazyload-min.js"></script>
 	<link type="text/css" rel="stylesheet" href="skin/radiosawa.css">
 </head>
 <body>
@@ -48,6 +47,9 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 	
 </div>
 
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.jplayer.min.js"></script>
+<script type="text/javascript" src="js/jquery.bbgPlayer.dev.js"></script>
 <script type="text/javascript">	
 	// initialize Google Analytics Tracking Code
 	var _gaq = _gaq || [];
@@ -61,7 +63,7 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 	})();
 	
 	// Load multiple JS files and execute a callback when they've all finished.
-	LazyLoad.js(['http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js', 'js/jquery.jplayer.min.js', 'js/jquery.bbgPlayer.dev.js'], function () {
+	$(document).ready(function(e) {
 	// initialize player
 		$("#jquery_jplayer_1").bbgPlayer({
 			config: 'radiosawa',
