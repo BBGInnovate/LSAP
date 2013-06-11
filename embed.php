@@ -7,10 +7,6 @@
 </head>
 <body>
 
-<div>
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-</div>
-
 <div id="jquery_jplayer_1" class="jp-jplayer"></div>
 
 <div id="jp_container_1" class="jp-audio-stream">
@@ -37,7 +33,7 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 		</div>
 		 -->
 		<div class="jp-volume-bar">
-			<div class="jp-volume-bar-value"></div>
+			<div class="jp-volume-bar-value">
 		</div>
 	</div>
 
@@ -47,7 +43,7 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 	</div>
 	
 </div>
-
+			
 <script type="text/javascript">	
 	// initialize Google Analytics Tracking Code
 	var _gaq = _gaq || [];
@@ -59,16 +55,33 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 	  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
 	  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 	})();
+
+	function getURLParameter(name) {
+	    return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
+	}
 	
 	// Load multiple JS files and execute a callback when they've all finished.
-	LazyLoad.js(['http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js', 'js/jquery.jplayer.min.js', 'js/jquery.bbgPlayer.dev.js'], function () {
-	// initialize player
-		$("#jquery_jplayer_1").bbgPlayer({
-			config: 'radiosawa',
+	LazyLoad.js(['http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js', 'js/jquery.jplayer.min.js', 'js/jquery.bbgPlayer.js'], function () {
+		// initialize player
+		var requestedStream = getURLParameter('l');
+		var requestedConfig = getURLParameter('c');
+		var requestedStreamObj = null;
+		if (requestedStream && requestedStream.length > 0) {
+			requestedStreamObj = {mp3: requestedStream};
+		}
+		if ((requestedStreamObj)
+				|| requestedConfig && requestedConfig.length > 0) {
+			$("#jquery_jplayer_1").bbgPlayer({		
+			overrideStream: requestedStreamObj,
+			config: requestedConfig,
 			trackingEnabled: true,
+			embedded: true,
 			metadataStreamEnabled: true,
 			autoplay: false
-		});
+		}); 
+		} else {
+			alert("No stream requested.  Cannot continue.");
+		}
 	});
 </script>
 
