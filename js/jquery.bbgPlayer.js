@@ -32,6 +32,9 @@
 		var self = this;
 		self.$elem = $(elem);
 		
+		// to allow for console logging for debug - safety feature for IE, etc.
+		var console=console||{"log":function(){}};
+		
 		var defaults = {
 			playerOpts: {},
 			bbgCssSelectors: {
@@ -39,7 +42,7 @@
 				station: '.jp-station',
 				share: '.jp-share',
 				sharePanel: '.jp-share-panel',
-				streams: 'ul.jp-streams',
+				streams: '.jp-streams',
 				pop: '.jp-pop',
 				poster: '.jp-poster',
 				loading: '.jp-loading'
@@ -52,7 +55,11 @@
 			overrideTitle: null, // a title to display instead of dynamic metadata
 			embedded: false, // indicates if this is an embedded player (behaves differently)
 			popped: false, // indicates if this is a popped out player
-			autoplay: true
+			autoplay: true,
+			streamListComponent: 'ul', // the type of component used to display streams (if stream listings are used at all)
+			streamSelectLabel: null, // the label to display with a select list to select a station from the drop-down
+			showSiteUrl: false, // shows a site url from the configuration file in the station name
+			showPosters: true // shows the poster image for a channel when provided
 		}
 		self.options = $.extend(true,{},defaults,options);
 		
@@ -85,20 +92,22 @@
 					ready = true;
 					if (self.options.autoplay) {
 						playStream();
+					} else if (self.options.overrideStream) {
+						$(this).jPlayer("setMedia", self.currentStream);
 					}
 					trackPlayer();
 				},
 				play: function(event) {
 					showLoading(false);
-					if (self.options.trackingEnabled) {
-						nextTrackTime = self.config.trackIncrement; // reset the tracking time
-						// has been an the specified amount since the last log so log it for duration purposes
-						trackStart(getMediaTitleForTracking(event));
-					}
+					nextTrackTime = self.config.trackIncrement; // reset the tracking time
+					// has been an the specified amount since the last log so log it for duration purposes
+					trackStart(getMediaTitleForTracking(event));
+
 					// set initial metadata from overall station info provided by client
-					setTitle(self.currentStream.title);
-					if (self.currentStream.siteurl) {
-						setStation('<a href="' + self.currentStream.siteurl + '">' + self.currentStream.siteurl + '</a>');
+					if (self.currentStream.siteurl && self.options.showSiteUrl) {
+						setStation('<a href="' + self.currentStream.siteurl + '">' + self.currentStream.title + '</a>');
+					} else if (self.currentStream.title) {
+						setStation(self.currentStream.title);
 					} else {
 						setStation();
 					}
@@ -108,24 +117,21 @@
 					}
 				},
 				ended: function(event) {
-					if (self.options.trackingEnabled) {
-						trackEnd(getMediaTitleForTracking(event),event.jPlayer.status.currentTime);
-						clearMetadata();
-					}
+					trackEnd(getMediaTitleForTracking(event),event.jPlayer.status.currentTime);
+					clearMetadata();
 					setPoster();
 				},
 				pause: function(event) {
-					if (self.options.trackingEnabled) { // pause gets called when switching streams in which case this is not set....
-						var trackTitle = getMediaTitleForTracking(event);
-						if (trackTitle.length > 0) {
-							// can be zero when we switch tracks - this event gets called in between ending and starting the next channel
-							trackPause(getMediaTitleForTracking(event),event.jPlayer.status.currentTime);
-						}
+					// pause gets called when switching streams in which case this is not set....
+					var trackTitle = getMediaTitleForTracking(event);
+					if (trackTitle.length > 0) {
+						// can be zero when we switch tracks - this event gets called in between ending and starting the next channel
+						trackPause(getMediaTitleForTracking(event),event.jPlayer.status.currentTime);
 					}
 					self.$elem.jPlayer("clearMedia");
 				},
 				timeupdate: function(event) {
-					if (self.options.trackingEnabled && event.jPlayer.status.currentTime > 0 && event.jPlayer.status.currentTime > nextTrackTime) {
+					if (event.jPlayer.status.currentTime > 0 && event.jPlayer.status.currentTime > nextTrackTime) {
 						// has been an the specified amount since the last log so log it for duration purposes
 						trackDuration(getMediaTitleForTracking(event),self.config.trackIncrement);
 						nextTrackTime += self.config.trackIncrement;
@@ -137,22 +143,7 @@
 						// Setup the media stream again and play it.
 						showLoading(true);
 						self.$elem.jPlayer("setMedia", self.currentStream).jPlayer("play");
-					} else if (event.jPlayer.error.type === $.jPlayer.error.FLASH || event.jPlayer.error.type === $.jPlayer.error.FLASH_DISABLED) {
-						// flash insertion problem or disabling issue
-						alert('There is a problem with your Flash installation.\n\nPlease visit ' + getFlashUrl + ' to update your Flash Player.');
-					} else if (event.jPlayer.error.type == $.jPlayer.error.NO_SOLUTION || event.jPlayer.error.type == $.jPlayer.error.NO_SUPPORT) {
-						if (navigator.userAgent.match(/(iPad|iPhone|iPod)/g)) {
-							// if ios then its a problem with with browser support for supplied audio format
-							alert('The audio streaming format is not supported on your device.  Please visit this site in your browser or other device to continue.');
-						} else {
-							// if not ios then the solution is to install flash and they should be able to handle all formats
-							upgrade = window.confirm('Please update your browser to a more recent version or install the Adobe Flash Plugin.\n\n Install Flash Player?');
-							if (upgrade) {
-								window.location = getFlashUrl;
-							}
-						}
-						
-					}
+					} 
 				},
 				solution: "flash,html",
 				swfPath: "/ovap/LSAP/js",
@@ -184,6 +175,8 @@
 			};
 			var ancestor = jPlayerData.options.cssSelectorAncestor;
 			
+			self.bbgCss.css.ancestor = ancestor;
+			self.bbgCss.jq.ancestor = $(ancestor);
 			for (var type in self.options.bbgCssSelectors) {
 				var sel = ancestor + ' ' + self.options.bbgCssSelectors[type];
 				self.bbgCss.css[type] = sel
@@ -261,6 +254,39 @@
 		 * @param selectedIndex the index within the stream to show as selected
 		 */
 		function displayStreamList(streams,selectedIndex) {
+			if (self.options.streamListComponent == 'ul') {
+				displayStreamUnorderedList(streams,selectedIndex);
+			} else if (self.options.streamListComponent == 'select') {
+				displayStreamSelectList(streams,selectedIndex);
+			}
+		}
+		
+		function displayStreamSelectList(streams,selectedIndex) {
+			var listHtml = '';
+			var num = streams.length;
+			var streamListOffset = 0;
+			if (self.options.streamSelectLabel && self.options.streamSelectLabel.length > 0) {
+				streamListOffset = 1;
+				listHtml += '<option value="">' + self.options.streamSelectLabel + '</option>';
+			}
+			for (var i=0; i<num; i++) {
+				listHtml += '<option value="' + streams[i].stream + '">' + streams[i].title + '</option>';
+			}
+			self.bbgCss.jq.streams.html(listHtml);
+			
+			self.bbgCss.jq.streams.on('change',function(e) {
+				if (this.selectedIndex < streamListOffset) {
+					return;
+				}
+				var selectedStreamIndex = this.selectedIndex - streamListOffset;
+				playStream(createMediaObject(streams[selectedStreamIndex]));
+				if (streamListOffset > 0) {
+					this.selectedIndex = 0; // put it back to the select option
+				}
+			});
+		}
+		
+		function displayStreamUnorderedList(streams,selectedIndex) {
 			var listHtml = '';
 			var num = streams.length;
 			var css = '<style>';
@@ -318,12 +344,12 @@
 			if (streamData.description) {
 				newStream.description = streamData.description;
 			}
-			if (streamData.poster) {
+			if (self.options.showPosters && streamData.poster) {
 				newStream.poster = streamData.poster;
 			}
 			newStream.siteurl = streamData.siteurl;
 			return newStream;
-		}
+		} 
 		
 		/**
 		 * Saves the current stream in the self.options
@@ -393,13 +419,16 @@
 			}
 			if (self.currentStream) {
 				var jPlayerData = self.$elem.data("jPlayer");
-				if (self.options.trackingEnabled && typeof(jPlayerData.status.media.title) != 'undefined') {
+				if (typeof(jPlayerData.status.media.title) != 'undefined') {
 					// stopped listening to the last one
 					trackEnd(jPlayerData.status.media.title,jPlayerData.status.currentTime);
 				}
 				self.$elem.jPlayer("setMedia", self.currentStream)
 				if (self.currentStream.poster) {
 					setPoster(self.currentStream.poster);
+				}
+				if (!self.options.metadataStreamEnabled) {
+					setStation(self.currentStream.title);
 				}
 				if (!cueonly) {
 					showLoading(true);
@@ -535,6 +564,9 @@
 		 * @param value the value of the event to track
 		 */
 		function trackEvent(type,title,value) {
+			if (!self.options.trackingEnabled) {
+				return;
+			} 
 			if (self.options.embedded) {
 				type += '-offsite';
 			}

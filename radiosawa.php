@@ -2,7 +2,10 @@
 <html>
 <head>
 	<title>Radio Sawa Streaming Player</title>
-	<link type="text/css" rel="stylesheet" href="skin/radiosawa.css">
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+	<script type="text/javascript" src="js/jquery.jplayer.min.js"></script>
+	<script type="text/javascript" src="js/jquery.bbgPlayer.js"></script>
+	
 </head>
 <body>
 
@@ -62,15 +65,22 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 	  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 	})();
 	
-	// Load multiple JS files and execute a callback when they've all finished.
-	$(document).ready(function(e) {
-	// initialize player
-		$("#jquery_jplayer_1").bbgPlayer({
-			config: 'radiosawa',
-			trackingEnabled: true,
-			metadataStreamEnabled: true,
-			autoplay: false
-		});
+	$(document).ready(function() {
+	        $.ajax({
+	            url:"skin/radiosawa.css",
+	            dataType:"text",
+	            success:function(data){
+	                $("head").append("<style>" + data + "</style>");
+	        		// instantiate the player
+        			$("#jquery_jplayer_1").bbgPlayer({		
+	        			config: 'radiosawa',
+	        			trackingEnabled: true,
+	        			embedded: true,
+	        			metadataStreamEnabled: true,
+	        			autoplay: false
+        			});
+	        	}
+	        });
 	});
 </script>
 

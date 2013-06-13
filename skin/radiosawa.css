@@ -1,3 +1,7 @@
+/** IMPORTANT NOTE RE URLS:  Due to the way this file is loaded into the player, all URLs must be relative of the player being configured, not this file **/
+body {
+	margin: 12px 0 0 0;
+}
 .jp-audio-stream {
 	width: 313px;
 	height: 184px;
@@ -43,7 +47,7 @@ ul.jp-streams li a.titleImage {
 	margin-top: 3px;
 }
 .jp-loading {
-	background-image: url('../images/loading.gif');
+	background-image: url('images/loader32.gif');
 	position: absolute;
 	background-repeat: no-repeat;
 	width: 236px;
@@ -69,10 +73,11 @@ ul.jp-controls {
 	overflow: hidden;
 	margin: 0;
 	padding: 0;
+	display: block;
 }
 ul.jp-controls li {
-	display: inline;
 	float: left;
+	display: block;
 }
 ul.jp-controls li a {
 	display: block;
@@ -91,13 +96,13 @@ ul.jp-controls li a {
 	width: 36px;
 	height: 36px;
 	display: block;
-	background-image: url('../images/play.jpg');
+	background-image: url('images/play.jpg');
 }
 .jp-pause {
 	width: 36px;
 	height: 36px;
 	display: block;
-	background-image: url('../images/pause.jpg'); 
+	background-image: url('images/pause.jpg'); 
 }
 .jp-mute, .jp-unmute {
 	margin-left: 205px;
@@ -107,13 +112,13 @@ ul.jp-controls li a {
 	width: 24px;
 	height: 24px;
 	display: block;
-	background-image: url('../images/unmuted.png');
+	background-image: url('images/unmuted.png');
 }
 .jp-unmute {
 	width: 24px;
 	height: 24px;
 	display:block;
-	background-image: url('../images/muted.png');
+	background-image: url('images/muted.png');
 }
 div.jp-progress {
 	position: absolute;
@@ -129,7 +134,7 @@ div.jp-seek-bar {
 	height: 100%;
 	cursor: pointer;
 	width: 0px;
-	background-image: url('../images/progressbar.png');
+	background-image: url('images/progressbar.png');
 }
 div.jp-volume-bar {
 	position: absolute;
@@ -140,11 +145,11 @@ div.jp-volume-bar {
 	padding: 0;
 	border: 0;
 	margin: 0;
-	background-image: url('../images/volume-bar.png');
+	background-image: url('images/volume-bar.png');
 	cursor: pointer;
 }
 div.jp-volume-bar-value {
 	height: 10px;
 	width: 0px;
-	background-image: url('../images/volume-bar_value.png');
+	background-image: url('images/volume-bar_value.png');
 }

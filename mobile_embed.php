@@ -18,7 +18,7 @@
 	<title>Live Streaming Player</title>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 	<script type="text/javascript" src="js/jquery.jplayer.min.js"></script>
-	<script type="text/javascript" src="js/jquery.bbgPlayer.js"></script>
+	<script type="text/javascript" src="js/jquery.bbgPlayer.dev.js"></script>
 </head>
 <body>
 
@@ -27,7 +27,9 @@
 <div id="jp_container_1" class="jp-audio-stream">
 	<div class="top">
 		<div class="jp-stream-list">
-			<ul class="jp-streams"></ul>
+			<select name="stream" class="jp-streams">
+            <option value=""></option>
+            </select>
 		</div>
 		<div class="poster_holder">
 			<div class="jp-loading"></div>
@@ -41,12 +43,11 @@
 			<li><a href="javascript:;" class="jp-mute" title="mute">mute</a></li>
 			<li><a href="javascript:;" class="jp-unmute" title="unmute">unmute</a></li>
 		</ul>
+		<div class="jp-station"></div>
 		<div class="jp-current-time"></div>
-		<!-- 
 		<div class="jp-progress">
 			<div class="jp-seek-bar"></div>
 		</div>
-		 -->
 		<div class="jp-volume-bar">
 			<div class="jp-volume-bar-value">
 		</div>
@@ -54,7 +55,7 @@
 
 	<div class="jp-no-solution">
 		<span>Update Required</span>
-		To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+		Your device does not support the playback of streaming MP3 via native controls and you do not have the Adobe Flash Player available.
 	</div>
 	
 </div>
@@ -97,9 +98,30 @@
 		        			overrideStream: requestedStreamObj,
 		        			config: requestedConfig,
 		        			trackingEnabled: true,
-		        			embedded: true,
-		        			metadataStreamEnabled: true,
-		        			autoplay: false
+		        			embedded: false,
+		        			metadataStreamEnabled: false,
+		        			streamListComponent: 'select',
+	        				streamSelectLabel: 'اختر محطتك المفضلة',
+		        			autoplay: false,
+		        			showSiteUrl: false,
+		        			showPosters: false,
+		        			playerOpts: {
+								cssSelector: {
+									mute: 'ignore',
+									unmute: 'ignore',
+									currentTime: '',
+									volumeBar: '',
+									duration: '',
+									seekBar: '',
+									playBar: '',
+									volumeBarValue: '',
+									volumeMax: '',
+									fullScreen: '',
+									restoreScreen: '',
+									repeat: '',
+									repeatOff: '',
+								}
+		        			}
 	        			}); 
 	        		} else {
 	        			alert("No stream requested.  Cannot continue.");
