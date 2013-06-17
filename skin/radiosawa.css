@@ -92,6 +92,13 @@ ul.jp-controls li a {
 	height: 36px;
 	color: #6c6c6c;
 }
+.jp-status {
+	position: absolute;
+	left: 42px;
+	color: #6c6c6c;
+	top: 18px;
+	height: 36px;
+}
 .jp-play {
 	width: 36px;
 	height: 36px;
@@ -152,4 +159,13 @@ div.jp-volume-bar-value {
 	height: 10px;
 	width: 0px;
 	background-image: url('images/volume-bar_value.png');
+}
+.jp-status-connecting:after {
+	content:	'جاري الاتصال';
+}
+.jp-status-streaming:after {
+	content: 'بث مباشر';
+}
+.jp-status-ended:after {
+	content: 'تم إيقاف البث المباشر';
 }

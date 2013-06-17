@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Radio Sawa Streaming Player</title>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 	<script type="text/javascript" src="js/jquery.jplayer.min.js"></script>
@@ -33,11 +34,12 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 			<li><a href="javascript:;" class="jp-unmute" title="unmute">unmute</a></li>
 		</ul>
 		<div class="jp-current-time"></div>
-		<!-- 
-		<div class="jp-progress">
-			<div class="jp-seek-bar"></div>
+		<div class="jp-status">
+			<span class="jp-status-connecting"></span>
+			<span class="jp-status-streaming"></span>
+			<span class="jp-status-paused"></span>
+			<span class="jp-status-ended"></span>
 		</div>
-		 -->
 		<div class="jp-volume-bar">
 			<div class="jp-volume-bar-value"></div>
 		</div>
@@ -77,7 +79,10 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 	        			trackingEnabled: true,
 	        			embedded: true,
 	        			metadataStreamEnabled: true,
-	        			autoplay: false
+	        			autoplay: false,
+	        			labels: {
+							selectStream:  'اختر محطتك المفضلة'
+        				}
         			});
 	        	}
 	        });

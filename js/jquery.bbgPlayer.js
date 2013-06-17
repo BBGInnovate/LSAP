@@ -32,6 +32,11 @@
 		var self = this;
 		self.$elem = $(elem);
 		
+		var STATUS_CONNECTING = 0;
+		var STATUS_CONNECTED = 1;
+		var STATUS_ENDED = 2;
+		var STATUS_PAUSED = 3;
+		
 		// to allow for console logging for debug - safety feature for IE, etc.
 		var console=console||{"log":function(){}};
 		
@@ -45,7 +50,14 @@
 				streams: '.jp-streams',
 				pop: '.jp-pop',
 				poster: '.jp-poster',
-				loading: '.jp-loading'
+				loading: '.jp-loading',
+				statusConnecting: '.jp-status-connecting',
+				statusStreaming: '.jp-status-streaming',
+				statusPaused: '.jp-status-paused',
+				statusEnded: '.jp-status-ended'
+			},
+			labels: {
+				selectStream:  'Select a station:',
 			},
 			trackingEnabled: false,
 			metadataStreamEnabled: false, // true to read dynamic metadata encoded in stream
@@ -57,7 +69,6 @@
 			popped: false, // indicates if this is a popped out player
 			autoplay: true,
 			streamListComponent: 'ul', // the type of component used to display streams (if stream listings are used at all)
-			streamSelectLabel: null, // the label to display with a select list to select a station from the drop-down
 			showSiteUrl: false, // shows a site url from the configuration file in the station name
 			showPosters: true // shows the poster image for a channel when provided
 		}
@@ -89,6 +100,7 @@
 			self.$elem.jPlayer({
 				ready: function (event) {
 					initializeBbgCustom(event.jPlayer);
+					showStatus();
 					ready = true;
 					if (self.options.autoplay) {
 						playStream();
@@ -99,6 +111,7 @@
 				},
 				play: function(event) {
 					showLoading(false);
+					showStatus(STATUS_CONNECTED);
 					nextTrackTime = self.config.trackIncrement; // reset the tracking time
 					// has been an the specified amount since the last log so log it for duration purposes
 					trackStart(getMediaTitleForTracking(event));
@@ -117,11 +130,14 @@
 					}
 				},
 				ended: function(event) {
+					showStatus(STATUS_ENDED);
 					trackEnd(getMediaTitleForTracking(event),event.jPlayer.status.currentTime);
 					clearMetadata();
+					
 					setPoster();
 				},
 				pause: function(event) {
+					showStatus(STATUS_PAUSED);
 					// pause gets called when switching streams in which case this is not set....
 					var trackTitle = getMediaTitleForTracking(event);
 					if (trackTitle.length > 0) {
@@ -265,9 +281,9 @@
 			var listHtml = '';
 			var num = streams.length;
 			var streamListOffset = 0;
-			if (self.options.streamSelectLabel && self.options.streamSelectLabel.length > 0) {
+			if (self.options.labels.selectStream && self.options.labels.selectStream.length > 0) {
 				streamListOffset = 1;
-				listHtml += '<option value="">' + self.options.streamSelectLabel + '</option>';
+				listHtml += '<option value="">' + self.options.labels.selectStream + '</option>';
 			}
 			for (var i=0; i<num; i++) {
 				listHtml += '<option value="' + streams[i].stream + '">' + streams[i].title + '</option>';
@@ -431,6 +447,7 @@
 					setStation(self.currentStream.title);
 				}
 				if (!cueonly) {
+					showStatus(STATUS_CONNECTING);
 					showLoading(true);
 					self.$elem.jPlayer("play");
 				}
@@ -500,6 +517,39 @@
 				self.bbgCss.jq.loading.show();
 			} else {
 				self.bbgCss.jq.loading.hide();
+			}
+		}
+		
+		/**
+		 * Shows status indicator change
+		 * @param status the status to show (one of constants STATUS_CONNECTING, STATUS_CONNECTED, STATUS_ENDED)
+		 */
+		function showStatus(status) {
+			if (status === STATUS_CONNECTING) {
+				self.bbgCss.jq.statusConnecting.show();
+				self.bbgCss.jq.statusStreaming.hide();
+				self.bbgCss.jq.statusPaused.hide();
+				self.bbgCss.jq.statusEnded.hide();
+			} else if (status === STATUS_CONNECTED) {
+				self.bbgCss.jq.statusConnecting.hide();
+				self.bbgCss.jq.statusStreaming.show();
+				self.bbgCss.jq.statusPaused.hide();
+				self.bbgCss.jq.statusEnded.hide();
+			} else if (status === STATUS_ENDED) {
+				self.bbgCss.jq.statusConnecting.hide();
+				self.bbgCss.jq.statusStreaming.hide();
+				self.bbgCss.jq.statusPaused.hide();
+				self.bbgCss.jq.statusEnded.show();
+			} else if (status === STATUS_PAUSED) {
+				self.bbgCss.jq.statusConnecting.hide();
+				self.bbgCss.jq.statusStreaming.hide();
+				self.bbgCss.jq.statusPaused.show();
+				self.bbgCss.jq.statusEnded.hide();
+			} else {
+				self.bbgCss.jq.statusConnecting.hide();
+				self.bbgCss.jq.statusStreaming.hide();
+				self.bbgCss.jq.statusPaused.hide();
+				self.bbgCss.jq.statusEnded.hide();
 			}
 		}
 	

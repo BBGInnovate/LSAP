@@ -168,7 +168,7 @@
             <li id="menu-head-t9-57">
             <a class="secondaryNavItem"><img src="http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/images/icon-listen.png" />&nbsp;<strong>استمع إلى البث المباشر</strong></a>
             <div class="widget">
-            <iframe width="100%" height="80px" frameborder="0" src="http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mobile_embed.php?c=radiosawa&s=m.radiosawa" style="padding:0;margin:0;"></iframe>
+            <iframe width="100%" height="92px" frameborder="0" src="http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mobile_embed.php?c=radiosawa&s=m.radiosawa" style="padding:0;margin:0;"></iframe>
             </div>
             </li>            
             

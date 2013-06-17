@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <?php 
 /**
  * BBG Affiliate embedded player.  This player allows the affiliates to embed a configured player into their web pages.  
@@ -18,7 +19,7 @@
 	<title>Live Streaming Player</title>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 	<script type="text/javascript" src="js/jquery.jplayer.min.js"></script>
-	<script type="text/javascript" src="js/jquery.bbgPlayer.dev.js"></script>
+	<script type="text/javascript" src="js/jquery.bbgPlayer.js"></script>
 </head>
 <body>
 
@@ -31,26 +32,19 @@
             <option value=""></option>
             </select>
 		</div>
-		<div class="poster_holder">
-			<div class="jp-loading"></div>
-			<div class="jp-poster"></div>
-		</div>
 	</div>
 	<div class="jp-control-container">
 		<ul class="jp-controls">
 			<li><a href="javascript:;" class="jp-play" title="play">play</a></li>
 			<li><a href="javascript:;" class="jp-pause" title="pause">pause</a></li>
-			<li><a href="javascript:;" class="jp-mute" title="mute">mute</a></li>
-			<li><a href="javascript:;" class="jp-unmute" title="unmute">unmute</a></li>
 		</ul>
 		<div class="jp-station"></div>
-		<div class="jp-current-time"></div>
-		<div class="jp-progress">
-			<div class="jp-seek-bar"></div>
-		</div>
-		<div class="jp-volume-bar">
-			<div class="jp-volume-bar-value">
-		</div>
+	</div>
+	<div class="jp-status">
+		<span class="jp-status-connecting"></span>
+		<span class="jp-status-streaming"></span>
+		<span class="jp-status-paused"></span>
+		<span class="jp-status-ended"></span>
 	</div>
 
 	<div class="jp-no-solution">
@@ -101,27 +95,12 @@
 		        			embedded: false,
 		        			metadataStreamEnabled: false,
 		        			streamListComponent: 'select',
-	        				streamSelectLabel: 'اختر محطتك المفضلة',
+	        				labels: {
+								selectStream:  'اختر محطتك المفضلة'
+	        				},
 		        			autoplay: false,
 		        			showSiteUrl: false,
-		        			showPosters: false,
-		        			playerOpts: {
-								cssSelector: {
-									mute: 'ignore',
-									unmute: 'ignore',
-									currentTime: '',
-									volumeBar: '',
-									duration: '',
-									seekBar: '',
-									playBar: '',
-									volumeBarValue: '',
-									volumeMax: '',
-									fullScreen: '',
-									restoreScreen: '',
-									repeat: '',
-									repeatOff: '',
-								}
-		        			}
+		        			showPosters: false
 	        			}); 
 	        		} else {
 	        			alert("No stream requested.  Cannot continue.");

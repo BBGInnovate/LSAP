@@ -42,11 +42,12 @@
 			<li><a href="javascript:;" class="jp-unmute" title="unmute">unmute</a></li>
 		</ul>
 		<div class="jp-current-time"></div>
-		<!-- 
-		<div class="jp-progress">
-			<div class="jp-seek-bar"></div>
+		<div class="jp-status">
+			<span class="jp-status-connecting"></span>
+			<span class="jp-status-streaming"></span>
+			<span class="jp-status-paused"></span>
+			<span class="jp-status-ended"></span>
 		</div>
-		 -->
 		<div class="jp-volume-bar">
 			<div class="jp-volume-bar-value">
 		</div>
