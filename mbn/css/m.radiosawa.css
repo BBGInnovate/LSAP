@@ -1,0 +1,86 @@
+posit   body {
+   	margin: 0;
+   	padding: 0;
+   }
+   
+   .jp-audio_stream {
+   	text-align: right;
+   	direction: rtl;
+   }
+   
+   .jp-no-solution {
+   	font-size: smaller;
+   }
+   
+   div.jp-control-container {
+   	height: 36px;
+   	background-color: white;
+   	direction: rtl;
+   	margin: 0;
+   	padding: 0;
+   	position: relative;
+   }
+   .top {
+   	text-align: right;
+   }
+   .jp-station {
+   	position: absolute;
+   	background-color: #38332f;
+   	display: block;
+   	height: 34px;
+   	color: white;
+   	right: 0px;
+   	left: 36px;
+   	margin-top: 1px;
+   	martin-bottom: 1px;
+   	line-height: 34px;
+   	padding-right: 10px;
+   }
+   ul.jp-controls {
+		list-style-type: none;
+		overflow: hidden;
+		margin: 1px;
+		padding: 0;
+		display: block;
+		position: absolute;
+		left: 0;
+	}
+	ul.jp-controls li {
+		background-color: #f6801f;
+		float: left;
+		display: block;
+	}
+	ul.jp-controls li a {
+		display: block;
+		overflow: hidden;
+		text-indent: 9999px;
+		width: 34px;
+		height: 34px;
+		
+	}
+   ul.jp-controls li a {
+   	background-repeat: no-repeat;
+   	background-position: center center;
+   	text-indent: -9999px;
+   	overflow: hidden;
+   }
+   a.jp-play {
+   	background-image: url('images/icon-play.png');
+   }
+   a.jp-pause {
+   	background-image: url('images/icon-pause.png');
+   }
+   ul.jp-controls li a.jp-mute, ul.jp-controls li a.jp-unmute, .jp-current-time, .jp-progress, .jp-volume-bar {
+   	width: 0;
+   	height: 0;
+   	display: none !important;
+   }
+   .jp-status-connecting:after {
+   	content:	'جاري الاتصال';
+   }
+   .jp-status-streaming:after {
+   	content: 'بث مباشر';
+   }
+   .jp-status-ended:after {
+   	content: 'تم إيقاف البث المباشر';
+   }
