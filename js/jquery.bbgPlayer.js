@@ -11,22 +11,45 @@
 	 * REQUIRED IN OPTIONS:
 	 * Either config or overrideStream must be passed in.  Everything else is optional.
 	 * 
-	 * playerOpts:	An object of options to be passed directly to JPlayer
-	 * bbgCssSelectors: An object of CSS selectors for bbg specific customizations
-	 * 		title:		The selector to song title display
-	 * 		station:	The selector to station display
-	 * 		share:		The selector to the share button/link
-	 * 		sharePanel:	The selector to the panel to be displayed upon share
-	 * 		streams:	The selector to the streams list (this should be on a list tag (ol, ul)
-	 * 		pop:		The selector to the pop button/link
-	 * trackingEnabled: Indicates if analytics tracking is enabled
-	 * metadataStreamEnabled: Indicates if reading metadata from the audio stream is enabled
-	 * metadataCheckInterval: How often to check for new metadata if reading from stream (in seconds)
-	 * overrideStream: An override MP3 stream to be played without passing any config
-	 * config:	The configuration id to use for the player.  This is the filename in the config file folder without the xml extension
-	 * overrideTitle: A title to display throughout the player rather than dynamic song information
-	 * embedded: Indicates if this is an embedded player offsite
-	 * popped: Indicates if this is a popped out player
+	 * playerOpts:				An object of options to be passed directly to JPlayer
+	 * bbgCssSelectors: 		An object of CSS selectors for bbg specific customizations
+	 * 		title:				The selector to song title display
+	 * 		station:			The selector to station display
+	 * 		share:				The selector to the share button/link
+	 * 		sharePanel:			The selector to the panel to be displayed upon share
+	 * 		streams:			The selector to the streams list (this should be on a list tag (ol, ul)
+	 * 		pop:				The selector to the pop button/link
+	 * 		poster:				The location for artwork
+	 * 		loading:			The loading container for showing a loading graphic
+	 * 		statusConnecting: 	Shows the status indicator when connecting
+	 * 		statusStreaming: 	Shows the status indicator when streaming
+	 * 		statusPaused:		Shows the status indicator when paused
+	 * 		statusEnded:		Shows the status indicator when ended
+	 * labels: 					An object containing labels that are dynamically written out
+	 * 		selectStream:		The text to select a stream - only used in top option value when select component used for streams list
+	 * trackingEnabled: 		Indicates if analytics tracking is enabled
+	 * metadataStreamEnabled: 	Indicates if reading metadata from the audio stream is enabled
+	 * metadataCheckInterval: 	How often to check for new metadata if reading from stream (in seconds)
+	 * overrideStream: 			An override MP3 stream to be played without passing any config
+	 * config:					The configuration id to use for the player.  This is the filename in the config file folder without the xml extension
+	 * overrideTitle: 			A title to display throughout the player rather than dynamic song information
+	 * embedded: 				Indicates if this is an embedded player offsite
+	 * popped: 					Indicates if this is a popped out player
+	 * autoPlay: 				Indicates if stream should autoplay on load
+	 * streamListComponent: 	The type of component used for stream list (ul or select)
+	 * showSiteUrl:				Indicates if url should be included in station listing
+	 * showPosters:				Indicates if artwork should be displayed
+	 * shareLink:				
+	 * social:					An object of options for sharing the player
+	 * 		shareLink:			The link to share for a player social components.  This defaults to the current url
+	 * 		facebook:			Facebook options
+	 * 			enabled:		Indicates if facebook share is enabled
+	 * 		twitter:			Twitter options
+	 * 			enabled:		Indicates if Twitter sharing is enabled
+	 * 		email:				Email options
+	 * 			enabled:		Indicates if share by email is enabled
+	 * 			subject:		Subject to prepopulate
+	 * 			body:			Body to prepopulate (link will be appended after a line break)
 	 */
 	function BBGPlayer(elem, options) {
 		var self = this;
@@ -54,7 +77,8 @@
 				statusConnecting: '.jp-status-connecting',
 				statusStreaming: '.jp-status-streaming',
 				statusPaused: '.jp-status-paused',
-				statusEnded: '.jp-status-ended'
+				statusEnded: '.jp-status-ended',
+				social: '.jp-social'
 			},
 			labels: {
 				selectStream:  'Select a station:',
@@ -70,7 +94,21 @@
 			autoplay: true,
 			streamListComponent: 'ul', // the type of component used to display streams (if stream listings are used at all)
 			showSiteUrl: false, // shows a site url from the configuration file in the station name
-			showPosters: true // shows the poster image for a channel when provided
+			showPosters: true, // shows the poster image for a channel when provided
+			shareLink: getLoadedUrl(), // the link to share in social media outlets
+			social: { // true or false for each social sharing option
+				facebook: {
+					enabled: true
+				},
+				twitter: {
+					enabled: true
+				},
+				email: {
+					enabled: true,
+					subject: 'Live Radio',
+					body: 'I wanted to share this online radio station with you.'
+				}
+			}
 		}
 		self.options = $.extend(true,{},defaults,options);
 		
@@ -212,6 +250,7 @@
 				self.bbgCss.jq.sharePanel.hide();
 				self.bbgCss.jq.share.show();
 			}
+			generateSocialBar();
 			
 			// set out pop out function
 			if (!self.options.popped && self.bbgCss.jq.pop && self.bbgCss.jq.pop.length > 0) {
@@ -223,6 +262,7 @@
 					self.$elem.jPlayer("pause");
 				})
 			}
+			
 		}
 		
 // STREAM LISTS & SWITCHING
@@ -628,7 +668,47 @@
 				_gaq.push(['_trackEvent', self.config.trackEventCategory, type, title, trackValue]);
 			}
 		}
-// SHARING & EMBED 		
+// SHARING & EMBED
+		/**
+		 * Returns the code to embed a Facebook Like Button
+		 */
+		function getFacebookCode() {
+			var code = '';
+			code = '<iframe src="//www.facebook.com/plugins/like.php?';
+			code += 'href=' + encodeURIComponent(self.options.shareLink);
+			code += '&amp;send=false&amp;layout=button_count&amp;width=90&amp;show_faces=false&amp;font&amp;colorscheme=light&amp;action=like&amp;height=21&amp;appId=120601048025688" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:90px; height:21px;" class="socialframe" allowTransparency="true"></iframe>';
+			return code;
+		}
+
+		/**
+		 * Returns the code to embed a Twitter Share Button
+		 */
+		function getTwitterCode() {
+			var code = '<a href="https://twitter.com/share" class="twitter-share-button socialframe" data-url="' + self.options.shareLink + '">Tweet</a>';
+			return code;
+		}
+		
+		function getEmailCode() {
+			var code = '<a class="jp-email-share" target="_blank" href="mailto:?subject=' + self.options.social.email.subject + '&body=' + self.options.social.email.body + '%0A%0A' + self.options.shareLink + '">Email</a>';
+			return code;
+		}
+		
+		/**
+		 * Generates the social media bar of options
+		 */
+		function generateSocialBar() {
+			if (self.options.social.email.enabled === true) {
+				self.bbgCss.jq.social.append(getEmailCode());
+			}
+			if (self.options.social.facebook.enabled === true) {
+				self.bbgCss.jq.social.append(getFacebookCode());
+			}
+			if (self.options.social.twitter.enabled === true) {
+				self.bbgCss.jq.social.append(getTwitterCode());
+				!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+			}
+		}
+		
 		/**
 		 * Displays the share options panel
 		 */
