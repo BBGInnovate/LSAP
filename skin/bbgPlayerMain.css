@@ -26,12 +26,10 @@ p {
 	border: 1px solid #535353;
 }
 
-.header_logo {
-	margin: 0 35px;
-	padding: 10px 0;
+.bbg-player-branding a {
+	display: block;
+	padding: 10px;
 }
-
-.mejs-container { margin: 0 auto 10px; }
 
 #content_container {
 	padding: 0 20px;

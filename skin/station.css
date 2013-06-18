@@ -20,7 +20,7 @@ a { color: #C31F47; }
 .jp-onair { color: #FFF; }
 
 /* Background for Branding */
-.bbg-player-branding {
+.bbg-player-branding a {
 	background-image: url('http://placehold.it/310x55');
 	background-repeat: no-repeat;
 	height: 55px;

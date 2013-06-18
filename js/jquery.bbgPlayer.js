@@ -10,7 +10,9 @@
 	 * 
 	 * REQUIRED IN OPTIONS:
 	 * Either config or overrideStream must be passed in.  Everything else is optional.
-	 * 
+
+	 * overrideStream: 			An override MP3 stream to be played without passing any config
+	 * config:					The configuration id to use for the player.  This is the filename in the config file folder without the xml extension
 	 * playerOpts:				An object of options to be passed directly to JPlayer
 	 * bbgCssSelectors: 		An object of CSS selectors for bbg specific customizations
 	 * 		title:				The selector to song title display
@@ -25,21 +27,23 @@
 	 * 		statusStreaming: 	Shows the status indicator when streaming
 	 * 		statusPaused:		Shows the status indicator when paused
 	 * 		statusEnded:		Shows the status indicator when ended
+	 * 		social:				The social media area where options should be written out
+	 * 		brandingLink:		The a tag to populate with branding link
+	 * 		footer:				The footer content area
+	 * embedded: 				Indicates if this is an embedded player offsite
+	 * popped: 					Indicates if this is a popped out player
+	 * streamListComponent: 	The type of component used for stream list (ul or select)
+	 * 
+	 * The following options can be passed from an external configuration file
 	 * labels: 					An object containing labels that are dynamically written out
 	 * 		selectStream:		The text to select a stream - only used in top option value when select component used for streams list
 	 * trackingEnabled: 		Indicates if analytics tracking is enabled
 	 * metadataStreamEnabled: 	Indicates if reading metadata from the audio stream is enabled
 	 * metadataCheckInterval: 	How often to check for new metadata if reading from stream (in seconds)
-	 * overrideStream: 			An override MP3 stream to be played without passing any config
-	 * config:					The configuration id to use for the player.  This is the filename in the config file folder without the xml extension
 	 * overrideTitle: 			A title to display throughout the player rather than dynamic song information
-	 * embedded: 				Indicates if this is an embedded player offsite
-	 * popped: 					Indicates if this is a popped out player
-	 * autoPlay: 				Indicates if stream should autoplay on load
-	 * streamListComponent: 	The type of component used for stream list (ul or select)
+	 * autoplay: 				Indicates if stream should autoplay on load
 	 * showSiteUrl:				Indicates if url should be included in station listing
 	 * showPosters:				Indicates if artwork should be displayed
-	 * shareLink:				
 	 * social:					An object of options for sharing the player
 	 * 		shareLink:			The link to share for a player social components.  This defaults to the current url
 	 * 		facebook:			Facebook options
@@ -52,6 +56,7 @@
 	 * 			body:			Body to prepopulate (link will be appended after a line break)
 	 */
 	function BBGPlayer(elem, options) {
+		var jplayerReady = false; // true when jPlayer is instantiated and ready
 		var self = this;
 		self.$elem = $(elem);
 		
@@ -78,7 +83,9 @@
 				statusStreaming: '.jp-status-streaming',
 				statusPaused: '.jp-status-paused',
 				statusEnded: '.jp-status-ended',
-				social: '.jp-social'
+				social: '.jp-social',
+				brandingLink: '.bbg-player-branding a',
+				footer: '#footer'
 			},
 			labels: {
 				selectStream:  'Select a station:',
@@ -108,7 +115,9 @@
 					subject: 'Live Radio',
 					body: 'I wanted to share this online radio station with you.'
 				}
-			}
+			},
+			brandingLink: null, // the link to show in the header branding
+			footerContent: '<p>A BBG Player</p>' // the HTML to display within the footer
 		}
 		self.options = $.extend(true,{},defaults,options);
 		
@@ -117,6 +126,7 @@
 			popoutPlayer: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/popped.php',
 			metadataRemoteService: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/metadata/remote.streaminfo.php', //url to remote file that reads metadata - should be on same domain as it uses json
 			configFolder: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/config/',
+			styleFolder: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/skin/',
 			trackIncrement: 30, // number of seconds in between duration tracking calls
 			trackEventCategory: 'Live Audio Streaming Player'
 		}
@@ -125,21 +135,51 @@
 		
 		init();
 	
+		/**
+		 * Initializes the BBG Player instance
+		 */
 		function init() {
-			var ready = false;
-			var nextTrackTime = self.config.trackIncrement;
-			
 			// if there is an override stream, set it to the current stream so that it plays upon startup
 			if (self.options.overrideStream) {
 				setCurrentStream(self.options.overrideStream);
 			}
+			if (self.options.config && self.options.config.length > 0) {
+				loadConfiguration();
+			} else {
+				initializePlayer();
+			}
+		} 
+		
+		/**
+		 * Loads the configuration from file and handles
+		 */
+		function loadConfiguration() {
+			var configUrl = self.config.configFolder + self.options.config + '.xml';
+			$.ajax({
+				url: configUrl,
+				dataType: 'xml',
+				success: function(xml) {
+					parseConfig($(xml).find("config"));
+					parseStreams($(xml).find("streams"));
+					parseStyles($(xml).find("styles"));
+					initializePlayer();
+				}
+			});
+		}
+		
+		/**
+		 * Sets up the jPlayer instance including all handlers
+		 */
+		function initializePlayer() {
+			var nextTrackTime = self.config.trackIncrement;
+		
 			
 			// initialize player
 			self.$elem.jPlayer({
 				ready: function (event) {
 					initializeBbgCustom(event.jPlayer);
 					showStatus();
-					ready = true;
+					jplayerReady = true;
 					if (self.options.autoplay) {
 						playStream();
 					} else if (self.options.overrideStream) {
@@ -193,7 +233,7 @@
 				},
 				error: function(event) {
 					var getFlashUrl = 'http://get.adobe.com/flashplayer';
-					if(ready && event.jPlayer.error.type === $.jPlayer.error.URL_NOT_SET) {
+					if(jplayerReady && event.jPlayer.error.type === $.jPlayer.error.URL_NOT_SET) {
 						// Setup the media stream again and play it.
 						playStream(self.currentStream);
 					} 
@@ -214,11 +254,11 @@
 					self.$elem.jPlayer( "option", optName, self.options.playerOpts[optName]);
 				}
 			}
-			
-		} // end init
+		}
 		
 		/**
-		 * Initializes references to the overriding BBG css values and custom behaviors
+		 * Initializes references to the overriding BBG css values and custom behaviors and any customized behavior that is dependent
+		 * upon these.
 		 * Must be called after player is initialized
 		 */
 		function initializeBbgCustom(jPlayerData) {
@@ -236,9 +276,14 @@
 				self.bbgCss.jq[type] = $(sel);
 			}
 			
-			// handle stream config loading
-			if (self.options.config != null) {
-				generateStreamsFromConfiguration();
+			// write in any branding
+			if (self.options.brandingLink && self.options.brandingLink.length > 0) {
+				self.bbgCss.jq.brandingLink.attr('href',self.options.brandingLink).attr('target','bbgPlayer');
+			}
+			
+			// write in any footer content
+			if (self.options.footerContent && self.options.footerContent.length > 0) {
+				self.bbgCss.jq.footer.html(self.options.footerContent);
 			}
 			
 			// set up sharing
@@ -265,42 +310,78 @@
 			
 		}
 		
+		/**
+		 * Parses the configuration items from the main player configuration xml
+		 * @param xml the jQuery XML document that contains the configuration items
+		 */
+		function parseConfig(xml) { 
+			xml.children().each(function(i) {
+				setConfigOption($(this),self.options);
+			});
+			// now that the configuration is set up jPlayer instance can be created
+			initializePlayer();
+		}
+		
+		/**
+		 * Sets a property on the configuration object. 
+		 * Meant to be called recursively for nested properties.
+		 * 
+		 * @param item the jQuery xml document for the item to set
+		 * @param itemParent the config parent to set the value on
+		 */
+		function setConfigOption(item,itemParent) {
+			if (item.children().length > 0) {
+				var newParent = itemParent[item.prop("nodeName")]; 
+				item.children().each(function(i) {
+					setConfigOption($(this),newParent);
+				});
+			} else {
+				itemParent[item.prop("nodeName")] = item.text();
+			}
+		}
+		
+		/**
+		 * Parses the stylesheet information out of the player configuration file
+		 * @param xml the jQuery xml document for the styles
+		 */
+		function parseStyles(xml) {
+			var styleUrl = '';
+			$(xml).find("stylesheet").each(function(i) {
+				styleUrl = self.config.styleFolder + $(this).text();
+				$('head').append('<link rel="stylesheet" href="' + styleUrl + '">');
+			});
+		}
+				
 // STREAM LISTS & SWITCHING
 		/**
-		 * Generates the stream data from an external url
+		 * Generates the stream data from loaded stream XML
+		 * @param the xml loaded from a configuration file
 		 */
-		function generateStreamsFromConfiguration() {
-			var configUrl = self.config.configFolder + self.options.config + '.xml';
-			$.ajax({
-				url: configUrl,
-				success: function(xml) {
-					var streams = new Array();
-					$(xml).find("item").each(function(i){
-						streams.push({
-							id: $(this).attr('channelid'),
-							title: $(this).find("title").text(),
-							titleImage: $(this).find("titleImage").text(),
-							titleImageHover: $(this).find("titleImageHover").text(),
-							titleImageSelect: $(this).find("titleImageSelect").text(),
-							stream: $(this).find("streamUrl").text(),
-							format: $(this).attr("format"),
-							type: $(this).attr("streamtype"),
-							description: $(this).find("description").text(),
-							siteurl: $(this).find("siteUrl").text(),
-							poster: $(this).find("poster").text()
-						});
-					});
-					if (streams.length === 1) {
-						// just play a single stream and don't show a list
-						playStream(createMediaObject(streams[0]));
-					} else if (streams.length > 1) {
-						displayStreamList(streams,0);
-						clearMetadata();
-						playStream(createMediaObject(streams[0]),true);
-					}
-				},
-				dataType: 'xml'
+		function parseStreams(xml) {
+			var streams = new Array();
+			$(xml).find("item").each(function(i){
+				streams.push({
+					id: $(this).attr('channelid'),
+					title: $(this).find("title").text(),
+					titleImage: $(this).find("titleImage").text(),
+					titleImageHover: $(this).find("titleImageHover").text(),
+					titleImageSelect: $(this).find("titleImageSelect").text(),
+					stream: $(this).find("streamUrl").text(),
+					format: $(this).attr("format"),
+					type: $(this).attr("streamtype"),
+					description: $(this).find("description").text(),
+					siteurl: $(this).find("siteUrl").text(),
+					poster: $(this).find("poster").text()
+				});
 			});
+			if (streams.length === 1) {
+				// just play a single stream and don't show a list
+				playStream(createMediaObject(streams[0]));
+			} else if (streams.length > 1) {
+				displayStreamList(streams,0);
+				clearMetadata();
+				playStream(createMediaObject(streams[0]),true);
+			}
 		}
 		
 		/**
@@ -472,7 +553,7 @@
 			if (typeof(cueonly) == 'undefined') {
 				cueonly = false;
 			}
-			if (self.currentStream) {
+			if (jplayerReady && self.currentStream) {
 				var jPlayerData = self.$elem.data("jPlayer");
 				if (typeof(jPlayerData.status.media.title) != 'undefined') {
 					// stopped listening to the last one
@@ -697,13 +778,13 @@
 		 * Generates the social media bar of options
 		 */
 		function generateSocialBar() {
-			if (self.options.social.email.enabled === true) {
+			if (self.options.social.email.enabled) {
 				self.bbgCss.jq.social.append(getEmailCode());
 			}
-			if (self.options.social.facebook.enabled === true) {
+			if (self.options.social.facebook.enabled) {
 				self.bbgCss.jq.social.append(getFacebookCode());
 			}
-			if (self.options.social.twitter.enabled === true) {
+			if (self.options.social.twitter.enabled) {
 				self.bbgCss.jq.social.append(getTwitterCode());
 				!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
 			}

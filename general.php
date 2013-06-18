@@ -10,12 +10,12 @@
 	<link rel="stylesheet" href="skin/bbgAudioPlayer.css">
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 	<script type="text/javascript" src="js/jquery.jplayer.min.js"></script>
-	<script type="text/javascript" src="js/jquery.bbgPlayer.js"></script>
+	<script type="text/javascript" src="js/jquery.bbgPlayer.dev.js"></script>
 </head>
 <body>
 
 <div id="container">
-	<div class="bbg-player-branding"></div>
+	<div class="bbg-player-branding"><a></a></div>
 
 	<div id="jquery_jplayer_1" class="jp-jplayer"></div>
 	<div id="jp_container_1" class="jp-audio">
@@ -58,10 +58,7 @@
 			<a href="javascript:;" class="share-hide" title="hide">Hide</a>
 		</div>
 	</div><!--  /#jp-container_1 -->
-	<div id="footer">
-		<p>A BBG Player</p>
-		<p>Contact Info Here</p>
-	</div>
+	<div id="footer"></div>
 </div><!-- /#container -->
 
 			
@@ -95,11 +92,15 @@
 			overrideStream = stream;
 		}
 		$("#jquery_jplayer_1").bbgPlayer({
-			overrideStream: overrideStream,
-			config: config,
+			overrideStream: null,
+			config: 'general',
 			trackingEnabled: true,
 			metadataStreamEnabled: true,
-			showPosters: true
+			showPosters: true,
+			brandingLink: 'http://www.voanews.com',
+			playerOpts: {
+				cssSelectorAncestor: '#container'
+			}
 		});
 	}); 
 </script>
