@@ -157,8 +157,7 @@
 					var getFlashUrl = 'http://get.adobe.com/flashplayer';
 					if(ready && event.jPlayer.error.type === $.jPlayer.error.URL_NOT_SET) {
 						// Setup the media stream again and play it.
-						showLoading(true);
-						self.$elem.jPlayer("setMedia", self.currentStream).jPlayer("play");
+						playStream(self.currentStream);
 					} 
 				},
 				solution: "flash,html",

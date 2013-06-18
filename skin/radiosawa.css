@@ -47,13 +47,13 @@ ul.jp-streams li a.titleImage {
 	margin-top: 3px;
 }
 .jp-loading {
-	background-image: url('images/loader32.gif');
+	background-image: url('images/loading.gif');
 	position: absolute;
 	background-repeat: no-repeat;
-	width: 236px;
-	height: 148px;
-	top: 30px;
-	left: 154px;
+	width: 32px;
+	height: 32px;
+	bottom: 2px;
+	left: 78px;
 	display: none;
 }
 
