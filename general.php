@@ -6,7 +6,6 @@
     
 	<title>BBG General Player</title>
 	<link rel="stylesheet" href="skin/bbgPlayerMain.css">
-	<link rel="stylesheet" href="skin/station.css">
 	<link rel="stylesheet" href="skin/bbgAudioPlayer.css">
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 	<script type="text/javascript" src="js/jquery.jplayer.min.js"></script>
@@ -25,8 +24,6 @@
 				<li><a href="javascript:;" class="jp-pause" title="pause">pause</a></li>
 				<li><a href="javascript:;" class="jp-mute" title="mute">mute</a></li>
 				<li><a href="javascript:;" class="jp-unmute" title="unmute">unmute</a></li>
-				<li><a href="javascript:;" class="jp-share" title="share">share</a></li>
-				<li><a href="javascript:;" class="jp-pop" title="pop">pop</a></p></li>
 			</ul>
 			<div class="jp-current-time"></div>
 			<div class="jp-status">
@@ -52,10 +49,9 @@
         </div>
         <div class="jp-poster"></div>
         <div class="jp-share-panel">
-			<span>Share</span>
-			Copy the following to embed the player:<br />
+			<span class="instructions"></span><br />
 			<textarea name="embedCode" class="jp-share-code" readonly></textarea><br />
-			<a href="javascript:;" class="share-hide" title="hide">Hide</a>
+			<input type="button" class="share-hide" value="">
 		</div>
 	</div><!--  /#jp-container_1 -->
 	<div id="footer"></div>
@@ -80,24 +76,16 @@
 	
 	// Player Initialization
 	$(document).ready(function () {
-		var config = getURLParameter('config');
-		var stream = {
-			mp3: 'http://sc9.iad.llnw.net/stream/npr_music2',
-			title: 'Channel 1: Our Awesome Radio App',
-			description: 'An Awesome Radio Web App from ODDI',
-			siteurl: 'http://ourawesomewebapp.com'
-		}
-		var overrideStream = null;
+		var config = getURLParameter('c');
 		if (!config) {
-			overrideStream = stream;
+			config = 'general';
 		}
 		$("#jquery_jplayer_1").bbgPlayer({
 			overrideStream: null,
-			config: 'general',
+			config: config,
 			trackingEnabled: true,
 			metadataStreamEnabled: true,
 			showPosters: true,
-			brandingLink: 'http://www.voanews.com',
 			playerOpts: {
 				cssSelectorAncestor: '#container'
 			}

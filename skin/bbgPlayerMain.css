@@ -70,6 +70,24 @@ p {
 	margin-top: -7px;
 	cursor: pointer;
 }
+.jp-social a.jp-share {
+	background-image: url('../images/icon-share.png');
+	background-repeat: no-repeat;
+	width: 24px;
+	height: 24px;
+	display: block;
+	text-indent: -9999px;
+	overflow: hidden;
+	float: left;
+	margin: -2px 5px 0 0;
+}
+.jp-share-panel {
+	padding: 5px;
+}
+.jp-share-panel textarea {
+	width: 350px;
+	height: 60px
+}
 .jp-poster {
 	border-top: 1px solid #535353;
 }

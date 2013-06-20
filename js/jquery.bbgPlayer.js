@@ -54,6 +54,10 @@
 	 * 			enabled:		Indicates if share by email is enabled
 	 * 			subject:		Subject to prepopulate
 	 * 			body:			Body to prepopulate (link will be appended after a line break)
+	 *		embed:				Embed code options
+	 *			enabled:		Indicates if share by embed is enabled
+	 *			instructions:	Text to display for embed options instructions
+	 *			hide:			label for the hide button
 	 */
 	function BBGPlayer(elem, options) {
 		var jplayerReady = false; // true when jPlayer is instantiated and ready
@@ -68,6 +72,10 @@
 		// to allow for console logging for debug - safety feature for IE, etc.
 		var console=console||{"log":function(){}};
 		
+		// holds configuration stream data until ready to display
+		var configStreamsXml;
+		
+		// plugin default values
 		var defaults = {
 			playerOpts: {},
 			bbgCssSelectors: {
@@ -114,6 +122,11 @@
 					enabled: true,
 					subject: 'Live Radio',
 					body: 'I wanted to share this online radio station with you.'
+				},
+				embed: {
+					enabled: true,
+					instructions: 'Copy the following to embed the player:',
+					hide: 'Hide'
 				}
 			},
 			brandingLink: null, // the link to show in the header branding
@@ -122,7 +135,7 @@
 		self.options = $.extend(true,{},defaults,options);
 		
 		self.config = {
-			embedPlayer: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/developer.php',
+			embedPlayer: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/embed.php',
 			popoutPlayer: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/popped.php',
 			metadataRemoteService: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/metadata/remote.streaminfo.php', //url to remote file that reads metadata - should be on same domain as it uses json
 			configFolder: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/config/',
@@ -160,8 +173,8 @@
 				dataType: 'xml',
 				success: function(xml) {
 					parseConfig($(xml).find("config"));
-					parseStreams($(xml).find("streams"));
 					parseStyles($(xml).find("styles"));
+					configStreamsXml = $(xml).find('streams');
 					initializePlayer();
 				}
 			});
@@ -281,20 +294,15 @@
 				self.bbgCss.jq.brandingLink.attr('href',self.options.brandingLink).attr('target','bbgPlayer');
 			}
 			
+			// write in any stream listings
+			parseStreams(configStreamsXml);
+			
 			// write in any footer content
 			if (self.options.footerContent && self.options.footerContent.length > 0) {
 				self.bbgCss.jq.footer.html(self.options.footerContent);
 			}
 			
-			// set up sharing
-			if (self.bbgCss.jq.share && self.bbgCss.jq.share.length > 0 
-					&& self.bbgCss.jq.sharePanel && self.bbgCss.jq.sharePanel.length > 0) {
-				self.bbgCss.jq.share.on('click',function(e) {
-					displayShareOptions();
-				});
-				self.bbgCss.jq.sharePanel.hide();
-				self.bbgCss.jq.share.show();
-			}
+			// set up social media and sharing
 			generateSocialBar();
 			
 			// set out pop out function
@@ -397,6 +405,11 @@
 			}
 		}
 		
+		/**
+		 * Displays the stream list in a select component
+		 * @param streams the array of stream data
+		 * @param selectedIndex the index that should be selected to start
+		 */
 		function displayStreamSelectList(streams,selectedIndex) {
 			var listHtml = '';
 			var num = streams.length;
@@ -421,7 +434,12 @@
 				}
 			});
 		}
-		
+
+		/**
+		 * Displays the stream list in an unordered list
+		 * @param streams the array of stream data
+		 * @param selectedIndex the index that should be selected to start
+		 */
 		function displayStreamUnorderedList(streams,selectedIndex) {
 			var listHtml = '';
 			var num = streams.length;
@@ -788,14 +806,42 @@
 				self.bbgCss.jq.social.append(getTwitterCode());
 				!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
 			}
+			if (self.options.social.embed.enabled) {
+				if (self.bbgCss.jq.sharePanel && self.bbgCss.jq.sharePanel.length > 0) {
+					$(self.bbgCss.css.sharePanel + ' .instructions').html(self.options.social.embed.instructions);
+					$(self.bbgCss.css.sharePanel + ' .share-hide').val(self.options.social.embed.hide);
+					// use existing share panel
+					if (!self.bbgCss.jq.share || self.bbgCss.jq.share.length == 0) {
+						// add to social bar and save to bbgCss for usage later
+						self.bbgCss.jq.social.append('<a href="javascript:;" class="jp-share">Share</a>');
+						self.bbgCss.css.share = self.bbgCss.css.ancestor + ' .jp-share';
+						self.bbgCss.jq.share = $(self.bbgCss.css.share);
+					}
+					// open share panel upon share link click
+					self.bbgCss.jq.share.on('click',function(e) {
+						displayShareOptions();
+					});
+					self.bbgCss.jq.share.show();
+					self.bbgCss.jq.sharePanel.hide();
+				} else {
+					// no share panel defined
+				}
+			}
 		}
 		
 		/**
 		 * Displays the share options panel
 		 */
 		function displayShareOptions() {
+			// if already showing, then toggle off
+			if (self.bbgCss.jq.sharePanel.is(":visible")) {
+				self.bbgCss.jq.sharePanel.hide();
+				return;
+			}
 			// set the text for the copy area
-			$(self.bbgCss.css.sharePanel + ' .jp-share-code').val(getCurrentEmbedCode());
+			var embedWidth = self.bbgCss.jq.ancestor.width() + 10;
+			var embedHeight = self.bbgCss.jq.ancestor.height() + 10;
+			$(self.bbgCss.css.sharePanel + ' .jp-share-code').val(getCurrentEmbedCode(embedWidth,embedHeight));
 			// show the panel
 			self.bbgCss.jq.sharePanel.show();
 			// select the text for easier copying
@@ -840,10 +886,10 @@
 		 */
 		function getCurrentEmbedCode(width,height) {
 			if (typeof(width) == 'undefined') {
-				width = 450;
+				width = 390;
 			}
 			if (typeof(height) == 'undefined') {
-				height = 400;
+				height = 675;
 			}
 			var src = self.config.embedPlayer + '?' + getPlayerQueryString();
 			var embed = '<iframe width="' + width + '" height="' + height + '" src="' + src + '" frameborder="0"></iframe>';
