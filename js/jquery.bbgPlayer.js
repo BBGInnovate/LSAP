@@ -59,6 +59,8 @@
 	 *			enabled:		Indicates if share by embed is enabled
 	 *			instructions:	Text to display for embed options instructions
 	 *			hide:			label for the hide button
+	 * brandingLink:			URL to indicate the brandingLink anchor tag
+	 * footerContent:			Any HTML content to be displayed within the footer
 	 */
 	function BBGPlayer(elem, options) {
 		var jplayerReady = false; // true when jPlayer is instantiated and ready
@@ -137,11 +139,11 @@
 		self.options = $.extend(true,{},defaults,options);
 		
 		self.config = {
-			embedPlayer: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/embed.php',
-			popoutPlayer: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/popped.php',
+			embedPlayer: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/embed.php',
+			popoutPlayer: null,
 			metadataRemoteService: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/metadata/remote.streaminfo.php', //url to remote file that reads metadata - should be on same domain as it uses json
-			configFolder: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/config/',
-			styleFolder: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/skin/',
+			configFolder: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn_integrate/config/',
+			styleFolder: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn_integrate/css/',
 			trackIncrement: 30, // number of seconds in between duration tracking calls
 			trackEventCategory: 'Live Audio Streaming Player',
 			facebookAppId: '428910497206598'
@@ -175,8 +177,8 @@
 				url: configUrl,
 				dataType: 'xml',
 				success: function(xml) {
-					parseConfig($(xml).find("config"));
 					parseStyles($(xml).find("styles"));
+					parseConfig($(xml).find("config"));
 					configStreamsXml = $(xml).find('streams');
 					initializePlayer();
 				}
@@ -347,7 +349,13 @@
 					setConfigOption($(this),newParent);
 				});
 			} else {
-				itemParent[item.prop("nodeName")] = item.text();
+				var value = item.text();
+				if (value.toLowerCase() === 'true') {
+					value = true;
+				} else if (value.toLowerCase() === 'false') {
+					value = false;
+				}
+				itemParent[item.prop("nodeName")] = value;
 			}
 		}
 		
@@ -587,17 +595,20 @@
 					// stopped listening to the last one
 					trackEnd(jPlayerData.status.media.title,jPlayerData.status.currentTime);
 				}
-				self.$elem.jPlayer("setMedia", self.currentStream)
+				self.$elem.jPlayer("setMedia", self.currentStream);
+				if (!cueonly) {
+					showStatus(STATUS_CONNECTING);
+					showLoading(true);
+					self.$elem.jPlayer("play");
+				}
+			}
+			// whether jplayer is initialized or not - go ahead and show the metadata in the meantime
+			if (self.currentStream) {
 				if (self.currentStream.poster) {
 					setPoster(self.currentStream.poster);
 				}
 				if (!self.options.metadataStreamEnabled) {
 					setStation(self.currentStream.title);
-				}
-				if (!cueonly) {
-					showStatus(STATUS_CONNECTING);
-					showLoading(true);
-					self.$elem.jPlayer("play");
 				}
 			}
 		}
