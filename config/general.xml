@@ -23,6 +23,7 @@
 		<showSiteUrl>true</showSiteUrl>
 		<showPosters>true</showPosters>
 		<social>
+			<shareLink>http://www.voanews.com</shareLink>
 			<facebook>
 				<enabled>true</enabled>
 			</facebook>

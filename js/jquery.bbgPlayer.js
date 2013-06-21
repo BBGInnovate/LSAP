@@ -37,6 +37,7 @@
 	 * The following options can be passed from an external configuration file
 	 * labels: 					An object containing labels that are dynamically written out
 	 * 		selectStream:		The text to select a stream - only used in top option value when select component used for streams list
+	 * locale:					The locale code to use for localization: used by Facebook like script
 	 * trackingEnabled: 		Indicates if analytics tracking is enabled
 	 * metadataStreamEnabled: 	Indicates if reading metadata from the audio stream is enabled
 	 * metadataCheckInterval: 	How often to check for new metadata if reading from stream (in seconds)
@@ -98,6 +99,7 @@
 			labels: {
 				selectStream:  'Select a station:',
 			},
+			locale: 'en_US',
 			trackingEnabled: false,
 			metadataStreamEnabled: false, // true to read dynamic metadata encoded in stream
 			metadataCheckInterval: 10, // number of seconds in between checks for changes in metadata
@@ -110,8 +112,8 @@
 			streamListComponent: 'ul', // the type of component used to display streams (if stream listings are used at all)
 			showSiteUrl: false, // shows a site url from the configuration file in the station name
 			showPosters: true, // shows the poster image for a channel when provided
-			shareLink: getLoadedUrl(), // the link to share in social media outlets
 			social: { // true or false for each social sharing option
+				shareLink: getLoadedUrl(), // the link to share in social media outlets
 				facebook: {
 					enabled: true
 				},
@@ -141,7 +143,8 @@
 			configFolder: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/config/',
 			styleFolder: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/skin/',
 			trackIncrement: 30, // number of seconds in between duration tracking calls
-			trackEventCategory: 'Live Audio Streaming Player'
+			trackEventCategory: 'Live Audio Streaming Player',
+			facebookAppId: '428910497206598'
 		}
 		
 		self.currentStream = null;
@@ -723,7 +726,23 @@
 		}
 		
 		function trackPop(title,time) {
-			trackEvent('pop',title,time);
+			trackEvent('pop',title);
+		}
+		
+		function trackEmail(title) {
+			trackEvent('share-email',title);
+		}
+		
+		function trackEmbed(title) {
+			trackEvent('share-embed',title);
+		}
+		
+		function trackFacebook(title) {
+			trackEvent('share-facebook',title);
+		}
+		
+		function trackTwitter(title) {
+			trackEvent('share-twitter',title);
 		}
 		
 		function getLoadedUrl() {
@@ -736,12 +755,16 @@
 		 * @param event the event that is triggering the tracking
 		 */
 		function getMediaTitleForTracking(event) {
+			var jdata = '';
 			if (event != undefined) {
-				if (event.jPlayer.status.media.title && event.jPlayer.status.media.title.length > 0) {
-					return event.jPlayer.status.media.title;
-				} else {
-					return event.jPlayer.status.src;
-				}
+				jdata = event.jPlayer;
+			} else {
+				jdata = self.$elem.data("jPlayer");
+			}
+			if (jdata.status.media.title && jdata.status.media.title.length > 0) {
+				return jdata.status.media.title;
+			} else {
+				return jdata.status.src;
 			}
 		}
 	
@@ -773,9 +796,7 @@
 		 */
 		function getFacebookCode() {
 			var code = '';
-			code = '<iframe src="//www.facebook.com/plugins/like.php?';
-			code += 'href=' + encodeURIComponent(self.options.shareLink);
-			code += '&amp;send=false&amp;layout=button_count&amp;width=90&amp;show_faces=false&amp;font&amp;colorscheme=light&amp;action=like&amp;height=21&amp;appId=120601048025688" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:90px; height:21px;" class="socialframe" allowTransparency="true"></iframe>';
+			code = '<fb:like href="' + self.options.social.shareLink + '/docs/reference/plugins/like" send="false" layout="button_count" width="450" show_faces="false"></fb:like>';
 			return code;
 		}
 
@@ -783,12 +804,13 @@
 		 * Returns the code to embed a Twitter Share Button
 		 */
 		function getTwitterCode() {
-			var code = '<a href="https://twitter.com/share" class="twitter-share-button socialframe" data-url="' + self.options.shareLink + '">Tweet</a>';
+			var code = '<a href="https://twitter.com/share" class="twitter-share-button socialframe" data-url="' + self.options.social.shareLink + '">Tweet</a>';
 			return code;
 		}
 		
+
 		function getEmailCode() {
-			var code = '<a class="jp-email-share" target="_blank" href="mailto:?subject=' + self.options.social.email.subject + '&body=' + self.options.social.email.body + '%0A%0A' + self.options.shareLink + '">Email</a>';
+			var code = '<a class="jp-email-share" target="_blank" href="mailto:?subject=' + self.options.social.email.subject + '&body=' + self.options.social.email.body + '%0A%0A' + self.options.social.shareLink + '">Email</a>';
 			return code;
 		}
 		
@@ -796,16 +818,59 @@
 		 * Generates the social media bar of options
 		 */
 		function generateSocialBar() {
+			var jq = null;
+			// email
 			if (self.options.social.email.enabled) {
-				self.bbgCss.jq.social.append(getEmailCode());
+				jq = $(getEmailCode()).appendTo(self.bbgCss.jq.social);
+				jq.on("click",function(e) {
+					trackEmail(getMediaTitleForTracking());
+				});
 			}
+			// facebook
 			if (self.options.social.facebook.enabled) {
+				$('html').attr('xmlns:fb','http://ogp.me/ns/fb#');
+				$('body').prepend('<div id="fb-root"></div>');
+				window.fbAsyncInit = function() {
+				    FB.init({
+				      appId  : self.config.facebookAppId,
+				      status : true, // check login status
+				      cookie : true, // enable cookies to allow the server to access the session
+				      xfbml  : true  // parse XFBML
+				    });
+					FB.Event.subscribe('edge.create',
+					    function(response) {
+							trackFacebook(getMediaTitleForTracking());
+					    }
+					);
+				};
+
+				(function() {
+				    var e = document.createElement('script');
+				    e.src = document.location.protocol + '//connect.facebook.net/' + self.options.locale + '/all.js';
+				    e.async = true;
+				    document.getElementById('fb-root').appendChild(e);
+				}());
 				self.bbgCss.jq.social.append(getFacebookCode());
 			}
+			// twitter
 			if (self.options.social.twitter.enabled) {
-				self.bbgCss.jq.social.append(getTwitterCode());
-				!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+				jq = $(getTwitterCode()).appendTo(self.bbgCss.jq.social);
+				window.twttr = (function (d,s,id) {
+					var t, js, fjs = d.getElementsByTagName(s)[0];
+					if (d.getElementById(id)) return; js=d.createElement(s); js.id=id;
+					js.src="//platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs);
+					return window.twttr || (t = { _e: [], ready: function(f){ t._e.push(f) } });
+				}(document, "script", "twitter-wjs"));
+				
+				//Wrap event bindings - Wait for async js to load
+				twttr.ready(function (twttr) {
+					//event bindings
+				    twttr.events.bind('tweet', function(e) {
+				    	trackTwitter(getMediaTitleForTracking());
+				    });
+				});
 			}
+			// embed
 			if (self.options.social.embed.enabled) {
 				if (self.bbgCss.jq.sharePanel && self.bbgCss.jq.sharePanel.length > 0) {
 					$(self.bbgCss.css.sharePanel + ' .instructions').html(self.options.social.embed.instructions);
@@ -860,7 +925,9 @@
 			$(self.bbgCss.css.sharePanel + " .share-hide").on("click",function(event) {
 				$(this).off("click",false);
 				self.bbgCss.jq.sharePanel.hide();
-			})
+			});
+			// track the share request
+			trackEmbed(getMediaTitleForTracking());
 		}
 		
 		/**
