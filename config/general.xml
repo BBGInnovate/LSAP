@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <playerconfig>
 	<streams>
-		<item channelid="jordan" type="live" format="mp3">
-			<streamUrl>http://sc9.iad.llnw.net/stream/npr_music2</streamUrl>
+		<item channelid="jordan" type="live">
+			<streamUrl format="mp3">http://sc9.iad.llnw.net/stream/npr_music2</streamUrl>
 			<title>The Most Awesome</title>
 			<description />
 			<siteUrl>http://ourawesomewebapp.com</siteUrl>

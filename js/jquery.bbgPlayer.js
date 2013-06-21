@@ -370,20 +370,28 @@
 		 */
 		function parseStreams(xml) {
 			var streams = new Array();
+			var stream = null;
 			$(xml).find("item").each(function(i){
-				streams.push({
+				stream = {
 					id: $(this).attr('channelid'),
 					title: $(this).find("title").text(),
 					titleImage: $(this).find("titleImage").text(),
 					titleImageHover: $(this).find("titleImageHover").text(),
 					titleImageSelect: $(this).find("titleImageSelect").text(),
-					stream: $(this).find("streamUrl").text(),
-					format: $(this).attr("format"),
+					formats: [],
 					type: $(this).attr("streamtype"),
 					description: $(this).find("description").text(),
 					siteurl: $(this).find("siteUrl").text(),
 					poster: $(this).find("poster").text()
+				};
+				$(this).find("streamUrl").each(function(k) {
+					stream.formats.push({
+						format: $(this).attr('format'),
+						url: $(this).text()
+					});
+					
 				});
+				streams.push(stream);
 			});
 			if (streams.length === 1) {
 				// just play a single stream and don't show a list
@@ -492,11 +500,10 @@
 		 */
 		function createMediaObject(streamData) {
 			var newStream = {};
+			var num = streamData.formats.length;
 			newStream.title = streamData.title;
-			if (streamData.format == 'm4a') {
-				newStream.m4a = streamData.stream;
-			} else if (streamData.format == 'mp3') {
-				newStream.mp3 = streamData.stream;
+			for (var i=0; i<num; i++) {
+				newStream[streamData.formats[i].format] = streamData.formats[i].url;
 			}
 			if (streamData.description) {
 				newStream.description = streamData.description;
