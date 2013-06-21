@@ -60,7 +60,7 @@ The following options can be passed from the ]configuration file:
 * brandingLink: A link to show in the brandingLink selector anchor to allow linking back to the main player site.  *Default: null*
 * footerContent: HTML content to display within the player footer.  *Default: <p>A BBG Player</p>*
 
-##Hard-code Constnt Values
+##Hard-code Constant Values
 The bbgPlayer uses the following constants that are defined at beginning of the code in the self.config object:
 
 * embedPlayer: The absolute url to the page to use as the embedded player
