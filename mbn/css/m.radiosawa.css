@@ -65,10 +65,10 @@ posit   body {
    	overflow: hidden;
    }
    a.jp-play {
-   	background-image: url('images/icon-play.png');
+   	background-image: url('../images/icon-play.png');
    }
    a.jp-pause {
-   	background-image: url('images/icon-pause.png');
+   	background-image: url('../images/icon-pause.png');
    }
    ul.jp-controls li a.jp-mute, ul.jp-controls li a.jp-unmute, .jp-current-time, .jp-progress, .jp-volume-bar {
    	width: 0;

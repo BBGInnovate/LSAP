@@ -6,7 +6,12 @@
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 	<script type="text/javascript" src="js/jquery.jplayer.min.js"></script>
 	<script type="text/javascript" src="js/jquery.bbgPlayer.js"></script>
-	
+	<style>
+	/* This doesn't get loaded until after the player initializes and therefore the show/hide functions on controls are incorrect */
+	ul.jp-controls li a {
+		display: block;
+	}
+	</style>
 </head>
 <body>
 
@@ -52,9 +57,6 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 	
 </div>
 
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-<script type="text/javascript" src="js/jquery.jplayer.min.js"></script>
-<script type="text/javascript" src="js/jquery.bbgPlayer.js"></script>
 <script type="text/javascript">	
 	// initialize Google Analytics Tracking Code
 	var _gaq = _gaq || [];
@@ -68,22 +70,10 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 	})();
 	
 	$(document).ready(function() {
-	        $.ajax({
-	            url:"css/radiosawa.css",
-	            dataType:"text",
-	            success:function(data){
-	                $("head").append("<style>" + data + "</style>");
 	        		// instantiate the player
         			$("#jquery_jplayer_1").bbgPlayer({		
-	        			config: 'radiosawa',
-	        			trackingEnabled: true,
-	        			autoplay: false,
-	        			labels: {
-							selectStream:  'اختر محطتك المفضلة'
-        				}
+	        			config: 'radiosawa'
         			});
-	        	}
-	        });
 	});
 </script>
 

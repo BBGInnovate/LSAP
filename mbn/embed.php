@@ -19,6 +19,12 @@
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 	<script type="text/javascript" src="js/jquery.jplayer.min.js"></script>
 	<script type="text/javascript" src="js/jquery.bbgPlayer.js"></script>
+	<style>
+	/* This doesn't get loaded until after the player initializes and therefore the show/hide functions on controls are incorrect */
+	ul.jp-controls li a {
+		display: block;
+	}
+	</style>
 </head>
 <body>
 
@@ -77,35 +83,24 @@
 	}
 
 	$(document).ready(function() {
-		// load the style sheet
-		var styleFile = getURLParameter('s');
-		if (styleFile) {
-	        $.ajax({
-	            url:"css/" + styleFile + ".css",
-	            dataType:"text",
-	            success:function(data){
-	                $("head").append("<style>" + data + "</style>");
-	        		// instantiate the player
-	        		var requestedStream = getURLParameter('l');
-	        		var requestedConfig = getURLParameter('c');
-	        		var requestedStreamObj = null;
-	        		if (requestedStream && requestedStream.length > 0) {
-	        			requestedStreamObj = {mp3: requestedStream};
-	        		}
-	        		if ((requestedStreamObj)
-	        				|| requestedConfig && requestedConfig.length > 0) {
-	        			$("#jquery_jplayer_1").bbgPlayer({		
-		        			overrideStream: requestedStreamObj,
-		        			config: requestedConfig,
-		        			trackingEnabled: true,
-		        			autoplay: false
-	        			}); 
-	        		} else {
-	        			alert("No stream requested.  Cannot continue.");
-	        		}
-	        	}
-	        });
-		}
+		// instantiate the player
+        var requestedStream = getURLParameter('l');
+        var requestedConfig = getURLParameter('c');
+        var requestedStreamObj = null;
+        if (requestedStream && requestedStream.length > 0) {
+        	requestedStreamObj = {mp3: requestedStream};
+        }
+        if ((requestedStreamObj)
+        		|| requestedConfig && requestedConfig.length > 0) {
+        	$("#jquery_jplayer_1").bbgPlayer({		
+	    		overrideStream: requestedStreamObj,
+	    		config: requestedConfig,
+	    		trackingEnabled: true,
+	    		autoplay: false
+        	}); 
+        } else {
+        	alert("No stream requested.  Cannot continue.");
+        }
 	});
 </script>
 

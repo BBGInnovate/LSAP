@@ -47,7 +47,7 @@ ul.jp-streams li a.titleImage {
 	margin-top: 3px;
 }
 .jp-loading {
-	background-image: url('images/loading.gif');
+	background-image: url('../images/loading.gif');
 	position: absolute;
 	background-repeat: no-repeat;
 	width: 32px;
@@ -103,13 +103,13 @@ ul.jp-controls li a {
 	width: 36px;
 	height: 36px;
 	display: block;
-	background-image: url('images/play.jpg');
+	background-image: url('../images/play.jpg');
 }
 .jp-pause {
 	width: 36px;
 	height: 36px;
 	display: block;
-	background-image: url('images/pause.jpg'); 
+	background-image: url('../images/pause.jpg'); 
 }
 .jp-mute, .jp-unmute {
 	margin-left: 205px;
@@ -119,13 +119,13 @@ ul.jp-controls li a {
 	width: 24px;
 	height: 24px;
 	display: block;
-	background-image: url('images/unmuted.png');
+	background-image: url('../images/unmuted.png');
 }
 .jp-unmute {
 	width: 24px;
 	height: 24px;
 	display:block;
-	background-image: url('images/muted.png');
+	background-image: url('../images/muted.png');
 }
 div.jp-progress {
 	position: absolute;
@@ -141,7 +141,7 @@ div.jp-seek-bar {
 	height: 100%;
 	cursor: pointer;
 	width: 0px;
-	background-image: url('images/progressbar.png');
+	background-image: url('../images/progressbar.png');
 }
 div.jp-volume-bar {
 	position: absolute;
@@ -152,13 +152,13 @@ div.jp-volume-bar {
 	padding: 0;
 	border: 0;
 	margin: 0;
-	background-image: url('images/volume-bar.png');
+	background-image: url('../images/volume-bar.png');
 	cursor: pointer;
 }
 div.jp-volume-bar-value {
 	height: 10px;
 	width: 0px;
-	background-image: url('images/volume-bar_value.png');
+	background-image: url('../images/volume-bar_value.png');
 }
 .jp-status-connecting,
 .jp-status-streaming,

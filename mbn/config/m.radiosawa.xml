@@ -83,7 +83,7 @@
 		</item>
 	</streams>
 	<styles>
-		<stylesheet>radiosawa.css</stylesheet>
+		<stylesheet>m.radiosawa.css</stylesheet>
 	</styles>
 	<config>
 		<labels>
@@ -92,7 +92,8 @@
 		<trackingEnabled>true</trackingEnabled>
 		<metadataStreamEnabled>false</metadataStreamEnabled>
 		<autoplay>false</autoplay>
-		<showPosters>true</showPosters>
+		<showPosters>false</showPosters>
+		<showSiteUrl>false</showSiteUrl>
 		<social>
 			<facebook>
 				<enabled>false</enabled>

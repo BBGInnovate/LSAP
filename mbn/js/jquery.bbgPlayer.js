@@ -10,7 +10,9 @@
 	 * 
 	 * REQUIRED IN OPTIONS:
 	 * Either config or overrideStream must be passed in.  Everything else is optional.
-	 * 
+
+	 * overrideStream: 			An override MP3 stream to be played without passing any config
+	 * config:					The configuration id to use for the player.  This is the filename in the config file folder without the xml extension
 	 * playerOpts:				An object of options to be passed directly to JPlayer
 	 * bbgCssSelectors: 		An object of CSS selectors for bbg specific customizations
 	 * 		title:				The selector to song title display
@@ -25,21 +27,24 @@
 	 * 		statusStreaming: 	Shows the status indicator when streaming
 	 * 		statusPaused:		Shows the status indicator when paused
 	 * 		statusEnded:		Shows the status indicator when ended
+	 * 		social:				The social media area where options should be written out
+	 * 		brandingLink:		The a tag to populate with branding link
+	 * 		footer:				The footer content area
+	 * embedded: 				Indicates if this is an embedded player offsite
+	 * popped: 					Indicates if this is a popped out player
+	 * streamListComponent: 	The type of component used for stream list (ul or select)
+	 * 
+	 * The following options can be passed from an external configuration file
 	 * labels: 					An object containing labels that are dynamically written out
 	 * 		selectStream:		The text to select a stream - only used in top option value when select component used for streams list
+	 * locale:					The locale code to use for localization: used by Facebook like script
 	 * trackingEnabled: 		Indicates if analytics tracking is enabled
 	 * metadataStreamEnabled: 	Indicates if reading metadata from the audio stream is enabled
 	 * metadataCheckInterval: 	How often to check for new metadata if reading from stream (in seconds)
-	 * overrideStream: 			An override MP3 stream to be played without passing any config
-	 * config:					The configuration id to use for the player.  This is the filename in the config file folder without the xml extension
 	 * overrideTitle: 			A title to display throughout the player rather than dynamic song information
-	 * embedded: 				Indicates if this is an embedded player offsite
-	 * popped: 					Indicates if this is a popped out player
-	 * autoPlay: 				Indicates if stream should autoplay on load
-	 * streamListComponent: 	The type of component used for stream list (ul or select)
+	 * autoplay: 				Indicates if stream should autoplay on load
 	 * showSiteUrl:				Indicates if url should be included in station listing
 	 * showPosters:				Indicates if artwork should be displayed
-	 * shareLink:				
 	 * social:					An object of options for sharing the player
 	 * 		shareLink:			The link to share for a player social components.  This defaults to the current url
 	 * 		facebook:			Facebook options
@@ -50,8 +55,15 @@
 	 * 			enabled:		Indicates if share by email is enabled
 	 * 			subject:		Subject to prepopulate
 	 * 			body:			Body to prepopulate (link will be appended after a line break)
+	 *		embed:				Embed code options
+	 *			enabled:		Indicates if share by embed is enabled
+	 *			instructions:	Text to display for embed options instructions
+	 *			hide:			label for the hide button
+	 * brandingLink:			URL to indicate the brandingLink anchor tag
+	 * footerContent:			Any HTML content to be displayed within the footer
 	 */
 	function BBGPlayer(elem, options) {
+		var jplayerReady = false; // true when jPlayer is instantiated and ready
 		var self = this;
 		self.$elem = $(elem);
 		
@@ -63,6 +75,10 @@
 		// to allow for console logging for debug - safety feature for IE, etc.
 		var console=console||{"log":function(){}};
 		
+		// holds configuration stream data until ready to display
+		var configStreamsXml;
+		
+		// plugin default values
 		var defaults = {
 			playerOpts: {},
 			bbgCssSelectors: {
@@ -78,11 +94,14 @@
 				statusStreaming: '.jp-status-streaming',
 				statusPaused: '.jp-status-paused',
 				statusEnded: '.jp-status-ended',
-				social: '.jp-social'
+				social: '.jp-social',
+				brandingLink: '.bbg-player-branding a',
+				footer: '#footer'
 			},
 			labels: {
 				selectStream:  'Select a station:',
 			},
+			locale: 'en_US',
 			trackingEnabled: false,
 			metadataStreamEnabled: false, // true to read dynamic metadata encoded in stream
 			metadataCheckInterval: 10, // number of seconds in between checks for changes in metadata
@@ -96,7 +115,7 @@
 			showSiteUrl: false, // shows a site url from the configuration file in the station name
 			showPosters: true, // shows the poster image for a channel when provided
 			social: { // true or false for each social sharing option
-				shareLink: 'http://www.voanews.com', // the link to share in social media outlets
+				shareLink: getLoadedUrl(), // the link to share in social media outlets
 				facebook: {
 					enabled: true
 				},
@@ -107,39 +126,78 @@
 					enabled: true,
 					subject: 'Live Radio',
 					body: 'I wanted to share this online radio station with you.'
+				},
+				embed: {
+					enabled: true,
+					instructions: 'Copy the following to embed the player:',
+					hide: 'Hide'
 				}
-			}
+			},
+			brandingLink: null, // the link to show in the header branding
+			footerContent: '<p>A BBG Player</p>' // the HTML to display within the footer
 		}
 		self.options = $.extend(true,{},defaults,options);
 		
 		self.config = {
 			embedPlayer: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/embed.php',
-			popoutPlayer: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/radiosawa.php',
+			popoutPlayer: null,
 			metadataRemoteService: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/metadata/remote.streaminfo.php', //url to remote file that reads metadata - should be on same domain as it uses json
 			configFolder: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/config/',
+			styleFolder: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/css/',
 			trackIncrement: 30, // number of seconds in between duration tracking calls
-			trackEventCategory: 'Live Audio Streaming Player'
+			trackEventCategory: 'Live Audio Streaming Player',
+			facebookAppId: '428910497206598'
 		}
 		
 		self.currentStream = null;
 		
 		init();
 	
+		/**
+		 * Initializes the BBG Player instance
+		 */
 		function init() {
-			var ready = false;
-			var nextTrackTime = self.config.trackIncrement;
-			
 			// if there is an override stream, set it to the current stream so that it plays upon startup
 			if (self.options.overrideStream) {
 				setCurrentStream(self.options.overrideStream);
 			}
+			if (self.options.config && self.options.config.length > 0) {
+				loadConfiguration();
+			} else {
+				initializePlayer();
+			}
+		} 
+		
+		/**
+		 * Loads the configuration from file and handles
+		 */
+		function loadConfiguration() {
+			var configUrl = self.config.configFolder + self.options.config + '.xml';
+			$.ajax({
+				url: configUrl,
+				dataType: 'xml',
+				success: function(xml) {
+					parseStyles($(xml).find("styles"));
+					parseConfig($(xml).find("config"));
+					configStreamsXml = $(xml).find('streams');
+					initializePlayer();
+				}
+			});
+		}
+		
+		/**
+		 * Sets up the jPlayer instance including all handlers
+		 */
+		function initializePlayer() {
+			var nextTrackTime = self.config.trackIncrement;
+		
 			
 			// initialize player
 			self.$elem.jPlayer({
 				ready: function (event) {
 					initializeBbgCustom(event.jPlayer);
 					showStatus();
-					ready = true;
+					jplayerReady = true;
 					if (self.options.autoplay) {
 						playStream();
 					} else if (self.options.overrideStream) {
@@ -193,13 +251,13 @@
 				},
 				error: function(event) {
 					var getFlashUrl = 'http://get.adobe.com/flashplayer';
-					if(ready && event.jPlayer.error.type === $.jPlayer.error.URL_NOT_SET) {
+					if(jplayerReady && event.jPlayer.error.type === $.jPlayer.error.URL_NOT_SET) {
 						// Setup the media stream again and play it.
 						playStream(self.currentStream);
 					} 
 				},
 				solution: "flash,html",
-				swfPath: "/ovap/LSAP/mbn/js",
+				swfPath: "/ovap/LSAP/js",
 				supplied: 'mp3',
 				preload: "none",
 				wmode: "window",
@@ -214,11 +272,11 @@
 					self.$elem.jPlayer( "option", optName, self.options.playerOpts[optName]);
 				}
 			}
-			
-		} // end init
+		}
 		
 		/**
-		 * Initializes references to the overriding BBG css values and custom behaviors
+		 * Initializes references to the overriding BBG css values and custom behaviors and any customized behavior that is dependent
+		 * upon these.
 		 * Must be called after player is initialized
 		 */
 		function initializeBbgCustom(jPlayerData) {
@@ -236,20 +294,20 @@
 				self.bbgCss.jq[type] = $(sel);
 			}
 			
-			// handle stream config loading
-			if (self.options.config != null) {
-				generateStreamsFromConfiguration();
+			// write in any branding
+			if (self.options.brandingLink && self.options.brandingLink.length > 0) {
+				self.bbgCss.jq.brandingLink.attr('href',self.options.brandingLink).attr('target','bbgPlayer');
 			}
 			
-			// set up sharing
-			if (self.bbgCss.jq.share && self.bbgCss.jq.share.length > 0 
-					&& self.bbgCss.jq.sharePanel && self.bbgCss.jq.sharePanel.length > 0) {
-				self.bbgCss.jq.share.on('click',function(e) {
-					displayShareOptions();
-				});
-				self.bbgCss.jq.sharePanel.hide();
-				self.bbgCss.jq.share.show();
+			// write in any stream listings
+			parseStreams(configStreamsXml);
+			
+			// write in any footer content
+			if (self.options.footerContent && self.options.footerContent.length > 0) {
+				self.bbgCss.jq.footer.html(self.options.footerContent);
 			}
+			
+			// set up social media and sharing
 			generateSocialBar();
 			
 			// set out pop out function
@@ -265,42 +323,92 @@
 			
 		}
 		
+		/**
+		 * Parses the configuration items from the main player configuration xml
+		 * @param xml the jQuery XML document that contains the configuration items
+		 */
+		function parseConfig(xml) { 
+			xml.children().each(function(i) {
+				setConfigOption($(this),self.options);
+			});
+			// now that the configuration is set up jPlayer instance can be created
+			initializePlayer();
+		}
+		
+		/**
+		 * Sets a property on the configuration object. 
+		 * Meant to be called recursively for nested properties.
+		 * 
+		 * @param item the jQuery xml document for the item to set
+		 * @param itemParent the config parent to set the value on
+		 */
+		function setConfigOption(item,itemParent) {
+			if (item.children().length > 0) {
+				var newParent = itemParent[item.prop("nodeName")]; 
+				item.children().each(function(i) {
+					setConfigOption($(this),newParent);
+				});
+			} else {
+				var value = item.text();
+				if (value.toLowerCase() === 'true') {
+					value = true;
+				} else if (value.toLowerCase() === 'false') {
+					value = false;
+				}
+				itemParent[item.prop("nodeName")] = value;
+			}
+		}
+		
+		/**
+		 * Parses the stylesheet information out of the player configuration file
+		 * @param xml the jQuery xml document for the styles
+		 */
+		function parseStyles(xml) {
+			var styleUrl = '';
+			$(xml).find("stylesheet").each(function(i) {
+				styleUrl = self.config.styleFolder + $(this).text();
+				$('head').append('<link rel="stylesheet" href="' + styleUrl + '">');
+			});
+		}
+				
 // STREAM LISTS & SWITCHING
 		/**
-		 * Generates the stream data from an external url
+		 * Generates the stream data from loaded stream XML
+		 * @param the xml loaded from a configuration file
 		 */
-		function generateStreamsFromConfiguration() {
-			var configUrl = self.config.configFolder + self.options.config + '.xml';
-			$.ajax({
-				url: configUrl,
-				success: function(xml) {
-					var streams = new Array();
-					$(xml).find("item").each(function(i){
-						streams.push({
-							id: $(this).attr('channelid'),
-							title: $(this).find("title").text(),
-							titleImage: $(this).find("titleImage").text(),
-							titleImageHover: $(this).find("titleImageHover").text(),
-							titleImageSelect: $(this).find("titleImageSelect").text(),
-							stream: $(this).find("streamUrl").text(),
-							format: $(this).attr("format"),
-							type: $(this).attr("streamtype"),
-							description: $(this).find("description").text(),
-							siteurl: $(this).find("siteUrl").text(),
-							poster: $(this).find("poster").text()
-						});
+		function parseStreams(xml) {
+			var streams = new Array();
+			var stream = null;
+			$(xml).find("item").each(function(i){
+				stream = {
+					id: $(this).attr('channelid'),
+					title: $(this).find("title").text(),
+					titleImage: $(this).find("titleImage").text(),
+					titleImageHover: $(this).find("titleImageHover").text(),
+					titleImageSelect: $(this).find("titleImageSelect").text(),
+					formats: [],
+					type: $(this).attr("streamtype"),
+					description: $(this).find("description").text(),
+					siteurl: $(this).find("siteUrl").text(),
+					poster: $(this).find("poster").text()
+				};
+				$(this).find("streamUrl").each(function(k) {
+					stream.formats.push({
+						format: $(this).attr('format'),
+						url: $(this).text()
 					});
-					if (streams.length === 1) {
-						// just play a single stream and don't show a list
-						playStream(createMediaObject(streams[0]));
-					} else if (streams.length > 1) {
-						displayStreamList(streams,0);
-						clearMetadata();
-						playStream(createMediaObject(streams[0]),true);
-					}
-				},
-				dataType: 'xml'
+					
+				});
+				streams.push(stream);
 			});
+			if (streams.length === 1) {
+				// just play a single stream and don't show a list
+				playStream(createMediaObject(streams[0]));
+			} else if (streams.length > 1) {
+				displayStreamList(streams,0);
+				clearMetadata();
+				playStream(createMediaObject(streams[0]),true);
+			}
 		}
 		
 		/**
@@ -316,6 +424,11 @@
 			}
 		}
 		
+		/**
+		 * Displays the stream list in a select component
+		 * @param streams the array of stream data
+		 * @param selectedIndex the index that should be selected to start
+		 */
 		function displayStreamSelectList(streams,selectedIndex) {
 			var listHtml = '';
 			var num = streams.length;
@@ -340,7 +453,12 @@
 				}
 			});
 		}
-		
+
+		/**
+		 * Displays the stream list in an unordered list
+		 * @param streams the array of stream data
+		 * @param selectedIndex the index that should be selected to start
+		 */
 		function displayStreamUnorderedList(streams,selectedIndex) {
 			var listHtml = '';
 			var num = streams.length;
@@ -390,11 +508,10 @@
 		 */
 		function createMediaObject(streamData) {
 			var newStream = {};
+			var num = streamData.formats.length;
 			newStream.title = streamData.title;
-			if (streamData.format == 'm4a') {
-				newStream.m4a = streamData.stream;
-			} else if (streamData.format == 'mp3') {
-				newStream.mp3 = streamData.stream;
+			for (var i=0; i<num; i++) {
+				newStream[streamData.formats[i].format] = streamData.formats[i].url;
 			}
 			if (streamData.description) {
 				newStream.description = streamData.description;
@@ -472,23 +589,26 @@
 			if (typeof(cueonly) == 'undefined') {
 				cueonly = false;
 			}
-			if (self.currentStream) {
+			if (jplayerReady && self.currentStream) {
 				var jPlayerData = self.$elem.data("jPlayer");
 				if (typeof(jPlayerData.status.media.title) != 'undefined') {
 					// stopped listening to the last one
 					trackEnd(jPlayerData.status.media.title,jPlayerData.status.currentTime);
 				}
-				self.$elem.jPlayer("setMedia", self.currentStream)
+				self.$elem.jPlayer("setMedia", self.currentStream);
+				if (!cueonly) {
+					showStatus(STATUS_CONNECTING);
+					showLoading(true);
+					self.$elem.jPlayer("play");
+				}
+			}
+			// whether jplayer is initialized or not - go ahead and show the metadata in the meantime
+			if (self.currentStream) {
 				if (self.currentStream.poster) {
 					setPoster(self.currentStream.poster);
 				}
 				if (!self.options.metadataStreamEnabled) {
 					setStation(self.currentStream.title);
-				}
-				if (!cueonly) {
-					showStatus(STATUS_CONNECTING);
-					showLoading(true);
-					self.$elem.jPlayer("play");
 				}
 			}
 		}
@@ -624,7 +744,23 @@
 		}
 		
 		function trackPop(title,time) {
-			trackEvent('pop',title,time);
+			trackEvent('pop',title);
+		}
+		
+		function trackEmail(title) {
+			trackEvent('share-email',title);
+		}
+		
+		function trackEmbed(title) {
+			trackEvent('share-embed',title);
+		}
+		
+		function trackFacebook(title) {
+			trackEvent('share-facebook',title);
+		}
+		
+		function trackTwitter(title) {
+			trackEvent('share-twitter',title);
 		}
 		
 		function getLoadedUrl() {
@@ -637,12 +773,16 @@
 		 * @param event the event that is triggering the tracking
 		 */
 		function getMediaTitleForTracking(event) {
+			var jdata = '';
 			if (event != undefined) {
-				if (event.jPlayer.status.media.title && event.jPlayer.status.media.title.length > 0) {
-					return event.jPlayer.status.media.title;
-				} else {
-					return event.jPlayer.status.src;
-				}
+				jdata = event.jPlayer;
+			} else {
+				jdata = self.$elem.data("jPlayer");
+			}
+			if (jdata.status.media.title && jdata.status.media.title.length > 0) {
+				return jdata.status.media.title;
+			} else {
+				return jdata.status.src;
 			}
 		}
 	
@@ -674,9 +814,7 @@
 		 */
 		function getFacebookCode() {
 			var code = '';
-			code = '<iframe src="//www.facebook.com/plugins/like.php?';
-			code += 'href=' + encodeURIComponent(self.options.social.shareLink);
-			code += '&amp;send=false&amp;layout=button_count&amp;width=90&amp;show_faces=false&amp;font&amp;colorscheme=light&amp;action=like&amp;height=21&amp;appId=120601048025688" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:90px; height:21px;" class="socialframe" allowTransparency="true"></iframe>';
+			code = '<fb:like href="' + self.options.social.shareLink + '/docs/reference/plugins/like" send="false" layout="button_count" width="450" show_faces="false"></fb:like>';
 			return code;
 		}
 
@@ -688,6 +826,7 @@
 			return code;
 		}
 		
+
 		function getEmailCode() {
 			var code = '<a class="jp-email-share" target="_blank" href="mailto:?subject=' + self.options.social.email.subject + '&body=' + self.options.social.email.body + '%0A%0A' + self.options.social.shareLink + '">Email</a>';
 			return code;
@@ -697,15 +836,79 @@
 		 * Generates the social media bar of options
 		 */
 		function generateSocialBar() {
-			if (self.options.social.email.enabled === true) {
-				self.bbgCss.jq.social.append(getEmailCode());
+			var jq = null;
+			// email
+			if (self.options.social.email.enabled) {
+				jq = $(getEmailCode()).appendTo(self.bbgCss.jq.social);
+				jq.on("click",function(e) {
+					trackEmail(getMediaTitleForTracking());
+				});
 			}
-			if (self.options.social.facebook.enabled === true) {
+			// facebook
+			if (self.options.social.facebook.enabled) {
+				$('html').attr('xmlns:fb','http://ogp.me/ns/fb#');
+				$('body').prepend('<div id="fb-root"></div>');
+				window.fbAsyncInit = function() {
+				    FB.init({
+				      appId  : self.config.facebookAppId,
+				      status : true, // check login status
+				      cookie : true, // enable cookies to allow the server to access the session
+				      xfbml  : true  // parse XFBML
+				    });
+					FB.Event.subscribe('edge.create',
+					    function(response) {
+							trackFacebook(getMediaTitleForTracking());
+					    }
+					);
+				};
+
+				(function() {
+				    var e = document.createElement('script');
+				    e.src = document.location.protocol + '//connect.facebook.net/' + self.options.locale + '/all.js';
+				    e.async = true;
+				    document.getElementById('fb-root').appendChild(e);
+				}());
 				self.bbgCss.jq.social.append(getFacebookCode());
 			}
-			if (self.options.social.twitter.enabled === true) {
-				self.bbgCss.jq.social.append(getTwitterCode());
-				!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+			// twitter
+			if (self.options.social.twitter.enabled) {
+				jq = $(getTwitterCode()).appendTo(self.bbgCss.jq.social);
+				window.twttr = (function (d,s,id) {
+					var t, js, fjs = d.getElementsByTagName(s)[0];
+					if (d.getElementById(id)) return; js=d.createElement(s); js.id=id;
+					js.src="//platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs);
+					return window.twttr || (t = { _e: [], ready: function(f){ t._e.push(f) } });
+				}(document, "script", "twitter-wjs"));
+				
+				//Wrap event bindings - Wait for async js to load
+				twttr.ready(function (twttr) {
+					//event bindings
+				    twttr.events.bind('tweet', function(e) {
+				    	trackTwitter(getMediaTitleForTracking());
+				    });
+				});
+			}
+			// embed
+			if (self.options.social.embed.enabled) {
+				if (self.bbgCss.jq.sharePanel && self.bbgCss.jq.sharePanel.length > 0) {
+					$(self.bbgCss.css.sharePanel + ' .instructions').html(self.options.social.embed.instructions);
+					$(self.bbgCss.css.sharePanel + ' .share-hide').val(self.options.social.embed.hide);
+					// use existing share panel
+					if (!self.bbgCss.jq.share || self.bbgCss.jq.share.length == 0) {
+						// add to social bar and save to bbgCss for usage later
+						self.bbgCss.jq.social.append('<a href="javascript:;" class="jp-share">Share</a>');
+						self.bbgCss.css.share = self.bbgCss.css.ancestor + ' .jp-share';
+						self.bbgCss.jq.share = $(self.bbgCss.css.share);
+					}
+					// open share panel upon share link click
+					self.bbgCss.jq.share.on('click',function(e) {
+						displayShareOptions();
+					});
+					self.bbgCss.jq.share.show();
+					self.bbgCss.jq.sharePanel.hide();
+				} else {
+					// no share panel defined
+				}
 			}
 		}
 		
@@ -713,8 +916,15 @@
 		 * Displays the share options panel
 		 */
 		function displayShareOptions() {
+			// if already showing, then toggle off
+			if (self.bbgCss.jq.sharePanel.is(":visible")) {
+				self.bbgCss.jq.sharePanel.hide();
+				return;
+			}
 			// set the text for the copy area
-			$(self.bbgCss.css.sharePanel + ' .jp-share-code').val(getCurrentEmbedCode());
+			var embedWidth = self.bbgCss.jq.ancestor.width() + 10;
+			var embedHeight = self.bbgCss.jq.ancestor.height() + 10;
+			$(self.bbgCss.css.sharePanel + ' .jp-share-code').val(getCurrentEmbedCode(embedWidth,embedHeight));
 			// show the panel
 			self.bbgCss.jq.sharePanel.show();
 			// select the text for easier copying
@@ -733,7 +943,9 @@
 			$(self.bbgCss.css.sharePanel + " .share-hide").on("click",function(event) {
 				$(this).off("click",false);
 				self.bbgCss.jq.sharePanel.hide();
-			})
+			});
+			// track the share request
+			trackEmbed(getMediaTitleForTracking());
 		}
 		
 		/**
@@ -759,10 +971,10 @@
 		 */
 		function getCurrentEmbedCode(width,height) {
 			if (typeof(width) == 'undefined') {
-				width = 450;
+				width = 390;
 			}
 			if (typeof(height) == 'undefined') {
-				height = 400;
+				height = 675;
 			}
 			var src = self.config.embedPlayer + '?' + getPlayerQueryString();
 			var embed = '<iframe width="' + width + '" height="' + height + '" src="' + src + '" frameborder="0"></iframe>';
