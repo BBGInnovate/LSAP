@@ -3,7 +3,15 @@
  * Requires jQuery and jPlayer
  * 
  */
-;(function($) {
+;(function (factory) {
+	if (typeof define === 'function' && define.amd) {
+	    // AMD. Register as an anonymous module.
+	    define(['jquery'], factory);
+	} else {
+	    // Browser globals
+	    factory(jQuery);
+	}
+	}(function ($) {
 
 	/**
 	 * Creates the BBG Player on an element and returns an instance
@@ -139,11 +147,11 @@
 		self.options = $.extend(true,{},defaults,options);
 		
 		self.config = {
-			embedPlayer: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/embed.php',
+			embedPlayer: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/embed.php',
 			popoutPlayer: null,
 			metadataRemoteService: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/metadata/remote.streaminfo.php', //url to remote file that reads metadata - should be on same domain as it uses json
-			configFolder: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn_integrate/config/',
-			styleFolder: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn_integrate/css/',
+			configFolder: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/config/',
+			styleFolder: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/skin/',
 			trackIncrement: 30, // number of seconds in between duration tracking calls
 			trackEventCategory: 'Live Audio Streaming Player',
 			facebookAppId: '428910497206598'
@@ -991,4 +999,4 @@
 		})
 	}
 	
-}(jQuery));
+}));

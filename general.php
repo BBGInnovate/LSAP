@@ -7,9 +7,9 @@
 	<title>BBG General Player</title>
 	<link rel="stylesheet" href="skin/bbgPlayerMain.css">
 	<link rel="stylesheet" href="skin/bbgAudioPlayer.css">
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-	<script type="text/javascript" src="js/jquery.jplayer.min.js"></script>
-	<script type="text/javascript" src="js/jquery.bbgPlayer.dev.js"></script>
+	<script type="text/javascript" src="js/require.js"></script>
+	<script type="text/javascript" src="js/config.js"></script><!-- used instead of data-main due to bugs in ie9 loading order -->
+
 </head>
 <body>
 
@@ -75,7 +75,7 @@
 	}
 	
 	// Player Initialization
-	$(document).ready(function () {
+	require(['jquery','jquery.jplayer.min','jquery.bbgPlayer'],function() {
 		var config = getURLParameter('c');
 		if (!config) {
 			config = 'general';

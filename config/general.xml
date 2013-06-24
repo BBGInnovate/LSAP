@@ -19,11 +19,10 @@
 		<trackingEnabled>true</trackingEnabled>
 		<metadataStreamEnabled>true</metadataStreamEnabled>
 		<metadataCheckInterval>10</metadataCheckInterval>
-		<autoplay>false</autoplay>
+		<autoplay>true</autoplay>
 		<showSiteUrl>true</showSiteUrl>
 		<showPosters>true</showPosters>
 		<social>
-			<shareLink>http://www.voanews.com</shareLink>
 			<facebook>
 				<enabled>true</enabled>
 			</facebook>
