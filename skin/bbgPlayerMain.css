@@ -57,7 +57,14 @@ p {
 .jp-social:first-child {
 	margin-left: 10px;
 }
-
+.jp-social ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+.jp-social ul li {
+	float: left;
+}
 .jp-social a.jp-email-share {
 	background-image: url('../images/icon-email.png');
 	background-repeat: no-repeat;
@@ -80,6 +87,15 @@ p {
 	overflow: hidden;
 	float: left;
 	margin: -2px 5px 0 0;
+}
+.jp-social a.jp-facebook-share {
+	display: block;
+	background-image: url('../images/btn_fb_55px.gif');
+	background-repeat: no-repeat;
+	width: 60px;
+	height: 20px;
+	text-indent: -9999px;
+	overflow: hidden;
 }
 .jp-share-panel {
 	padding: 5px;

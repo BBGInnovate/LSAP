@@ -36,7 +36,7 @@
 	 * 		statusPaused:		Shows the status indicator when paused
 	 * 		statusEnded:		Shows the status indicator when ended
 	 *		statusNotStarted:	Shows the status indicator that is shown until play is initiated the first time
-	 * 		social:				The social media area where options should be written out (this should be on a list tag (ol, ul)
+	 * 		social:				The social media area where options should be written out
 	 * 		brandingLink:		The a tag to populate with branding link
 	 * 		footer:				The footer content area
 	 * 		menu:				A configured menu list element (used for mobile sites only)
@@ -109,7 +109,7 @@
 				statusPaused: '.jp-status-paused',
 				statusEnded: '.jp-status-ended',
 				statusNotStarted: '.jp-status-not-started',
-				social: '.jp-social ul',
+				social: '.jp-social',
 				brandingLink: '.bbg-player-branding a',
 				footer: '#footer',
 				menu: '#menu ul.nav'
@@ -156,11 +156,11 @@
 		self.options = $.extend(true,{},defaults,options);
 		
 		self.config = {
-			embedPlayer: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/embed.php',
+			embedPlayer: null,
 			popoutPlayer: null,
 			metadataRemoteService: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/metadata/remote.streaminfo.php', //url to remote file that reads metadata - should be on same domain as it uses json
 			configFolder: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/config/',
-			styleFolder: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/skin/',
+			styleFolder: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mobile/css/',
 			trackIncrement: 30, // number of seconds in between duration tracking calls
 			trackEventCategory: 'Live Audio Streaming Player',
 			facebookAppId: '428910497206598'
@@ -862,23 +862,6 @@
 // SHARING & EMBED
 
 		/**
-		 * Returns the code to share via Facebook
-		 */
-		function getFacebookCode() {
-			var code = '';
-			if (self.options.social.layout == 'compact') {
-				code = '<a href="https://www.facebook.com/sharer/sharer.php?u=' + encodeURI(self.options.social.shareLink) + '" target="_blank">Facebook</a>';
-			} else {
-				code = '<a href="#" class="jp-facebook-share" onclick="window.open(';
-				code += "'https://www.facebook.com/sharer/sharer.php?u=";
-				code += encodeURIComponent(location.href)
-				code += "','facebook-share-dialog','width=626,height=436');return false;";
-				code += '">Facebook</a>';
-			}
-			return code;
-		}
-		
-		/**
 		 * Returns the code to embed a Twitter Share Button
 		 */
 		function getTwitterCode() {
@@ -905,31 +888,9 @@
 					trackEmail(getMediaTitleForTracking());
 				});
 			}
-			// embed
-			if (self.options.social.embed.enabled) {
-				if (self.bbgCss.jq.sharePanel && self.bbgCss.jq.sharePanel.length > 0) {
-					$(self.bbgCss.css.sharePanel + ' .instructions').html(self.options.social.embed.instructions);
-					$(self.bbgCss.css.sharePanel + ' .share-hide').val(self.options.social.embed.hide);
-					// use existing share panel
-					if (!self.bbgCss.jq.share || self.bbgCss.jq.share.length == 0) {
-						// add to social bar and save to bbgCss for usage later
-						self.bbgCss.jq.social.append('<li><a href="javascript:;" class="jp-share">Share</a></li>');
-						self.bbgCss.css.share = self.bbgCss.css.ancestor + ' .jp-share';
-						self.bbgCss.jq.share = $(self.bbgCss.css.share);
-					}
-					// open share panel upon share link click
-					self.bbgCss.jq.share.on('click',function(e) {
-						displayShareOptions();
-					});
-					self.bbgCss.jq.share.show();
-					self.bbgCss.jq.sharePanel.hide();
-				} else {
-					// no share panel defined
-				}
-			}
 			// facebook
 			if (self.options.social.facebook.enabled) {
-				code = '<li>' + getFacebookCode() + '</li>';
+				code = '<li><a href="https://www.facebook.com/sharer/sharer.php?u=' + encodeURI(self.options.social.shareLink) + '" target="_blank">Facebook</a></li>';
 				jq = $(code).appendTo(self.bbgCss.jq.social);
 				jq.children("a").on("click",function(e) {
 					trackFacebook(getMediaTitleForTracking());
@@ -944,7 +905,7 @@
 						trackTwitter(getMediaTitleForTracking());
 					});
 				} else {
-					jq = $('<li>' + getTwitterCode() + '</li>').appendTo(self.bbgCss.jq.social);
+					jq = $(getTwitterCode()).appendTo(self.bbgCss.jq.social);
 					window.twttr = (function (d,s,id) {
 						var t, js, fjs = d.getElementsByTagName(s)[0];
 						if (d.getElementById(id)) return; js=d.createElement(s); js.id=id;
@@ -959,6 +920,28 @@
 					    	trackTwitter(getMediaTitleForTracking());
 					    });
 					});
+				}
+			}
+			// embed
+			if (self.options.social.embed.enabled) {
+				if (self.bbgCss.jq.sharePanel && self.bbgCss.jq.sharePanel.length > 0) {
+					$(self.bbgCss.css.sharePanel + ' .instructions').html(self.options.social.embed.instructions);
+					$(self.bbgCss.css.sharePanel + ' .share-hide').val(self.options.social.embed.hide);
+					// use existing share panel
+					if (!self.bbgCss.jq.share || self.bbgCss.jq.share.length == 0) {
+						// add to social bar and save to bbgCss for usage later
+						self.bbgCss.jq.social.append('<a href="javascript:;" class="jp-share">Share</a>');
+						self.bbgCss.css.share = self.bbgCss.css.ancestor + ' .jp-share';
+						self.bbgCss.jq.share = $(self.bbgCss.css.share);
+					}
+					// open share panel upon share link click
+					self.bbgCss.jq.share.on('click',function(e) {
+						displayShareOptions();
+					});
+					self.bbgCss.jq.share.show();
+					self.bbgCss.jq.sharePanel.hide();
+				} else {
+					// no share panel defined
 				}
 			}
 		}

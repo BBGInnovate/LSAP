@@ -46,6 +46,7 @@
 			<div class="jp-song"></div>
 		</div>
         <div class="jp-social">
+        <ul></ul>
         </div>
         <div class="jp-poster"></div>
         <div class="jp-share-panel">
@@ -75,7 +76,7 @@
 	}
 	
 	// Player Initialization
-	require(['jquery','jquery.jplayer.min','jquery.bbgPlayer'],function() {
+	require(['jquery','jquery.jplayer.min','jquery.bbgPlayer.dev'],function() {
 		var config = getURLParameter('c');
 		if (!config) {
 			config = 'general';

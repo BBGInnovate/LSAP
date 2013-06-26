@@ -1,0 +1,183 @@
+/** Styles to create left navigation menu **/
+
+body {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body .viewport {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+body .viewport .frame {
+  position: absolute;
+  width: 200%;
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0; 
+}
+
+body .viewport .frame .navbar .navbar-inner {
+  border-radius: 0;
+  padding-left: 5px; 
+}
+
+body .viewport .frame .menu {
+  height: 100%;
+  /* background-color: #3D6AA2; */ 
+}
+
+body .viewport .frame .menu.collapse {
+  float: left;
+  height: 100% !important;
+  width: auto; 
+}
+
+body .viewport .frame .menu.collapse.height {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  -webkit-transition: height 0.35s ease;
+  -moz-transition: height 0.35s ease;
+  -o-transition: height 0.35s ease;
+  transition: height 0.35s ease; 
+}
+
+body .viewport .frame .menu.collapse.width {
+  position: relative;
+  width: 0;
+  overflow: hidden;
+  -webkit-transition: width 0.35s ease;
+  -moz-transition: width 0.35s ease;
+  -o-transition: width 0.35s ease;
+  transition: width 0.35s ease; 
+}
+
+body .viewport .frame .menu.collapse.in.width {
+  width: auto; 
+}
+
+body .viewport .frame .menu.collapse.in.height {
+  height: auto; 
+}
+
+body .viewport .frame .menu .collapse-inner {
+  position: relative;
+  width: 250px;
+  height: 100%; 
+}
+
+body .viewport .frame .menu .navbar .navbar-inner {
+  text-align: center;
+  color: grey;
+  font-size: 1.2em;
+  line-height: 38px; 
+}
+
+body .viewport .frame .menu .nav-stacked {
+  padding: 0 10px; 
+}
+
+body .viewport .frame .view {
+  width: 50%;
+  height: 100%;
+  overflow: hidden; 
+}
+
+body .viewport .frame .view .navbar .navbar-inner .btn-navbar {
+  display: block;
+  float: left; 
+}
+
+body .viewport .frame .view #content {
+  margin: auto 15px;
+  text-align: justify; 
+}
+
+/** Social Media Menu ***/
+.audio-stream,
+#socialbutton {
+	clear: right;
+}
+
+/** Audio Player **/
+/** Player Controls **/
+  ul.jp-controls {
+	list-style-type: none;
+	overflow: hidden;
+	margin: 1px;
+	padding: 0;
+	display: block;
+	position: absolute;
+	left: 0;
+}
+	ul.jp-controls li {
+		float: left;
+		display: block;
+		margin-top: .25em;
+	}
+		ul.jp-controls li a {
+			display: block;
+			overflow: hidden;
+			text-indent: 9999px;
+			width: 36px;
+			height: 36px;
+			
+		}
+	   ul.jp-controls li a {
+	   	background-repeat: no-repeat;
+	   	background-position: center center;
+	   	text-indent: -9999px;
+	   	overflow: hidden;
+	   	border: 0 !important;
+	   }
+		   a.jp-play {
+		   	background-image: url('../images/play.png');
+		   }
+		   a.jp-pause {
+		   	background-image: url('../images/stop.png');
+		   }
+		   
+/** Status Messages **/
+.jp-status {
+	display: block;
+	width: 100%;
+	height: 46px;
+	line-height: 46px;
+	margin-left: 3em;
+	border-left: 1px solid;
+	padding-left: 1em;
+}
+.jp-status-connecting:after {
+	content:	'Connecting';
+}
+.jp-status-streaming:after {
+	content: 'Streaming';
+}
+.jp-status-paused:after,
+.jp-status-ended:after,
+.jp-status-not-started:after {
+	content: 'Listen';
+}
+
+/** player outline **/
+.jp-status {
+	border-left: 1px solid;
+}
+.audio-stream {
+	border: 1px solid;
+}
+
+/** misc layout **/
+#menu .navbar-inner {
+	height: 50px;
+}
