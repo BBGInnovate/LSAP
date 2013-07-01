@@ -70,14 +70,10 @@
 	  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
 	  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 	})();
-
-	function getURLParameter(name) {
-	    return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
-	}
 	
 	// Player Initialization
-	require(['jquery','jquery.jplayer.min','jquery.bbgPlayer.dev'],function() {
-		var config = getURLParameter('c');
+	require(['util','jquery','jquery.jplayer.min','jquery.bbgPlayer.dev'],function(util) {
+		var config = util.getUrlParameter('c');
 		if (!config) {
 			config = 'general';
 		}
