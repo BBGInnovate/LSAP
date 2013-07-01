@@ -142,59 +142,11 @@
 	  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
 	  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
 	  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-	})();
-
-	function getURLParameter(name) {
-	    return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
-	}
-	
-	// Menu Initialization
-	require(['jquery','bootstrap','jquery.jpanelmenu','jRespond.min'],function() {
-		// set up the slide-out menu
-		var jPM = $.jPanelMenu({
-			openPosition: '150px'
-		});
-		
-		// set up jRespond
-		var jRes = jRespond([
-		    //tablet and larger
-		    {
-		    	label: 'wideview',
-		    	enter: 980,
-		    	exit: 80000000
-		    },
-		    // portrait tablet and smaller
-		    {
-		    	label: 'narrowview',
-		    	enter: 0,
-		    	exit: 980
-		    }
-		]);
-		
-		jRes.addFunc({
-			breakpoint: 'narrowview',
-			enter: enterNarrowView,
-			exit: exitNarrowView
-		});
-		
-		
-		function enterNarrowView() {
-			jPM.on();
-			$('.jPanelMenu-panel #menu').hide();
-			$('#main').addClass('expanded');
-			//$('#socialmini').show();
-		}
-		
-		function exitNarrowView() {
-			jPM.off();
-			$('#menu').show();
-			$('#main').removeClass('expanded');
-		}
-	});
+	})();	
 
 	// Player Initialization
-	require(['jquery','jquery.jplayer.min','jquery.bbgPlayer'],function() {
-		var config = getURLParameter('c');
+	require(['util','jquery','jquery.jplayer.min','jquery.bbgPlayer','util'],function(util) {
+		var config = util.getUrlParameter('c');
 		if (!config) {
 			config = 'm.kledu';
 		}
