@@ -3,9 +3,6 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Radio Sawa Streaming Player</title>
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-	<script type="text/javascript" src="js/jquery.jplayer.min.js"></script>
-	<script type="text/javascript" src="js/jquery.bbgPlayer.js"></script>
 	<style>
 	/* This doesn't get loaded until after the player initializes and therefore the show/hide functions on controls are incorrect */
 	ul.jp-controls li a {
@@ -14,10 +11,6 @@
 	</style>
 </head>
 <body>
-
-<div>
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-</div>
 
 <div id="jquery_jplayer_1" class="jp-jplayer"></div>
 
@@ -57,6 +50,8 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 	
 </div>
 
+<script type="text/javascript" src="js/require.js"></script>
+<script type="text/javascript" src="js/config.js"></script>
 <script type="text/javascript">	
 	// initialize Google Analytics Tracking Code
 	var _gaq = _gaq || [];
@@ -69,11 +64,11 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 	  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 	})();
 	
-	$(document).ready(function() {
-	        		// instantiate the player
-        			$("#jquery_jplayer_1").bbgPlayer({		
-	        			config: 'radiosawa'
-        			});
+	require(['jquery.bbgPlayer'],function() {
+		// instantiate the player
+		$("#jquery_jplayer_1").bbgPlayer({
+			config: 'radiosawa'
+		});
 	});
 </script>
 

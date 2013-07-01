@@ -1,9 +1,10 @@
 /**
  * BBG Audio Streaming Player jQuery plugin
  * Requires jQuery and jPlayer
- * 
+ * Also is passed a configuration module with base paths and constants defined.
  */
-;(function($) {
+
+;define(['jquery.bbgPlayer.config','jquery','jquery.jplayer.min'], function(bbgPlayerConfig) {
 
 	/**
 	 * Creates the BBG Player on an element and returns an instance
@@ -27,9 +28,11 @@
 	 * 		statusStreaming: 	Shows the status indicator when streaming
 	 * 		statusPaused:		Shows the status indicator when paused
 	 * 		statusEnded:		Shows the status indicator when ended
+	 *		statusNotStarted:	Shows the status indicator that is shown until play is initiated the first time
 	 * 		social:				The social media area where options should be written out
 	 * 		brandingLink:		The a tag to populate with branding link
 	 * 		footer:				The footer content area
+	 * 		menu:				A configured menu list element (used for mobile sites only)
 	 * embedded: 				Indicates if this is an embedded player offsite
 	 * popped: 					Indicates if this is a popped out player
 	 * streamListComponent: 	The type of component used for stream list (ul or select)
@@ -46,6 +49,7 @@
 	 * showSiteUrl:				Indicates if url should be included in station listing
 	 * showPosters:				Indicates if artwork should be displayed
 	 * social:					An object of options for sharing the player
+	 * 		layout:				"full" to show icons, etc., "compact" for links only
 	 * 		shareLink:			The link to share for a player social components.  This defaults to the current url
 	 * 		facebook:			Facebook options
 	 * 			enabled:		Indicates if facebook share is enabled
@@ -67,16 +71,19 @@
 		var self = this;
 		self.$elem = $(elem);
 		
-		var STATUS_CONNECTING = 0;
-		var STATUS_CONNECTED = 1;
-		var STATUS_ENDED = 2;
-		var STATUS_PAUSED = 3;
+		var STATUS_PENDING = 0;
+		var STATUS_CONNECTING = 1;
+		var STATUS_CONNECTED = 2;
+		var STATUS_ENDED = 3;
+		var STATUS_PAUSED = 4;
 		
 		// to allow for console logging for debug - safety feature for IE, etc.
 		var console=console||{"log":function(){}};
 		
 		// holds configuration stream data until ready to display
 		var configStreamsXml;
+		// likewise - holds menu stream data until ready to display
+		var configMenuXml;
 		
 		// plugin default values
 		var defaults = {
@@ -94,9 +101,11 @@
 				statusStreaming: '.jp-status-streaming',
 				statusPaused: '.jp-status-paused',
 				statusEnded: '.jp-status-ended',
-				social: '.jp-social',
+				statusNotStarted: '.jp-status-not-started',
+				social: '.jp-social ul',
 				brandingLink: '.bbg-player-branding a',
-				footer: '#footer'
+				footer: '#footer',
+				menu: '#menu ul.nav'
 			},
 			labels: {
 				selectStream:  'Select a station:',
@@ -115,6 +124,7 @@
 			showSiteUrl: false, // shows a site url from the configuration file in the station name
 			showPosters: true, // shows the poster image for a channel when provided
 			social: { // true or false for each social sharing option
+				layout: 'full', // full or compact
 				shareLink: getLoadedUrl(), // the link to share in social media outlets
 				facebook: {
 					enabled: true
@@ -137,17 +147,7 @@
 			footerContent: '<p>A BBG Player</p>' // the HTML to display within the footer
 		}
 		self.options = $.extend(true,{},defaults,options);
-		
-		self.config = {
-			embedPlayer: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/embed.php',
-			popoutPlayer: null,
-			metadataRemoteService: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/metadata/remote.streaminfo.php', //url to remote file that reads metadata - should be on same domain as it uses json
-			configFolder: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/config/',
-			styleFolder: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/css/',
-			trackIncrement: 30, // number of seconds in between duration tracking calls
-			trackEventCategory: 'Live Audio Streaming Player',
-			facebookAppId: '428910497206598'
-		}
+		self.config = bbgPlayerConfig;
 		
 		self.currentStream = null;
 		
@@ -177,6 +177,7 @@
 				url: configUrl,
 				dataType: 'xml',
 				success: function(xml) {
+					configMenuXml = $(xml).find("menu");
 					parseStyles($(xml).find("styles"));
 					parseConfig($(xml).find("config"));
 					configStreamsXml = $(xml).find('streams');
@@ -196,12 +197,12 @@
 			self.$elem.jPlayer({
 				ready: function (event) {
 					initializeBbgCustom(event.jPlayer);
-					showStatus();
 					jplayerReady = true;
 					if (self.options.autoplay) {
 						playStream();
-					} else if (self.options.overrideStream) {
+					} else if (self.currentStream) {
 						$(this).jPlayer("setMedia", self.currentStream);
+						loadMetadata(true);
 					}
 					trackPlayer();
 				},
@@ -213,10 +214,8 @@
 					trackStart(getMediaTitleForTracking(event));
 
 					// set initial metadata from overall station info provided by client
-					if (self.currentStream.siteurl && self.options.showSiteUrl) {
-						setStation('<a href="' + self.currentStream.siteurl + '">' + self.currentStream.title + '</a>');
-					} else if (self.currentStream.title) {
-						setStation(self.currentStream.title);
+					if (self.currentStream.title) {
+						setStation(self.currentStream.title,self.currentStream.siteurl);
 					} else {
 						setStation();
 					}
@@ -261,6 +260,7 @@
 				supplied: 'mp3',
 				preload: "none",
 				wmode: "window",
+				cssSelectorAncestor: self.options.playerOpts.cssSelectorAncestor ? self.options.playerOpts.cssSelectorAncestor : '#jp_container_1',
 				keyEnabled: true,
 				warningAlerts: false,
 				errorAlerts: false
@@ -293,6 +293,12 @@
 				self.bbgCss.css[type] = sel
 				self.bbgCss.jq[type] = $(sel);
 			}
+			
+			// generate any menu items
+			parseMenu(configMenuXml);
+			
+			// update status
+			showStatus(STATUS_PENDING);
 			
 			// write in any branding
 			if (self.options.brandingLink && self.options.brandingLink.length > 0) {
@@ -365,10 +371,22 @@
 		 */
 		function parseStyles(xml) {
 			var styleUrl = '';
-			$(xml).find("stylesheet").each(function(i) {
+			xml.find("stylesheet").each(function(i) {
 				styleUrl = self.config.styleFolder + $(this).text();
 				$('head').append('<link rel="stylesheet" href="' + styleUrl + '">');
 			});
+		}
+		
+		/**
+		 * Parses out a dynamic menu and renders it
+		 * @param xml the jQuery xml document for menu items
+		 */
+		function parseMenu(xml) {
+			var menuHtml = '';
+			xml.find('option').each(function(i) {
+				menuHtml += '<li><a href="' + $(this).attr('href') + '">' + $(this).text() + '</a></li>';
+			});
+			self.bbgCss.jq.menu.append(menuHtml);
 		}
 				
 // STREAM LISTS & SWITCHING
@@ -535,11 +553,15 @@
 // METADATA
 		/**
 		 * Loads the current metadata from the stream and updates title and station data
+		 * @param single boolean to indicate if data should only be pulled once (true) or continually pulled (false)
 		 * @returns void
 		 */
-		function loadMetadata() {
+		function loadMetadata(single) {
 			if (!self.options.metadataStreamEnabled || !self.currentStream) {
 				return;
+			}
+			if (single == undefined) {
+				single = false;
 			}
 			$.ajax({
 				dataType: "json",
@@ -555,11 +577,7 @@
 							setTitle();
 						}
 						if (data.metadata.station) {
-							if (data.metadata.stationurl) {
-								setStation("<a href=" + data.metadata.stationurl + " target=\"_blank\">" + data.metadata.station + '</a>');								
-							} else {
-								setStation(data.metadata.station);
-							}
+							setStation(data.metadata.station,data.metadata.stationurl);
 						} else {
 							setStation();
 						}
@@ -567,8 +585,10 @@
 						setTitle('Station data unavailable.');
 						setStation();
 					}
-					// call again after the timeout
-					setTimeout(loadMetadata,self.options.metadataCheckInterval*1000);
+					if (!single) {
+						// call again after the timeout
+						setTimeout(loadMetadata,self.options.metadataCheckInterval*1000);
+					}
 				},
 				error: function(err) {
 					setTitle('Station data unavailable.');
@@ -607,9 +627,7 @@
 				if (self.currentStream.poster) {
 					setPoster(self.currentStream.poster);
 				}
-				if (!self.options.metadataStreamEnabled) {
-					setStation(self.currentStream.title);
-				}
+				setStation(self.currentStream.title,self.currentStream.siteurl);
 			}
 		}
 	
@@ -638,11 +656,16 @@
 		/**
 		 * Updates the station display
 		 * @param station the station to display (may include HTML)
+		 * @param url the url to the station website
 		 */
-		function setStation(station) {
+		function setStation(station,url) {
 			var show = false;
 			if (typeof(station) != 'undefined') {
-				self.bbgCss.jq.station.html(station);
+				if (self.options.showSiteUrl && url != 'undefined') {
+					self.bbgCss.jq.station.html('<a href="' + url + '">' + station + '</a>');
+				} else {
+					self.bbgCss.jq.station.html(station);
+				}
 				show = true;
 			} else {
 				self.bbgCss.jq.station.html('');
@@ -689,26 +712,37 @@
 				self.bbgCss.jq.statusStreaming.hide();
 				self.bbgCss.jq.statusPaused.hide();
 				self.bbgCss.jq.statusEnded.hide();
+				self.bbgCss.jq.statusNotStarted.hide();
 			} else if (status === STATUS_CONNECTED) {
 				self.bbgCss.jq.statusConnecting.hide();
 				self.bbgCss.jq.statusStreaming.show();
 				self.bbgCss.jq.statusPaused.hide();
 				self.bbgCss.jq.statusEnded.hide();
+				self.bbgCss.jq.statusNotStarted.hide();
 			} else if (status === STATUS_ENDED) {
 				self.bbgCss.jq.statusConnecting.hide();
 				self.bbgCss.jq.statusStreaming.hide();
 				self.bbgCss.jq.statusPaused.hide();
 				self.bbgCss.jq.statusEnded.show();
+				self.bbgCss.jq.statusNotStarted.hide();
 			} else if (status === STATUS_PAUSED) {
 				self.bbgCss.jq.statusConnecting.hide();
 				self.bbgCss.jq.statusStreaming.hide();
 				self.bbgCss.jq.statusPaused.show();
 				self.bbgCss.jq.statusEnded.hide();
+				self.bbgCss.jq.statusNotStarted.hide();
+			} else if (status === STATUS_PENDING) {
+				self.bbgCss.jq.statusConnecting.hide();
+				self.bbgCss.jq.statusStreaming.hide();
+				self.bbgCss.jq.statusPaused.hide();
+				self.bbgCss.jq.statusEnded.hide();
+				self.bbgCss.jq.statusNotStarted.show();
 			} else {
 				self.bbgCss.jq.statusConnecting.hide();
 				self.bbgCss.jq.statusStreaming.hide();
 				self.bbgCss.jq.statusPaused.hide();
 				self.bbgCss.jq.statusEnded.hide();
+				self.bbgCss.jq.statusNotStarted.hide();
 			}
 		}
 	
@@ -809,14 +843,6 @@
 			}
 		}
 // SHARING & EMBED
-		/**
-		 * Returns the code to embed a Facebook Like Button
-		 */
-		function getFacebookCode() {
-			var code = '';
-			code = '<fb:like href="' + self.options.social.shareLink + '/docs/reference/plugins/like" send="false" layout="button_count" width="450" show_faces="false"></fb:like>';
-			return code;
-		}
 
 		/**
 		 * Returns the code to embed a Twitter Share Button
@@ -837,56 +863,47 @@
 		 */
 		function generateSocialBar() {
 			var jq = null;
+			var code = null;
 			// email
 			if (self.options.social.email.enabled) {
-				jq = $(getEmailCode()).appendTo(self.bbgCss.jq.social);
-				jq.on("click",function(e) {
+				jq = $('<li>' + getEmailCode() + '</li>').appendTo(self.bbgCss.jq.social);
+				jq.children("a").on("click",function(e) {
 					trackEmail(getMediaTitleForTracking());
 				});
 			}
 			// facebook
 			if (self.options.social.facebook.enabled) {
-				$('html').attr('xmlns:fb','http://ogp.me/ns/fb#');
-				$('body').prepend('<div id="fb-root"></div>');
-				window.fbAsyncInit = function() {
-				    FB.init({
-				      appId  : self.config.facebookAppId,
-				      status : true, // check login status
-				      cookie : true, // enable cookies to allow the server to access the session
-				      xfbml  : true  // parse XFBML
-				    });
-					FB.Event.subscribe('edge.create',
-					    function(response) {
-							trackFacebook(getMediaTitleForTracking());
-					    }
-					);
-				};
-
-				(function() {
-				    var e = document.createElement('script');
-				    e.src = document.location.protocol + '//connect.facebook.net/' + self.options.locale + '/all.js';
-				    e.async = true;
-				    document.getElementById('fb-root').appendChild(e);
-				}());
-				self.bbgCss.jq.social.append(getFacebookCode());
+				code = '<li><a href="https://www.facebook.com/sharer/sharer.php?u=' + encodeURI(self.options.social.shareLink) + '" target="_blank" class="jp-facebook-share">Facebook</a></li>';
+				jq = $(code).appendTo(self.bbgCss.jq.social);
+				jq.children("a").on("click",function(e) {
+					trackFacebook(getMediaTitleForTracking());
+				});
 			}
 			// twitter
 			if (self.options.social.twitter.enabled) {
-				jq = $(getTwitterCode()).appendTo(self.bbgCss.jq.social);
-				window.twttr = (function (d,s,id) {
-					var t, js, fjs = d.getElementsByTagName(s)[0];
-					if (d.getElementById(id)) return; js=d.createElement(s); js.id=id;
-					js.src="//platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs);
-					return window.twttr || (t = { _e: [], ready: function(f){ t._e.push(f) } });
-				}(document, "script", "twitter-wjs"));
-				
-				//Wrap event bindings - Wait for async js to load
-				twttr.ready(function (twttr) {
-					//event bindings
-				    twttr.events.bind('tweet', function(e) {
-				    	trackTwitter(getMediaTitleForTracking());
-				    });
-				});
+				if (self.options.social.layout == 'compact') {
+					code = '<li><a href="https://mobile.twitter.com/compose/tweet?status=' + encodeURI(self.options.social.shareLink) + '" target="_blank">Twitter</a></li>';
+					jq = $(code).appendTo(self.bbgCss.jq.social);
+					jq.children("a").on("click",function(e) {
+						trackTwitter(getMediaTitleForTracking());
+					});
+				} else {
+					jq = $(getTwitterCode()).appendTo(self.bbgCss.jq.social);
+					window.twttr = (function (d,s,id) {
+						var t, js, fjs = d.getElementsByTagName(s)[0];
+						if (d.getElementById(id)) return; js=d.createElement(s); js.id=id;
+						js.src="//platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs);
+						return window.twttr || (t = { _e: [], ready: function(f){ t._e.push(f) } });
+					}(document, "script", "twitter-wjs"));
+					
+					//Wrap event bindings - Wait for async js to load
+					twttr.ready(function (twttr) {
+						//event bindings
+					    twttr.events.bind('tweet', function(e) {
+					    	trackTwitter(getMediaTitleForTracking());
+					    });
+					});
+				}
 			}
 			// embed
 			if (self.options.social.embed.enabled) {
@@ -991,4 +1008,4 @@
 		})
 	}
 	
-}(jQuery));
+});

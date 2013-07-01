@@ -17,9 +17,6 @@
 */
 ?>
 	<title>Live Streaming Player</title>
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-	<script type="text/javascript" src="js/jquery.jplayer.min.js"></script>
-	<script type="text/javascript" src="js/jquery.bbgPlayer.js"></script>
 	<style>
 	/* This doesn't get loaded until after the player initializes and therefore the show/hide functions on controls are incorrect */
 	ul.jp-controls li a {
@@ -60,6 +57,8 @@
 	
 </div>
 			
+<script type="text/javascript" src="js/require.js"></script>
+<script type="text/javascript" src="js/config.js"></script>
 <script type="text/javascript">	
 	// initialize Google Analytics Tracking Code
 	var _gaq = _gaq || [];
@@ -72,29 +71,26 @@
 	  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 	})();
 
-	function getURLParameter(name) {
-	    return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
-	}
-
-	$(document).ready(function() {
-        		// instantiate the player
-        		var requestedStream = getURLParameter('l');
-        		var requestedConfig = getURLParameter('c');
-        		var requestedStreamObj = null;
-        		if (requestedStream && requestedStream.length > 0) {
-        			requestedStreamObj = {mp3: requestedStream};
-        		}
-        		if ((requestedStreamObj)
-        				|| requestedConfig && requestedConfig.length > 0) {
-        			$("#jquery_jplayer_1").bbgPlayer({		
-	        			overrideStream: requestedStreamObj,
-	        			config: requestedConfig,
-	        			trackingEnabled: true,
-	        			streamListComponent: 'select'
-        			}); 
-        		} else {
-        			alert("No stream requested.  Cannot continue.");
-        		}
+	// set up the mobile player
+	require(['util','jquery.bbgPlayer'],function(util) {
+		// instantiate the player
+        var requestedStream = util.getUrlParameter('l');
+        var requestedConfig = util.getUrlParameter('c');
+        var requestedStreamObj = null;
+        if (requestedStream && requestedStream.length > 0) {
+        	requestedStreamObj = {mp3: requestedStream};
+        }
+        if ((requestedStreamObj)
+        		|| requestedConfig && requestedConfig.length > 0) {
+        	$("#jquery_jplayer_1").bbgPlayer({		
+    			overrideStream: requestedStreamObj,
+    			config: requestedConfig,
+    			trackingEnabled: true,
+    			streamListComponent: 'select'
+        	}); 
+        } else {
+        	alert("No stream requested.  Cannot continue.");
+        }
 	});
 </script>
 
