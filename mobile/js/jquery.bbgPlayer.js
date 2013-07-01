@@ -1,17 +1,10 @@
 /**
  * BBG Audio Streaming Player jQuery plugin
  * Requires jQuery and jPlayer
- * 
+ * Also is passed a configuration module with base paths and constants defined.
  */
-;(function (factory) {
-	if (typeof define === 'function' && define.amd) {
-	    // AMD. Register as an anonymous module.
-	    define(['jquery'], factory);
-	} else {
-	    // Browser globals
-	    factory(jQuery);
-	}
-	}(function ($) {
+
+;define(['jquery.bbgPlayer.config','jquery','jquery.jplayer.min'], function(bbgPlayerConfig) {
 
 	/**
 	 * Creates the BBG Player on an element and returns an instance
@@ -109,7 +102,7 @@
 				statusPaused: '.jp-status-paused',
 				statusEnded: '.jp-status-ended',
 				statusNotStarted: '.jp-status-not-started',
-				social: '.jp-social',
+				social: '.jp-social ul',
 				brandingLink: '.bbg-player-branding a',
 				footer: '#footer',
 				menu: '#menu ul.nav'
@@ -154,17 +147,7 @@
 			footerContent: '<p>A BBG Player</p>' // the HTML to display within the footer
 		}
 		self.options = $.extend(true,{},defaults,options);
-		
-		self.config = {
-			embedPlayer: null,
-			popoutPlayer: null,
-			metadataRemoteService: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/metadata/remote.streaminfo.php', //url to remote file that reads metadata - should be on same domain as it uses json
-			configFolder: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/config/',
-			styleFolder: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mobile/css/',
-			trackIncrement: 30, // number of seconds in between duration tracking calls
-			trackEventCategory: 'Live Audio Streaming Player',
-			facebookAppId: '428910497206598'
-		}
+		self.config = bbgPlayerConfig;
 		
 		self.currentStream = null;
 		
@@ -890,7 +873,7 @@
 			}
 			// facebook
 			if (self.options.social.facebook.enabled) {
-				code = '<li><a href="https://www.facebook.com/sharer/sharer.php?u=' + encodeURI(self.options.social.shareLink) + '" target="_blank">Facebook</a></li>';
+				code = '<li><a href="https://www.facebook.com/sharer/sharer.php?u=' + encodeURI(self.options.social.shareLink) + '" target="_blank" class="jp-facebook-share">Facebook</a></li>';
 				jq = $(code).appendTo(self.bbgCss.jq.social);
 				jq.children("a").on("click",function(e) {
 					trackFacebook(getMediaTitleForTracking());
@@ -1025,4 +1008,4 @@
 		})
 	}
 	
-}));
+});

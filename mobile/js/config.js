@@ -2,7 +2,8 @@ require.config({
 	baseUrl: 'js/',
 	paths: {
 		'jquery': '//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min',
-		'bootstrap': '//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap'
+		'bootstrap': '//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap',
+		'jquery.bbgPlayer.config': 'jquery.bbgPlayer.config.mobile'
 	},
 	shim: {
 		'bootstrap': {

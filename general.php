@@ -72,7 +72,7 @@
 	})();
 	
 	// Player Initialization
-	require(['util','jquery','jquery.jplayer.min','jquery.bbgPlayer.dev'],function(util) {
+	require(['util','jquery.bbgPlayer'],function(util) {
 		var config = util.getUrlParameter('c');
 		if (!config) {
 			config = 'general';
