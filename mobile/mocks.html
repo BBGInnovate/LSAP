@@ -1,101 +1,138 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta content="width=device-width,minimum-scale=1,maximum-scale=1" name="viewport">
-	
-	<link rel="stylesheet" type="text/css" href="//twitter.github.com/bootstrap/assets/css/bootstrap.css">
+  <head>
+    <meta charset="utf-8">
+    <title>Responsive Mock</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+
+      @media (max-width: 980px) {
+        /* Enable use of floated navbar text */
+        .navbar-text.pull-right {
+          float: none;
+          padding-left: 5px;
+          padding-right: 5px;
+        }
+      }
+    </style>
+    
+	<link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.css">
 	<link rel="stylesheet" href="css/lsap.css">
 
-	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-	<script type="text/javascript" src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.js"></script>
-	<script type="text/javascript" src="js/require.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+    <![endif]-->
+    
+    <!--[if !IE 7]>
+	<style type="text/css">
+		#wrap {display:table;height:100%}
+	</style>
+	<![endif]-->
+
+    <!-- Fav and touch icons
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="../assets/ico/favicon.png">
+     -->
+     
+    <script type="text/javascript" src="js/require.js"></script>
 	<script type="text/javascript" src="js/config.js"></script>
-	<script type="text/javascript">
-		//<![CDATA[ 
-		$(window).load(function(){
-		  $("#menu a").click(function(e) {
-		    $('#menu').collapse('hide');
-		  });
-		});//]]>  
-	</script>
-</head>
+  </head>
 
 <body>
-<div class="viewport">
-	<div class="frame">
-		<!-- navigation menu holder -->
-		<div id="menu" class="menu nav-collapse collapse width">
-			<div class="collapse-inner">
-				<div class="navbar">
-					<div class="navbar-inner">Menu</div>
-				</div>
-				<ul class="nav nav-list">
-					<li class="nav-header">Menu</li>
-				</ul>
+<div id="wrap">
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				<button type="button" class="btn btn-navbar menu-trigger">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="brand jp-station" href="#">Station name</a>
 			</div>
 		</div>
-		
-		<!-- main page view -->
-		<div class="view">
-			<!-- header -->
-			<div class="navbar">
-				<div class="navbar-inner">
-					<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target="#menu">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<p class="brand jp-station">Station Name</p>
+	</div><!-- /.navbar-fixed-top -->
+
+	<div class="container-fluid" id="main">
+		<div class="row-fluid">
+			<div id="menu" class="span2">
+				<div class="sidebar-nav">
+					<ul class="nav nav-list">
+						<li class="nav-header">Menu</li>
+					</ul>
+				</div><!--/.sidebar-nav -->
+			</div><!--/#menu-->
+			
+			<div id="content" class="span10">
+				<h3>Now Playing</h3>
+				<h2 class="jp-song">Song Name</h2>
+				<p class="jp-description">Other descriptive stuff....</p>
+			</div><!--/span-->
+		</div><!--/row-->
+	</div><!-- /#main -->
+</div><!-- /#wrap -->
+
+<!-- footer -->
+<footer class="container-fluid">
+	<div class="navbar pull-right">
+		<div class="navbar-inner">
+			<div class="container pull-right">
+				<div class="btn-group dropup pull-right" id="socialmini">
+					<button class="btn dropdown-toggle btn-navbar" data-toggle="dropdown">Share <span class="caret"></span></button>
+					<ul class="dropdown-menu socialmenu pull-right">
+					</ul>
+				</div><!-- /#socialmini -->
+	 
+				<!-- Everything you want hidden at 940px or less, place within here -->
+				<div class="nav-collapse collapse">
+					<ul class="nav nav-pills nav-stacked socialmenu">
+					</ul>
 				</div>
-			</div>
-			
-			<!-- page content -->
-			<div id="content">
-				<h2>Now Playing</h2>
-				<h1 class="jp-song">Program Name</h1>
-				<p class="jp-description">Program metadata goes here.  Date, time description....</p>
-			</div>
-			
-			<!-- footer -->
-			<div id="footer" class="navbar-fixed-bottom">
-				<div id="socialmenu" class="pull-right">
-					<div class="text-right"><a class="menu-toggle btn" data-toggle="collapse" href="#socialinternal">Share</a></div>
-					<div id="socialinternal" class="collapse text-right">
-						<div class="accordion-inner">
-							<ul class="nav nav-pills nav-stacked">
-							</ul>
-						</div>
-					</div>
-				</div>
-				<!-- audio player -->
-				<div class="audio-stream">
-				<!-- audio player -->
-					<div id="jp-player" class="jp-jplayer"></div>
-					<div class="jp-control-container">
-						<ul class="jp-controls">
-							<li><a href="javascript:;" class="jp-play" title="play" data-role="button" data-inline="true" data-corners="false" data-shadow="false">play</a></li>
-							<li><a href="javascript:;" class="jp-pause" title="pause" data-role="button" data-inline="true" data-corners="false" data-shadow="false">pause</a></li>
-						</ul>
-					</div>
-					<div class="jp-status">
-						<span class="jp-status-connecting"></span>
-						<span class="jp-status-streaming"></span>
-						<span class="jp-status-paused"></span>
-						<span class="jp-status-ended"></span>
-						<span class="jp-status-not-started"></span>
-					</div>
-			
-					<div class="jp-no-solution">
-						<span>Update Required</span>
-						Your device does not support the playback of streaming MP3 via native controls and you do not have the Adobe Flash Player available.
-					</div>				
-				</div><!-- /.audio-stream -->
-			</div><!-- /#footer -->
-			
-		</div><!--  /.view -->
-	</div><!-- /.frame -->
-</div><!-- /.viewpart -->
-<script type="text/javascript">	
+			</div><!-- /.container -->
+		</div>
+	</div><!-- /.navbar pull-right -->
+	
+	<!-- audio player -->
+	<div class="audio-stream">
+	<!-- audio player -->
+		<div id="jp-player" class="jp-jplayer"></div>
+		<div class="jp-control-container">
+			<ul class="jp-controls">
+				<li><a href="javascript:;" class="jp-play" title="play" data-role="button" data-inline="true" data-corners="false" data-shadow="false">play</a></li>
+				<li><a href="javascript:;" class="jp-pause" title="pause" data-role="button" data-inline="true" data-corners="false" data-shadow="false">pause</a></li>
+			</ul>
+		</div>
+		<div class="jp-status">
+			<span class="jp-status-connecting"></span>
+			<span class="jp-status-streaming"></span>
+			<span class="jp-status-paused"></span>
+			<span class="jp-status-ended"></span>
+			<span class="jp-status-not-started"></span>
+		</div>
+
+		<div class="jp-no-solution">
+			<span>Update Required</span>
+			Your device does not support the playback of streaming MP3 via native controls and you do not have the Adobe Flash Player available.
+		</div>			
+	</div><!-- /.audio-stream -->
+</footer>
+<script>
 	// initialize Google Analytics Tracking Code
 	var _gaq = _gaq || [];
 	_gaq.push(['_setAccount', 'UA-25348602-1']);
@@ -110,6 +147,50 @@
 	function getURLParameter(name) {
 	    return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
 	}
+	
+	// Menu Initialization
+	require(['jquery','bootstrap','jquery.jpanelmenu','jRespond.min'],function() {
+		// set up the slide-out menu
+		var jPM = $.jPanelMenu({
+			openPosition: '150px'
+		});
+		
+		// set up jRespond
+		var jRes = jRespond([
+		    //tablet and larger
+		    {
+		    	label: 'wideview',
+		    	enter: 980,
+		    	exit: 80000000
+		    },
+		    // portrait tablet and smaller
+		    {
+		    	label: 'narrowview',
+		    	enter: 0,
+		    	exit: 980
+		    }
+		]);
+		
+		jRes.addFunc({
+			breakpoint: 'narrowview',
+			enter: enterNarrowView,
+			exit: exitNarrowView
+		});
+		
+		
+		function enterNarrowView() {
+			jPM.on();
+			$('.jPanelMenu-panel #menu').hide();
+			$('#main').addClass('expanded');
+			//$('#socialmini').show();
+		}
+		
+		function exitNarrowView() {
+			jPM.off();
+			$('#menu').show();
+			$('#main').removeClass('expanded');
+		}
+	});
 
 	// Player Initialization
 	require(['jquery','jquery.jplayer.min','jquery.bbgPlayer'],function() {
@@ -124,17 +205,14 @@
 			metadataStreamEnabled: true,
 			showPosters: false,
 			playerOpts: {
-				cssSelectorAncestor: '.viewport'
+				cssSelectorAncestor: 'body'
 			},
 			bbgCssSelectors: {
-				statusConnecting: '.jp-status-connecting',
-				statusStreaming: '.jp-status-streaming',
-				statusPaused: '.jp-status-paused',
-				statusEnded: '.jp-status-ended',
-				social: '#socialmenu ul.nav'
+				social: '.socialmenu',
+				menu: '.sidebar-nav ul.nav'
 			}
 		});
-	}); 
+	});
 </script>
 </body>
 </html>

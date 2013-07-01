@@ -27,6 +27,7 @@ The BBG Live Streaming Audio Player is created as a jQuery plugin that extends t
 * -social: holds social sharing icons *Default: .jp-social*
 * -brandingLink: Tag to populate with branding link (should be an anchor tag) *Default: .bbg-player-branding a*
 * -footer: Holds footer content *Default: #footer*
+* -menu: A configured menu list element (used for mobile sites only) *Default: #menu ul.nav*
 * embedded: boolean to indicate if the player being shown is embedded from share functionality. *Default: false*
 * popped: boolean to indicate if the player being shown is a "popped" player. *Default: false*
 * streamListComponent: indicates the type of component used to display streams.  Current valid values are "select" and "ul".  *Default: ul*
@@ -75,11 +76,12 @@ The bbgPlayer uses the following constants that are defined at beginning of the 
 ##Configuration Files
 Configuration files information is passed to the player as the filename only (without file extension).  The player then looks for the files in the folder defined in the configuration constants.  For example, if the configuration passed to the player was "myConfig" and the configuration folder was defined as "http://sampledomain.com/configfiles/" then the player would look for a file in http://sampledomain.com/configfiles/myConfig.xml.
 
-The configuration xml has a <playerconfig> root node and three child nodes:
+The configuration xml has a <playerconfig> root node and three child nodes (four for mobile sites):
 
 * streams: Defines the streams to be played
 * styles: Defines the stylesheets to be loaded specific to this player
 * config: Defines the overriding options for initialization of the bbgPlayer
+* menu: Defines the menu options to be displayed within mobile versions of the player
 
 ###Streams
 The streams node must contain at least one child <item> node.  A sample item node is:
@@ -105,7 +107,7 @@ The styles node can contain zero or more child <stylesheet> nodes.  The text of 
 
     <stylesheet>station.css</stylesheet>
     
-####Config
+###Config
 The config node is where player initialization options can be overwritten to allow for a customized experience for each station as well as localization support.  Each node specified must have a corresponding player option defined.  For player options defined with a value of a JSON object, the object properties becomes the names of child nodes.  For example, the social option could be specified in config xml as:
 
 	<social>
@@ -128,11 +130,13 @@ The config node is where player initialization options can be overwritten to all
 		</embed>
 	</social>
 	
-###Resources
-* [jPlayer Developer Documentation][jPlayer_devguide]
-* [Google Analytics Social Media Tracking][google_smtracking]
+###Menu
+The menu node can contain zero of more child <option> nodes.  The option node has an href attribute and the text of the node is the text to display.  An example option node is:
 
-##Example Configuration File
+	<option href="#">menu option</option>
+	
+
+###Example Configuration File
 	<?xml version="1.0"?>
 	<playerconfig>
 		<streams>
@@ -178,3 +182,7 @@ The config node is where player initialization options can be overwritten to all
 			</social>
 		</config>
 	</playerconfig>
+	
+##Resources
+* [jPlayer Developer Documentation][jPlayer_devguide]
+* [Google Analytics Social Media Tracking][google_smtracking]
