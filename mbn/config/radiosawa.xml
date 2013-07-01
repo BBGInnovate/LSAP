@@ -4,9 +4,7 @@
 		<item channelid="jordan" type="live">
 			<streamUrl format="mp3">http://vprclassical.streamguys.net:80/vprclassical64.mp3</streamUrl>
 			<title>راديو سوا الاردن</title>
-			<titleImage>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/jordan_flag.jpg</titleImage>
-			<titleImageHover>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/jordan_flag_select.jpg</titleImageHover>
-			<titleImageSelect>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/jordan_flag_select.jpg</titleImageSelect>
+			<titleImage>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/jordan_flag.png</titleImage>
 			<poster>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/jordan.jpg</poster>
 			<description />
 			<siteUrl>http://ourawesomewebapp.com</siteUrl>
@@ -14,9 +12,7 @@
 		<item channelid="morocco" type="live">
 			<streamUrl format="mp3">http://vprclassical.streamguys.net:80/vprclassical64.mp3</streamUrl>
 			<title>راديو سوا المغرب</title>
-			<titleImage>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/morocco_flag.jpg</titleImage>
-			<titleImageHover>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/morocco_flag_select.jpg</titleImageHover>
-			<titleImageSelect>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/morocco_flag_select.jpg</titleImageSelect>
+			<titleImage>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/morocco_flag.png</titleImage>
 			<poster>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/Morocco.jpg</poster>
 			<description />
 			<siteUrl>http://ourawesomewebapp.com</siteUrl>
@@ -24,9 +20,7 @@
 		<item channelid="lebanon" type="live">
 			<streamUrl format="mp3">http://wamu-1.streamguys.com:80</streamUrl>
 			<title>راديو سوا لبنان</title>
-			<titleImage>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/lebanon_flag.jpg</titleImage>
-			<titleImageHover>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/lebanon_flag_select.jpg</titleImageHover>
-			<titleImageSelect>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/lebanon_flag_select.jpg</titleImageSelect>
+			<titleImage>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/lebanon_flag.png</titleImage>
 			<poster>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/Lebanon.jpg</poster>
 			<description />
 			<siteUrl>http://ourawesomewebapp.com</siteUrl>
@@ -34,9 +28,7 @@
 		<item channelid="libya" type="live">
 			<streamUrl format="mp3">http://vprclassical.streamguys.net:80/vprclassical64.mp3</streamUrl>
 			<title>راديو سوا ليبيا</title>
-			<titleImage>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/libya_flag.jpg</titleImage>
-			<titleImageHover>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/libya_flag_select.jpg</titleImageHover>
-			<titleImageSelect>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/libya_flag_select.jpg</titleImageSelect>
+			<titleImage>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/libya_flag.png</titleImage>
 			<poster>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/Libya.jpg</poster>
 			<description />
 			<siteUrl>http://ourawesomewebapp.com</siteUrl>
@@ -44,9 +36,7 @@
 		<item channelid="iraq" type="live">
 			<streamUrl format="mp3">http://vprclassical.streamguys.net:80/vprclassical64.mp3</streamUrl>
 			<title>راديو سوا العراق</title>
-			<titleImage>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/iraq_flag.jpg</titleImage>
-			<titleImageHover>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/iraq_flag_select.jpg</titleImageHover>
-			<titleImageSelect>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/iraq_flag_select.jpg</titleImageSelect>
+			<titleImage>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/iraq_flag.png</titleImage>
 			<poster>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/Iraq.jpg</poster>
 			<description />
 			<siteUrl>http://ourawesomewebapp.com</siteUrl>
@@ -54,9 +44,7 @@
 		<item channelid="sudan" type="live">
 			<streamUrl format="mp3">http://vprclassical.streamguys.net:80/vprclassical64.mp3</streamUrl>
 			<title>راديو سوا السودان</title>
-			<titleImage>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/sudan_flag.jpg</titleImage>
-			<titleImageHover>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/sudan_flag_select.jpg</titleImageHover>
-			<titleImageSelect>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/sudan_flag_select.jpg</titleImageSelect>
+			<titleImage>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/sudan_flag.png</titleImage>
 			<poster>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/Sudan.jpg</poster>
 			<description />
 			<siteUrl>http://ourawesomewebapp.com</siteUrl>
@@ -64,9 +52,7 @@
 		<item channelid="gulf" type="live">
 			<streamUrl format="mp3">http://sc9.iad.llnw.net/stream/npr_music2</streamUrl>
 			<title>راديو سوا الخليج</title>
-			<titleImage>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/gulf_flag.jpg</titleImage>
-			<titleImageHover>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/gulf_flag_select.jpg</titleImageHover>
-			<titleImageSelect>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/gulf_flag_select.jpg</titleImageSelect>
+			<titleImage>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/gulf_flag.png</titleImage>
 			<poster>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/Gulf.jpg</poster>
 			<description />
 			<siteUrl>http://ourawesomewebapp.com</siteUrl>
@@ -74,9 +60,7 @@
 		<item channelid="egypt" type="live">
 			<streamUrl format="mp3">http://sc9.iad.llnw.net/stream/npr_music2</streamUrl>
 			<title>راديو سوا مصر</title>
-			<titleImage>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/egypt_flag.jpg</titleImage>
-			<titleImageHover>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/egypt_flag_select.jpg</titleImageHover>
-			<titleImageSelect>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/egypt_flag_select.jpg</titleImageSelect>	
+			<titleImage>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/egypt_flag.png</titleImage>
 			<poster>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/images/Egypt.jpg</poster>
 			<description />
 			<siteUrl>http://ourawesomewebapp.com</siteUrl>

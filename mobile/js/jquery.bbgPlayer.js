@@ -490,13 +490,6 @@
 					}
 					listHtml += '<li><a href="' + streams[i].stream + '" class="' + cls + ' titleImage" title="' + streams[i].title + '"></a>';
 					css += '.' + streams[i].id + " { background-image:url('" + streams[i].titleImage + "');}";
-					if (streams[i].titleImageHover) {
-						css += '.' + streams[i].id + ":hover {background-image:url('" + streams[i].titleImageHover + "');}";
-						$('<img/>')[0].src = streams[i].titleImageHover; // preload image
-					}
-					if (streams[i].titleImageSelect) {
-						css += '.' + streams[i].id + ".selected {background-image:url('" + streams[i].titleImageSelect + "');}";
-					}
 				} else {
 					listHtml += '<li><a href="' + streams[i].stream + '">' + streams[i].title + '</a>';
 				}
