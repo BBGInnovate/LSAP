@@ -35,7 +35,6 @@
 	 * 		menu:				A configured menu list element (used for mobile sites only)
 	 * embedded: 				Indicates if this is an embedded player offsite
 	 * popped: 					Indicates if this is a popped out player
-	 * streamListComponent: 	The type of component used for stream list (ul or select)
 	 * 
 	 * The following options can be passed from an external configuration file
 	 * labels: 					An object containing labels that are dynamically written out
@@ -120,7 +119,6 @@
 			embedded: false, // indicates if this is an embedded player (behaves differently)
 			popped: false, // indicates if this is a popped out player
 			autoplay: true,
-			streamListComponent: 'ul', // the type of component used to display streams (if stream listings are used at all)
 			showSiteUrl: false, // shows a site url from the configuration file in the station name
 			showPosters: true, // shows the poster image for a channel when provided
 			social: { // true or false for each social sharing option
@@ -435,9 +433,9 @@
 		 * @param selectedIndex the index within the stream to show as selected
 		 */
 		function displayStreamList(streams,selectedIndex) {
-			if (self.options.streamListComponent == 'ul') {
+			if (self.bbgCss.jq.streams.is("ul")) {
 				displayStreamUnorderedList(streams,selectedIndex);
-			} else if (self.options.streamListComponent == 'select') {
+			} else if (self.bbgCss.jq.streams.is("select")) {
 				displayStreamSelectList(streams,selectedIndex);
 			}
 		}

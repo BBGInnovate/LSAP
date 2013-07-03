@@ -30,7 +30,6 @@ The BBG Live Streaming Audio Player is created as a jQuery plugin that extends t
 * -menu: A configured menu list element (used for mobile sites only) *Default: #menu ul.nav*
 * embedded: boolean to indicate if the player being shown is embedded from share functionality. *Default: false*
 * popped: boolean to indicate if the player being shown is a "popped" player. *Default: false*
-* streamListComponent: indicates the type of component used to display streams.  Current valid values are "select" and "ul".  *Default: ul*
 
 The following options can be passed from the ]configuration file:
 
