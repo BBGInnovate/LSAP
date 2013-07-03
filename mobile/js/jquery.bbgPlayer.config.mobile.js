@@ -11,5 +11,6 @@ define({
 	configFolder: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/config/',
 	styleFolder: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mobile/css/',
 	trackIncrement: 30, // number of seconds in between duration tracking calls
-	trackEventCategory: 'Live Audio Streaming Player'
+	trackEventCategory: 'Live Audio Streaming Player',
+	jplayerSwfLocation: '/ovap/LSAP/mobile/js' // should be relative to the web root and not contain a trailing slash
 });

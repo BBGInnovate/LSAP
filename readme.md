@@ -37,6 +37,7 @@ The following options can be passed from the ]configuration file:
 * -selectStream: The message to display within the top select option to indicate to the user to select a station.  *Default: Select a station:*
 * locale: The locale code.  Currently only used to localize Twitter share button, but could be used in further versions.  *Default: en_US*
 * trackingEnabled: boolean to indicate if Google Analytics tracking is enabled for this player.  This requires that the proper account tracking script is already included on the player HTML page.  *Default: false*
+* GAID: The Google Analytics account id to be used when tracking is enabled.  *Default: UA-25348602-1*
 * metadataStreamEnabled: boolean to indicate that the player should read station/song metadata directly from the stream.  *Default: false*
 * metadataCheckInternal: How often to check the stream interval in seconds.   *Default: 10*
 * overrideTitle: an override title to display rather than dynamic song options.  *Default: null*

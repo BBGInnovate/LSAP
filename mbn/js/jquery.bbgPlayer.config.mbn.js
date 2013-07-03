@@ -5,11 +5,13 @@
  */
 
 define({
-	embedPlayer: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/embed.php',
+	embedPlayer: null,
 	popoutPlayer: null,
-	metadataRemoteService: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/metadata/remote.streaminfo.php', //url to remote file that reads metadata - should be on same domain as it uses json
-	configFolder: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/config/',
-	styleFolder: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/css/',
+	metadataRemoteService: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/metadata/mbn/remote.streaminfo.php', //url to remote file that reads metadata - should be on same domain as it uses json
+	configFolder: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/config/', // absolute url including trailing slash
+	styleFolder: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/mbn/css/', // absolute url including trailing slash
+	jplayerSwfLocation: '/ovap/LSAP/mbn/js', // should be relative to the web root and not contain a trailing slash
+	// these should not be changed without consulting with data analyst
 	trackIncrement: 30, // number of seconds in between duration tracking calls
-	trackEventCategory: 'Live Audio Streaming Player'
+	trackEventCategory: 'Live Audio Streaming Player' // Category tracked within GA account
 });

@@ -90,6 +90,7 @@
 			<selectStream>اختر محطتك المفضلة</selectStream>
 		</labels>
 		<trackingEnabled>true</trackingEnabled>
+		<GAID>UA-25348602-1</GAID>
 		<metadataStreamEnabled>false</metadataStreamEnabled>
 		<autoplay>false</autoplay>
 		<showPosters>false</showPosters>

@@ -41,6 +41,7 @@
 	 * 		selectStream:		The text to select a stream - only used in top option value when select component used for streams list
 	 * locale:					The locale code to use for localization: used by Facebook like script
 	 * trackingEnabled: 		Indicates if analytics tracking is enabled
+	 * GAID:					Google Analytics tracking account id
 	 * metadataStreamEnabled: 	Indicates if reading metadata from the audio stream is enabled
 	 * metadataCheckInterval: 	How often to check for new metadata if reading from stream (in seconds)
 	 * overrideTitle: 			A title to display throughout the player rather than dynamic song information
@@ -111,6 +112,7 @@
 			},
 			locale: 'en_US',
 			trackingEnabled: false,
+			GAID: 'UA-25348602-1',
 			metadataStreamEnabled: false, // true to read dynamic metadata encoded in stream
 			metadataCheckInterval: 10, // number of seconds in between checks for changes in metadata
 			overrideStream: null,
@@ -179,9 +181,28 @@
 					parseStyles($(xml).find("styles"));
 					parseConfig($(xml).find("config"));
 					configStreamsXml = $(xml).find('streams');
+					initializeTracking();
 					initializePlayer();
 				}
 			});
+		}
+		
+		/**
+		 * Sets up Google Analytics tracking if configured
+		 */
+		function initializeTracking() {
+			if (self.options.trackingEnabled && self.options.GAID.length > 0) {
+				// initialize Google Analytics Tracking Code
+				var _gaq = _gaq || [];
+				_gaq.push(['_setAccount', self.options.GAID]);
+				_gaq.push(['_trackPageview']);
+				
+				(function() {
+				  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+				  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+				})();
+			}
 		}
 		
 		/**
@@ -254,7 +275,7 @@
 					} 
 				},
 				solution: "flash,html",
-				swfPath: "/ovap/LSAP/js",
+				swfPath: self.config.jplayerSwfLocation,
 				supplied: 'mp3',
 				preload: "none",
 				wmode: "window",
