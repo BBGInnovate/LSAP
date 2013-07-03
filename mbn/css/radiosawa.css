@@ -27,6 +27,11 @@ ul.jp-streams li a.titleImage {
 	display:block;
 	width: 36px;
 	height: 36px;
+	background-color: #302827;
+ }
+ ul.jp-streams li a.titleImage:hover,
+ ul.jp-streams li a.titleImage.selected {
+ 	background-color: #f68221;
  }
 .jp-stream-list br {
    clear: left;
