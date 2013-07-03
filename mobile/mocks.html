@@ -9,6 +9,7 @@
 
     <!-- Le styles -->
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
     <style type="text/css">
       body {
         padding-top: 60px;
@@ -29,7 +30,7 @@
     </style>
     
 	<link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.css">
-	<link rel="stylesheet" href="css/lsap.css">
+	<link rel="stylesheet" href="css/lsap.dev.css">
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -59,11 +60,7 @@
 	<div class="navbar navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container-fluid">
-				<button type="button" class="btn btn-navbar menu-trigger">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
+				<button type="button" class="btn btn-navbar menu-trigger"><i class="icon-reorder"></i></button>
 				<a class="brand jp-station" href="#">Station name</a>
 			</div>
 		</div>
@@ -114,8 +111,8 @@
 		<div id="jp-player" class="jp-jplayer"></div>
 		<div class="jp-control-container">
 			<ul class="jp-controls">
-				<li><a href="javascript:;" class="jp-play" title="play" data-role="button" data-inline="true" data-corners="false" data-shadow="false">play</a></li>
-				<li><a href="javascript:;" class="jp-pause" title="pause" data-role="button" data-inline="true" data-corners="false" data-shadow="false">pause</a></li>
+				<li><a href="javascript:;" class="jp-play" title="play" data-role="button" data-inline="true" data-corners="false" data-shadow="false"><i class="icon-play icon-2x"></i></a></li>
+				<li><a href="javascript:;" class="jp-pause" title="pause" data-role="button" data-inline="true" data-corners="false" data-shadow="false"><i class="icon-pause icon-2x"></i></a></li>
 			</ul>
 		</div>
 		<div class="jp-status">
@@ -133,19 +130,8 @@
 	</div><!-- /.audio-stream -->
 </footer>
 <script>
-	// initialize Google Analytics Tracking Code
-	var _gaq = _gaq || [];
-	_gaq.push(['_setAccount', 'UA-25348602-1']);
-	_gaq.push(['_trackPageview']);
-	
-	(function() {
-	  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-	  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-	  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-	})();	
-
 	// Player Initialization
-	require(['util','jquery','jquery.jplayer.min','jquery.bbgPlayer','util'],function(util) {
+	require(['util','jquery','jquery.jplayer.min','jquery.bbgPlayer.dev','util'],function(util) {
 		var config = util.getUrlParameter('c');
 		if (!config) {
 			config = 'm.kledu';

@@ -12,12 +12,6 @@ require.config({
 		'jquery.jplayer.min': {
 			deps:	['jquery']
 		},
-		'jquery.bbgPlayer': {
-			deps: ['jquery','jquery.jplayer.min']
-		},
-		'jquery.bbgPlayer.dev': {
-			deps: ['jquery','jquery.jplayer.min']
-		},
 		'jquery.jpanelmenu': {
 			deps: ['jquery']
 		},
@@ -71,6 +65,8 @@ require(['jquery','bootstrap','jquery.jpanelmenu','jRespond.min'],function() {
 		jPM.off();
 		$('#menu').show();
 		$('#main').removeClass('expanded');
+		var test = $('#socialmini .dropdown-toggle');
+		$('#socialmini').removeClass('open'); // close the dropdown menu if open when we switch from one view to the other
 	}
 	
 	// close the menu when selecting a link in the menu

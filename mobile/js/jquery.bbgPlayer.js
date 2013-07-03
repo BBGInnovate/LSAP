@@ -49,7 +49,6 @@
 	 * showSiteUrl:				Indicates if url should be included in station listing
 	 * showPosters:				Indicates if artwork should be displayed
 	 * social:					An object of options for sharing the player
-	 * 		layout:				"full" to show icons, etc., "compact" for links only
 	 * 		shareLink:			The link to share for a player social components.  This defaults to the current url
 	 * 		facebook:			Facebook options
 	 * 			enabled:		Indicates if facebook share is enabled
@@ -124,7 +123,6 @@
 			showSiteUrl: false, // shows a site url from the configuration file in the station name
 			showPosters: true, // shows the poster image for a channel when provided
 			social: { // true or false for each social sharing option
-				layout: 'full', // full or compact
 				shareLink: getLoadedUrl(), // the link to share in social media outlets
 				facebook: {
 					enabled: true
@@ -855,21 +853,6 @@
 			}
 		}
 // SHARING & EMBED
-
-		/**
-		 * Returns the code to embed a Twitter Share Button
-		 */
-		function getTwitterCode() {
-			var code = '<a href="https://twitter.com/share" class="twitter-share-button socialframe" data-url="' + self.options.social.shareLink + '">Tweet</a>';
-			return code;
-		}
-		
-
-		function getEmailCode() {
-			var code = '<a class="jp-email-share" target="_blank" href="mailto:?subject=' + self.options.social.email.subject + '&body=' + self.options.social.email.body + '%0A%0A' + self.options.social.shareLink + '">Email</a>';
-			return code;
-		}
-		
 		/**
 		 * Generates the social media bar of options
 		 */
@@ -878,14 +861,15 @@
 			var code = null;
 			// email
 			if (self.options.social.email.enabled) {
-				jq = $('<li>' + getEmailCode() + '</li>').appendTo(self.bbgCss.jq.social);
+				code = '<a class="jp-email-share" target="_blank" href="mailto:?subject=' + self.options.social.email.subject + '&body=' + self.options.social.email.body + '%0A%0A' + self.options.social.shareLink + '"><i class="icon-envelope icon-fixed-width"></i> Email</a>';
+				jq = $('<li>' + code + '</li>').appendTo(self.bbgCss.jq.social);
 				jq.children("a").on("click",function(e) {
 					trackEmail(getMediaTitleForTracking());
 				});
 			}
 			// facebook
 			if (self.options.social.facebook.enabled) {
-				code = '<li><a href="https://www.facebook.com/sharer/sharer.php?u=' + encodeURI(self.options.social.shareLink) + '" target="_blank" class="jp-facebook-share">Facebook</a></li>';
+				code = '<li><a href="https://www.facebook.com/sharer/sharer.php?u=' + encodeURI(self.options.social.shareLink) + '" target="_blank" class="jp-facebook-share"><i class="icon-facebook icon-fixed-width"></i> Facebook</a></li>';
 				jq = $(code).appendTo(self.bbgCss.jq.social);
 				jq.children("a").on("click",function(e) {
 					trackFacebook(getMediaTitleForTracking());
@@ -893,29 +877,11 @@
 			}
 			// twitter
 			if (self.options.social.twitter.enabled) {
-				if (self.options.social.layout == 'compact') {
-					code = '<li><a href="https://mobile.twitter.com/compose/tweet?status=' + encodeURI(self.options.social.shareLink) + '" target="_blank">Twitter</a></li>';
-					jq = $(code).appendTo(self.bbgCss.jq.social);
-					jq.children("a").on("click",function(e) {
-						trackTwitter(getMediaTitleForTracking());
-					});
-				} else {
-					jq = $(getTwitterCode()).appendTo(self.bbgCss.jq.social);
-					window.twttr = (function (d,s,id) {
-						var t, js, fjs = d.getElementsByTagName(s)[0];
-						if (d.getElementById(id)) return; js=d.createElement(s); js.id=id;
-						js.src="//platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs);
-						return window.twttr || (t = { _e: [], ready: function(f){ t._e.push(f) } });
-					}(document, "script", "twitter-wjs"));
-					
-					//Wrap event bindings - Wait for async js to load
-					twttr.ready(function (twttr) {
-						//event bindings
-					    twttr.events.bind('tweet', function(e) {
-					    	trackTwitter(getMediaTitleForTracking());
-					    });
-					});
-				}
+				code = '<li><a href="https://mobile.twitter.com/compose/tweet?status=' + encodeURI(self.options.social.shareLink) + '" target="_blank" class="jp-twitter-share"><i class="icon-twitter icon-fixed-width"></i> Twitter</a></li>';
+				jq = $(code).appendTo(self.bbgCss.jq.social);
+				jq.children("a").on("click",function(e) {
+					trackTwitter(getMediaTitleForTracking());
+				});
 			}
 			// embed
 			if (self.options.social.embed.enabled) {

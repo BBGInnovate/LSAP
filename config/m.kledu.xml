@@ -28,7 +28,7 @@
 				<enabled>true</enabled>
 			</email>
 			<embed>
-				<enabled>false</enabled>
+				<enabled>true</enabled>
 			</embed>
 		</social>
 		<footerContent />

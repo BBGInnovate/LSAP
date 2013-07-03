@@ -88,28 +88,16 @@ body:before {
 		float: left;
 		display: block;
 		margin-top: .25em;
+		text-align: center;
 	}
 		ul.jp-controls li a {
 			display: block;
-			overflow: hidden;
-			text-indent: 9999px;
-			width: 36px;
-			height: 36px;
-			
-		}
-	   ul.jp-controls li a {
-	   	background-repeat: no-repeat;
-	   	background-position: center center;
-	   	text-indent: -9999px;
-	   	overflow: hidden;
-	   	border: 0 !important;
+			width: 3em;
+			height: 3em;
+		   	border: 0 !important;
+		   	color: black;
+		   	text-decoration: none;
 	   }
-		   a.jp-play {
-		   	background-image: url('../images/play.png');
-		   }
-		   a.jp-pause {
-		   	background-image: url('../images/stop.png');
-		   }
 		   
 /** Status Messages **/
 .jp-status {
@@ -122,7 +110,7 @@ body:before {
 	padding-left: 1em;
 }
 .jp-status-connecting:after {
-	content:	'Connecting';
+	content: 'Connecting';
 }
 .jp-status-streaming:after {
 	content: 'Streaming';
