@@ -155,14 +155,14 @@ body:before {
 	height: 10px;
 	top: 17px;
 	width: 3.5em;
-	background-color: black;
+	background-color: gray;
 }
 
 .jp-volume-bar-value {
 	position: absolute;
 	left: 0;
 	top: 0;
-	background-color: gray;
+	background-color: black;
 	height: 100%;
 }
 
@@ -187,7 +187,7 @@ body:before {
 		height: 143px;
 	}
 	.player-branding a {
-		background-image: url('../../mbn/images/Egypt.jpg');
+		background-image: url('../images/Egypt.jpg');
 		background-repeat: no-repeat;
 		width: 216px;
 		height: 143px;
@@ -196,7 +196,7 @@ body:before {
 		display: block;
 	}
 	.station-branding {
-		background-image: url('../../mbn/images/egypt_flag.png');
+		background-image: url('../images/egypt_flag.png');
 		background-repeat: no-repeat;
 		background-position: 20px 5px;
 		width: 36px;
