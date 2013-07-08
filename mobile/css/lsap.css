@@ -17,7 +17,7 @@ body {
 
 /** Sticky Footer Code **/
 #main {
-	padding: 50px 0 0 20px;
+	padding: 70px 0 0 20px;
 }
 
 #main.expanded {
@@ -194,5 +194,12 @@ body:before {
 		text-indent: -9999px;
 		overflow: hidden;
 		display: block;
+	}
+	.station-branding {
+		background-image: url('../../mbn/images/egypt_flag.png');
+		background-repeat: no-repeat;
+		background-position: 20px 5px;
+		width: 36px;
+		height: 36px;
 	}
 }
