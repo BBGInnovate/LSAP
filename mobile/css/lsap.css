@@ -85,6 +85,9 @@ body:before {
 }
 
 /** Audio Player **/
+.audio-stream {
+	position: relative;
+}
 /** Player Controls **/
   ul.jp-controls {
 	list-style-type: none;
@@ -108,6 +111,12 @@ body:before {
 		   	color: black;
 		   	text-decoration: none;
 	   }
+	ul.jp-controls li.volume {
+		position: absolute;
+		height: 46px;
+		line-height: 46px;
+		right: 4.4em;
+	}
 		   
 /** Status Messages **/
 .jp-status {
@@ -117,7 +126,7 @@ body:before {
 	line-height: 46px;
 	margin-left: 3em;
 	border-left: 1px solid;
-	padding-left: 1em;
+	padding-left: 4em;
 }
 .jp-status-connecting:after {
 	content: 'Connecting';
@@ -129,6 +138,32 @@ body:before {
 .jp-status-ended:after,
 .jp-status-not-started:after {
 	content: 'Listen';
+}
+
+.jp-current-time {
+	position: absolute;
+	left: 3.5em;
+	top: 0;
+	margin: 0;
+	line-height: 46px;
+	height: 46px;
+}
+
+.jp-volume-bar {
+	position: absolute;
+	right: 1em;
+	height: 10px;
+	top: 17px;
+	width: 3.5em;
+	background-color: black;
+}
+
+.jp-volume-bar-value {
+	position: absolute;
+	left: 0;
+	top: 0;
+	background-color: gray;
+	height: 100%;
 }
 
 /** player outline **/
