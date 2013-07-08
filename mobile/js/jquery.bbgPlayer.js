@@ -102,7 +102,7 @@
 				statusEnded: '.jp-status-ended',
 				statusNotStarted: '.jp-status-not-started',
 				social: '.jp-social ul',
-				brandingLink: '.bbg-player-branding a',
+				brandingLink: '.player-branding a',
 				footer: '#footer',
 				menu: '#menu ul.nav'
 			},

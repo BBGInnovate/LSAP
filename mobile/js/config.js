@@ -59,6 +59,7 @@ require(['jquery','bootstrap','jquery.jpanelmenu','jRespond.min'],function() {
 		$('.sidebar-nav').on('click','a',function(e) {
 			jPM.close();
 		});
+		$('#content').removeClass('span10');
 	}
 	
 	function exitNarrowView() {
@@ -67,10 +68,29 @@ require(['jquery','bootstrap','jquery.jpanelmenu','jRespond.min'],function() {
 		$('#main').removeClass('expanded');
 		var test = $('#socialmini .dropdown-toggle');
 		$('#socialmini').removeClass('open'); // close the dropdown menu if open when we switch from one view to the other
+		$('#content').addClass('span10');
 	}
 	
 	// close the menu when selecting a link in the menu
 	$('.sidebar-nav').on('click','a',function(e) {
 		jPM.close();
 	});
+	
+	// resize content div upon window resize
+	$(document).ready(function(){
+	    resizeContent();
+
+	    $(window).resize(function() {
+	        resizeContent();
+	    });
+	});
+
+	function resizeContent() {
+		var winHeight = $(window).height();
+		var footerHeight = $('footer').height();
+		var navbarHeight = $('.navbar-fixed-top').height() - parseInt($('.navbar-fixed-top').css('margin-top'));
+		var otherHeight = parseInt($('#main').css("padding-bottom"))/2; // this is the footer padding and is equal to the size of the footer
+	    var contentHeight = winHeight - footerHeight - navbarHeight - otherHeight;
+	    $('#content').height(contentHeight);
+	}
 });

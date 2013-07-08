@@ -17,7 +17,7 @@ body {
 
 /** Sticky Footer Code **/
 #main {
-	padding: 50px 20px 0 20px;
+	padding: 50px 0 0 20px;
 }
 
 #main.expanded {
@@ -26,13 +26,23 @@ body {
 
 #wrap {min-height: 100%;}
 
-#main {overflow:auto;
-	padding-bottom: 95px;}  /* must be same height as the footer */
+#main {
+	overflow:auto;
+	padding-bottom: 90px;
+}  /* must be same height as the footer */
 
-footer {position: relative;
-	margin-top: -95px; /* negative value of footer height */
-	height: 95px;
+footer {
+	position: fixed;
+	bottom: 0;
+	margin-top: -90px; /* negative value of footer height */
+	height: 90px;
+	width: 100%;
 	clear:both;
+	z-index: 1;
+}
+
+#content {
+	overflow-y: scroll;
 }
 
 footer.container-fluid {
@@ -127,4 +137,27 @@ body:before {
 }
 .audio-stream {
 	border: 1px solid;
+}
+
+/** branding **/
+.player-branding a:before {
+	content: 'Now Playing';
+	font-size: 1.8em;
+	font-weight: bold;
+}
+
+@media (min-width: 768px) {
+	.player-branding {
+		width: 216px;
+		height: 143px;
+	}
+	.player-branding a {
+		background-image: url('../../mbn/images/Egypt.jpg');
+		background-repeat: no-repeat;
+		width: 216px;
+		height: 143px;
+		text-indent: -9999px;
+		overflow: hidden;
+		display: block;
+	}
 }
