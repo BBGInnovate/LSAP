@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<streams>
+<item id="123" type="live" format="mp3">
+	<streamUrl>http://sc9.iad.llnw.net/stream/npr_music2</streamUrl>
+	<title>Channel 1: Our Awesome Radio App</title>
+	<poster>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/images/Egypt.jpg</poster>
+	<description>
+	An Awesome Radio Web App from ODDI
+	</description>
+	<siteUrl>http://ourawesomewebapp.com</siteUrl>
+</item>
+<item id="456" type="live" format="mp3">
+	<streamUrl>http://wamu-1.streamguys.com:80</streamUrl>
+	<title>Channel 2: ODDI's Even More Awesome Radio App</title>
+	<poster>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/images/Lebanon.jpg</poster>
+	<description>
+	ODDI's Even More Awesome Radio Web App
+	</description>
+	<siteUrl>http://ourawesomewebapp.com</siteUrl>
+</item>
+<item id="789" type="live" format="mp3">
+	<streamUrl>http://vprclassical.streamguys.net:80/vprclassical64.mp3</streamUrl>
+	<title>Channel 3: An Even More Awesome Radio App</title>
+	<poster>http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/images/Iraq.jpg</poster>
+	<description>
+	An Even More Awesome Radio Web App from ODDI
+	</description>
+	<siteUrl>http://ourawesomewebapp.com</siteUrl>
+</item>
+</streams>

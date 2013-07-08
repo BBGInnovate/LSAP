@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<playerconfig>
+	<streams>
+		<item channelid="jordan" type="live">
+			<streamUrl format="mp3">http://sc9.iad.llnw.net/stream/npr_music2</streamUrl>
+			<title>The Most Awesome</title>
+			<description />
+			<siteUrl>http://ourawesomewebapp.com</siteUrl>
+		</item>
+	</streams>
+	<styles>
+		<stylesheet>station.css</stylesheet>
+	</styles>
+	<config>
+		<brandingLink>http://www.voanews.com</brandingLink>
+		<labels>
+			<selectStream>EDITED: Select a station:</selectStream>
+		</labels>
+		<trackingEnabled>true</trackingEnabled>
+		<metadataStreamEnabled>true</metadataStreamEnabled>
+		<metadataCheckInterval>10</metadataCheckInterval>
+		<autoplay>false</autoplay>
+		<showSiteUrl>true</showSiteUrl>
+		<showPosters>true</showPosters>
+		<social>
+			<shareLink>http://www.voanews.com</shareLink>
+			<facebook>
+				<enabled>true</enabled>
+			</facebook>
+			<twitter>
+				<enabled>true</enabled>
+			</twitter>
+			<email>
+				<enabled>true</enabled>
+				<subject>Live Radio</subject>
+				<body>I wanted to share this online radio station with you.</body>
+			</email>
+			<embed>
+				<enabled>true</enabled>
+				<instructions>Copy the following to embed the player:</instructions>
+				<hide>Hide</hide>
+			</embed>
+		</social>
+	</config>
+</playerconfig>

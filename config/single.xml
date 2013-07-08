@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<streams>
+<item id="123" type="live" format="mp3">
+	<streamUrl>http://50.7.241.126/;</streamUrl>
+	<title>Channel 1: Our Awesome Radio App</title>
+	<description>
+	An Awesome Radio Web App from ODDI
+	</description>
+	<siteUrl>http://ourawesomewebapp.com</siteUrl>
+</item>
+</streams>
