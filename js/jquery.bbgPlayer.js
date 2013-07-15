@@ -312,7 +312,9 @@
 			}
 			
 			// generate any menu items
-			parseMenu(configMenuXml);
+			if (configMenuXml) {
+				parseMenu(configMenuXml);
+			}
 			
 			// update status
 			showStatus(STATUS_PENDING);
@@ -323,7 +325,9 @@
 			}
 			
 			// write in any stream listings
-			parseStreams(configStreamsXml);
+			if (configStreamsXml) {
+				parseStreams(configStreamsXml);
+			}
 			
 			// write in any footer content
 			if (self.options.footerContent && self.options.footerContent.length > 0) {
