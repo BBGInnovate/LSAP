@@ -187,7 +187,6 @@ body:before {
 		height: 143px;
 	}
 	.player-branding a {
-		background-image: url('../images/Egypt.jpg');
 		background-repeat: no-repeat;
 		width: 216px;
 		height: 143px;
@@ -196,7 +195,6 @@ body:before {
 		display: block;
 	}
 	.station-branding {
-		background-image: url('../images/egypt_flag.png');
 		background-repeat: no-repeat;
 		background-position: 20px 5px;
 		width: 36px;
