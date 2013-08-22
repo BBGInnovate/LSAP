@@ -12,5 +12,5 @@ define({
 	styleFolder: 'css/',
 	trackIncrement: 30, // number of seconds in between duration tracking calls
 	trackEventCategory: 'Live Audio Streaming Player',
-	jplayerSwfLocation: '/js' // should be relative to the web root and not contain a trailing slash
+	jplayerSwfLocation: 'js' // should be relative to the web root and not contain a trailing slash
 });
