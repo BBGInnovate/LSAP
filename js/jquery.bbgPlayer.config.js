@@ -5,11 +5,11 @@
  */
 
 define({
-	embedPlayer: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/embed.php',
+	embedPlayer: 'http://ec2-54-227-172-226.compute-1.amazonaws.com/ovap/LSAP/embed.php',
 	popoutPlayer: null,
-	metadataRemoteService: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/metadata/remote.streaminfo.php', //url to remote file that reads metadata - should be on same domain as it uses json
-	configFolder: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/config/',
-	styleFolder: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/ovap/LSAP/css/',
+	metadataRemoteService: 'http://ec2-174-129-178-122.compute-1.amazonaws.com/streamreader/remote.streaminfo.php', //url to remote file that reads metadata - should be on same domain as it uses json
+	configFolder: 'http://ec2-54-227-172-226.compute-1.amazonaws.com/ovap/LSAP/config/',
+	styleFolder: 'http://ec2-54-227-172-226.compute-1.amazonaws.com/ovap/LSAP/css/',
 	trackIncrement: 30, // number of seconds in between duration tracking calls
 	trackEventCategory: 'Live Audio Streaming Player',
 	jplayerSwfLocation: '/ovap/LSAP/js' // should be relative to the web root and not contain a trailing slash
