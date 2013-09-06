@@ -11,9 +11,6 @@
  * 		message:	populated if success = false
  * 		metadata:	populated if success = true
  */
-//error_reporting(E_ALL);
-//ini_set('display_errors', '1');
-header("Access-Control-Allow-Origin: *");
 
 $results = array('success'=>'false','message'=>'','metadata'=>'');
 if (!isset($_GET['l']) || strlen(trim(urldecode($_GET['l']))) == 0) {
