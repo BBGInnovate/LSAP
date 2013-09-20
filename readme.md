@@ -3,6 +3,7 @@
 [jPlayer_options]: http://jplayer.org/latest/developer-guide/#jPlayer-options
 [jPlayer_audio]: http://jplayer.org/latest/developer-guide/#reference-html5-audio-format
 [jPlayer_devguide]: http://jplayer.org/latest/developer-guide/
+[bbgPlayer_demo]: http://apps.innovation-series.com/demo/bbgplayer
 [google_smtracking]: https://developers.google.com/analytics/devguides/collection/gajs/gaTrackingSocial
 #BBG Live Streaming Audio Player
 The BBG Live Streaming Audio Player is created as a jQuery plugin that extends the capabilities of [jPlayer][jPlayer].  The player can play a simple single live stream or allow the end user to choose from a list of available streams.  The player accepts a large number of initialization parameters to govern the behavior.  Many of these can be passed in via a single configuration xml file to allow for simple standard configurations per entity or per channel.  This also allows for some localization and translation capabilities.  The configuration file can also specify instance-specific CSS files to be loaded to allow the player to be completely re-skinned for different entities and usages.
@@ -14,6 +15,8 @@ The BBG Live Streaming Audio Player is created as a jQuery plugin that extends t
 * bbgCssSelectors: A JSON object of jQuery selectors to be used to access BBG specific page elements
 * -title: where the song title should be displayed *Default: .jp-song*
 * -station: where the station should be displayed *Default: .jp-station*
+* -category: where the station category be displayed *Default: .jp-category*
+* -location: where the station location info be displayed *Default: .jp-location*
 * -share: a share link (or button) to embed the player *Default .jp-share*
 * -sharePanel: the panel to open when the player is being embedded.   This panel should include a textarea with a class of "jp-share-code" where the embed code is displayed and a button with the class "share-hide" to hide the share panel.  *Default: .jp-share-panel*
 * -streams: access the stream component (can be either a select or ul) *Default .jp-streams*
@@ -44,7 +47,16 @@ The following options can be passed from the ]configuration file:
 * autoplay: boolean to indicate if the player should start playing automatically.  *Default: true*
 * showSiteUrl: boolean to indicate if the site url should be shown along with the station name.  *Default: false*
 * showPosters: boolean to indicate if artwork should be shown.  *Default: true*
-* social:  a listing of options for social media sharing
+* location: list of geographic location information*
+* -city: Station city*
+* -country: Station country*
+* -local: user defined location string*
+* social: list of links to station social media profiles*
+* -facebookUrl: Facebook profile*
+* -twitterHandle: Twitter username*
+* -googlePlusUrl: Google Plus profile*
+* -websiteUrl: website*
+* share:  a listing of options for social media sharing
 * -shareLink: an override link to be shared.  *Default: The page that loaded the player (or the iframe)*
 * -facebook: Facebook options
 * ---enabled: boolean to indicate if Facebook sharing is enabled.  *Default: true*
@@ -161,6 +173,18 @@ The menu node can contain zero of more child <option> nodes.  The option node ha
 			<autoplay>false</autoplay>
 			<showSiteUrl>true</showSiteUrl>
 			<showPosters>true</showPosters>
+			<location>
+				<city>Washington</city>
+				<country>DC</country>
+				<local>Southeast</local>
+			</location>
+			<category>News</category>
+			<social>
+				<facebookUrl>https://www.facebook.com/wamu885</facebookUrl>
+				<twitterHandle>NPR</twitterHandle>
+				<googlePlusUrl>https://plus.google.com/+NPR/posts</googlePlusUrl>
+				<websiteUrl>https://www.npr.org</websiteUrl>
+			</social>
 			<social>
 				<shareLink>http://www.voanews.com</shareLink>
 				<facebook>
@@ -183,6 +207,9 @@ The menu node can contain zero of more child <option> nodes.  The option node ha
 		</config>
 	</playerconfig>
 	
+##Demo
+* [Demo player][bbgPlayer_demo]
+
 ##Resources
 * [jPlayer Developer Documentation][jPlayer_devguide]
 * [Google Analytics Social Media Tracking][google_smtracking]

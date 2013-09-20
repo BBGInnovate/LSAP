@@ -1,0 +1,504 @@
+/*	--------------------------------------------------
+	:: Import Google Fonts
+	-------------------------------------------------- */
+@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700);
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,700);
+
+/*	--------------------------------------------------
+	:: 
+	-------------------------------------------------- */
+html,
+body {
+  height: 100%;
+  /* The html and body elements cannot have any padding or margin. */
+  font-family: 'Lato', sans-serif;
+}
+body
+{
+}
+/*	--------------------------------------------------
+	:: 
+	-------------------------------------------------- */
+/* Wrapper for page content to push down footer */
+#wrap {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  /* Negative indent footer by its height */
+  margin: 0 auto -80px;
+  /* Pad bottom by footer height */
+  padding: 0 0 80px;
+ 
+}
+.custom-ContainerHeight .row,
+.custom-ContainerHeight .row .col-md-3
+{
+	min-height:100%;
+	height:100%;
+}
+.custom-ContainerHeight .row
+{
+	margin:0;
+}
+.custom-ContainerHeight .col-md-9
+{
+	padding:0;
+}
+.custom-ContainerHeight .custom-MCArea
+{
+	padding:10px 15px 25px 45px;
+}
+.jPanelMenu-panel .custom-ContainerHeight .custom-MCArea
+{
+	padding:0 15px;
+}
+/*	--------------------------------------------------
+	:: Footer
+	-------------------------------------------------- */
+/* Set the fixed height of the footer here */
+#footer {
+  height: 80px;
+  bottom:0;
+  width:100%;
+  z-index:10;
+}
+/*	--------------------------------------------------
+	:: Header
+	-------------------------------------------------- */
+.custom-PlayerHeader
+{
+	margin:0 0 20px 0;
+	padding:15px 10px 20px 10px;
+}
+.custom-PlayerHeader h1
+{
+	margin:0 inherit;
+}
+/*	--------------------------------------------------
+	:: Main Menu
+	-------------------------------------------------- */
+.nav .nav-header
+{
+	font-family: 'Roboto', sans-serif;
+	font-weight:700;
+	font-size:16px;
+	text-transform:uppercase;
+	margin:50px 0 20px 0;
+	padding:0 0 15px 0;
+}
+.nav-list
+{
+	padding:0 0 20px;
+	margin:0 0 20px 0;
+}
+.custom-SideMenu .nav > li > a
+{
+	text-transform:uppercase;
+	font-weight:300;
+	font-size:18px;
+}
+.custom-SideMenu .nav > li > a.active
+{
+	font-weight:700;
+}
+/*	--------------------------------------------------
+	:: Social Media
+	-------------------------------------------------- */
+.custom-WebSocialPresence
+{
+	list-style:none;
+	padding:0;
+}
+.custom-WebSocialPresence li.custom-Header
+{
+	text-transform:uppercase;
+	margin:0 0 15px 0;
+	font-weight:700;
+}
+.custom-WebSocialPresence li a
+{
+	display:block;
+	padding: 12px 0 12px 16px;
+	text-transform:uppercase;
+}
+.custom-WebSocialPresence li:last-child a
+{
+	border-bottom:0;
+}
+
+.custom-WebSocialPresence li a i
+{
+	display:inline-block;
+	width:27px;
+	height:16px;
+	margin:0 7px 0 0;
+	text-align:center;
+}
+
+
+/*	--------------------------------------------------
+	:: Share On 
+	-------------------------------------------------- */
+.custom-ShareOn
+{
+	margin:40px 0;
+}
+.custom-ShareOn .icon-share-alt
+{
+	margin:0 5px 0 0;
+	padding:3px;
+}
+.custom-ShareOn span
+{
+	text-transform:uppercase;
+	font-weight:bold;
+}
+.custom-ShareOn ul.socialmenu
+{
+	list-style:none;
+	padding:0;
+	margin:15px 0 0 0;
+}
+.custom-ShareOn ul.socialmenu li
+{
+	float:left;
+	margin:0 2px 0 0;
+}
+.custom-ShareOn ul.socialmenu li a
+{
+	display:inline-block;
+	text-align:center;
+	width:50px;
+	padding:10px 0;
+}
+.custom-ShareOn ul.socialmenu li a:hover
+{
+	text-decoration:none;
+}
+.custom-ShareOn ul.socialmenu li a.jp-email-share
+{
+}
+.custom-ShareOn ul.socialmenu li a.jp-facebook-share
+{
+}
+.custom-ShareOn ul.socialmenu li a.jp-twitter-share
+{
+}
+
+/** Social Media Menu ***/
+.audio-stream, #socialbutton {
+	clear: right;
+}
+#socialmini .btn-navbar {
+	color: #333;
+	text-shadow: none;
+}
+/*	--------------------------------------------------
+	:: Audio Outline, Player and Controls
+	-------------------------------------------------- */
+.station-branding
+{
+	max-width:95px; height:65px;
+	margin:0 15px 0 0;
+}
+.station-branding img
+{
+	max-height:65px; max-width:95px;
+}
+.jp-station
+{
+	text-transform:uppercase;
+	padding:20px 0;
+	margin:0 0 20px 0;
+}
+.jp-location
+{
+	font-size:12px;
+	font-family: 'Roboto', sans-serif;
+	font-weight:400;
+	display:block;
+}
+.jPanelMenu-panel. {
+	height: 100%;
+}
+.dl-horizontal.custom-StationDetails dt
+{
+	width:105px;
+	text-align:inherit;
+}
+.dl-horizontal.custom-StationDetails dd
+{
+	margin-left:105px;
+}
+/** Audio Player **/
+.audio-stream {
+	position: relative;
+}
+/** Player Controls **/
+
+/*
+ul.jp-controls {
+	list-style-type: none;
+	overflow: hidden;
+	margin: 1px;
+	padding: 0;
+	display: block;
+	float: left;
+}
+ul.jp-controls li {
+	float: left;
+	display: block;
+	margin-top: .25em;
+	text-align: center;
+}
+ul.jp-controls li a {
+	display: block;
+	width: 3em;
+	height: 3em;
+	border: 0 !important;
+	text-decoration: none;
+}
+ul.jp-controls li.volume {
+	position: absolute;
+	height: 46px;
+	line-height: 46px;
+	right: 4.4em;
+}*/
+/** Status Messages **/
+/*
+.jp-status {
+	display: block;
+	height: 46px;
+	line-height: 46px;
+	margin-left: 3em;
+	padding-left: 4em;
+}
+.jp-status-connecting:after {
+	content: 'Connecting';
+}
+.jp-status-streaming:after {
+	content: 'Streaming';
+}
+.jp-status-paused:after, .jp-status-ended:after, .jp-status-not-started:after {
+	content: 'Listen';
+}
+.jp-current-time {
+	position: absolute;
+	left: 3.5em;
+	top: 0;
+	margin: 0;
+	line-height: 46px;
+	height: 46px;
+}
+.jp-volume-bar {
+	position: absolute;
+	right: 1em;
+	height: 10px;
+	top: 17px;
+	width: 3.5em;
+}
+.jp-volume-bar-value {
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 100%;
+}*/
+/* PLayer Branding */
+
+.player-branding
+{
+	font-family: 'Lato', sans-serif;
+	font-weight:300;
+	font-size:25px;
+	padding:0 0 20px 0
+}
+.player-branding a
+{
+	color:black;
+}
+.player-branding a:before {
+	content: 'Now Playing';
+}
+.player-branding .icon-NowPlayingHeader
+{
+	height:22px; width:22px;
+	display:inline-block;
+	margin:0 10px 0 0;
+}
+.jp-song
+{
+
+}
+.jp-date
+{
+	margin:0 0 20px 0;
+}
+/* */
+
+#jPanelMenu-menu .sidebar-nav
+{/*
+	position:fixed;
+	top:0;
+	right:0;
+	height:100%;
+	overflow-x:hidden;
+	overflow-y:scroll;*/
+}
+#jPanelMenu-menu .nav-header
+{
+	padding-left:10px;
+}
+
+#jPanelMenu-menu .custom-WebSocialPresence
+{
+
+} 
+#jPanelMenu-menu .custom-WebSocialPresence li a
+{
+	display:block;
+	position:relative;
+}
+#jPanelMenu-menu .custom-WebSocialPresence li a:hover
+{
+	text-decoration:none;
+}
+
+#jPanelMenu-menu .custom-WebSocialPresence li.custom-Header
+{
+	padding:0 0 0 10px;
+}
+
+/*	--------------------------------------------------
+	:: Note: FAQs
+	-------------------------------------------------- */
+.custom-FAQs .accordion-toggle 
+{
+	text-transform:uppercase;
+	display:block;
+	padding:20px 0;
+}
+.custom-FAQs .custom-Collapsed
+{
+}
+.custom-FAQs .custom-Expanded
+{
+}
+
+/*	--------------------------------------------------
+	:: Note: FAQs
+	-------------------------------------------------- */
+.custom-panel
+{
+	border-bottom:1px solid #e0e0e0;
+}
+.custom-panel .custom-heading h4
+{
+	margin:0
+}
+.custom-panel .custom-heading .custom-title a
+{
+	display:block;
+	padding:15px 0;
+}
+.custom-panel .panel-collapse .custom-body
+{
+	padding:0 0 20px 0;
+}
+.custom-panel .accordion-toggle i
+{
+	margin:0 5px 0 0;
+}
+
+/*	--------------------------------------------------
+	:: Note: 
+	-------------------------------------------------- */
+.custom-AboutStation 
+{
+	margin:16px 0 0 0;
+	font-family: 'Roboto', sans-serif;
+}
+.custom-AboutStation .jp-category,
+.custom-AboutStation .jp-location
+{
+	float:left;
+	margin:0 25px 0 0;
+}
+.custom-AboutStation span
+{
+	font-size:16px;
+}
+.custom-AboutStation .custom-Header
+{
+	color:#34b5d0;
+	text-transform:uppercase;
+	font-size:12px;
+	display:block;
+	font-weight:700;;
+}
+#about .custom-SectionHeader
+{
+	margin:0 0 15px 0;
+}
+#about .custom-SectionHeader h2
+{
+	margin-right: 25px;
+}
+
+/*	--------------------------------------------------
+	:: Note: Design for a Min Width of 768px
+	-------------------------------------------------- */
+/*
+@media (min-width: 768px) {
+	.player-branding {
+		width: 216px;
+		height: 143px;
+	}
+	.player-branding a {
+		background-repeat: no-repeat;
+		width: 216px;
+		height: 143px;
+		text-indent: -9999px;
+		overflow: hidden;
+		display: block;
+	}
+	.station-branding {
+		background-repeat: no-repeat;
+		background-position: 20px 5px;
+		width: 36px;
+		height: 36px;
+}
+}
+*/
+/*	--------------------------------------------------
+	:: Note: Overwriting Bootstrap styles
+	-------------------------------------------------- */
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

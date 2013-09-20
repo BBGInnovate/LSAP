@@ -6,6 +6,7 @@
 			<title>Kledu Radio</title>
 			<description />
 			<siteUrl>http://ourawesomewebapp.com</siteUrl>
+			<podcastUrl>http://www.npr.org/rss/podcast.php?id=510299</podcastUrl>
 		</item>
 	</streams>
 	<styles>
@@ -16,7 +17,14 @@
 		<autoplay>false</autoplay>
 		<showPosters>false</showPosters>
 		<showSiteUrl>false</showSiteUrl>
+		<category>Sports and Leisure</category>
 		<social>
+			<facebookUrl>https://www.facebook.com/wamu885</facebookUrl>
+			<twitterHandle>NPR</twitterHandle>
+			<googlePlusUrl>https://plus.google.com/+NPR/posts</googlePlusUrl>
+			<websiteUrl>https://www.npr.org</websiteUrl>
+		</social>
+		<share>
 			<layout>compact</layout>
 			<facebook>
 				<enabled>true</enabled>
@@ -25,21 +33,25 @@
 				<enabled>true</enabled>
 			</twitter>
 			<email>
-				<enabled>true</enabled>
+				<enabled>false</enabled>
 			</email>
 			<embed>
 				<enabled>true</enabled>
 			</embed>
-		</social>
+		</share>
+		<location>
+			<city>Washington</city>
+			<country>DC</country>
+			<local>Southeast</local>
+		</location>
 		<footerContent />
-		<brandingLink>http://www.google.com</brandingLink>
+		<brandingLink>http://www.npr.org</brandingLink>
 	</config>
 	<menu>
-		<option href="#">listen</option>
-		<option href="#">schedule</option>
-		<option href="#">podcasts</option>
-		<option href="#">about</option>
-		<option href="#">contact</option>
-		<option href="#">help</option>
+		<option href="#listen">listen</option>
+		<option href="#schedule">schedule</option>
+		<option href="#podcasts">podcasts</option>
+		<option href="#about">about</option>
+		<option href="#help">help</option>
 	</menu>
 </playerconfig>

@@ -15,7 +15,7 @@
 				trigger: '.menu-trigger',
 				excludedPanelContent: 'style, script',
 
-				direction: 'left',
+				direction: 'right',
 				openPosition: '250px',
 				animated: true,
 				closeOnContentClick: true,
@@ -150,11 +150,18 @@
 			setMenuState: function(open) {
 				var position = (open)?'open':'closed';
 				$('body').attr('data-menu-position', position);
+				
+				if (open) {
+				   $('.jPanelMenu-panel').addClass('custom-OpenMenu');
+				}  else {
+				   $('.jPanelMenu-panel').removeClass('custom-OpenMenu');
+				}
 			},
 
 			getMenuState: function() {
 				return $('body').attr('data-menu-position');
 			},
+
 
 			menuIsOpen: function() {
 				if ( jP.getMenuState() == 'open' ) return true;

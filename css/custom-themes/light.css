@@ -1,0 +1,230 @@
+body
+{
+	border-top:3px solid #34b5d0;
+}
+a {
+  color: #34b5d0;
+  text-decoration: none;
+}
+
+a:hover,
+a:focus {
+  color: #19a1bd;
+  text-decoration: underline;
+}
+
+a:focus {
+  outline: thin dotted #333;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+/*	--------------------------------------------------
+	:: Header
+	-------------------------------------------------- */
+.custom-PlayerHeader
+{
+	background:url(../../img/bg-shadow-top.png) bottom repeat-x;
+}
+
+/*	--------------------------------------------------
+	:: 
+	-------------------------------------------------- */
+/* Wrapper for page content to push down footer */
+#wrap {
+  
+}
+/*	--------------------------------------------------
+	:: Footer
+	-------------------------------------------------- */
+/* Set the fixed height of the footer here */
+#footer {
+	background:url(../../img/bg-shadow-footer.png) 0 0 repeat-x #34b5d0;
+}
+
+
+/*	--------------------------------------------------
+	:: Audio Outline, Player and Controls
+	-------------------------------------------------- */
+
+.jp-station
+{
+	color:#34b5d0;
+	border-top:1px solid #e0e0e0;
+	background:url(../../img/pattern-dottedline.gif) bottom repeat-x;
+}
+.jp-location
+{
+	color:black;
+}
+/** Player Controls **/
+ul.jp-controls li a {
+	color: white;
+}
+
+
+/** Status Messages **/
+.jp-volume-bar {
+	background-color: #67c8dc; /*offset blue*/
+}
+.jp-volume-bar-value {
+	background-color: white;
+}
+.jp-current-time, .jp-status
+{
+	color:white;
+}
+.player-branding .icon-NowPlayingHeader
+{
+	background:url(../../img/iconsprite.png) 0 0 no-repeat #34b5d0;
+}
+.jp-song
+{
+	
+}
+/* */
+.custom-OpenMenu
+{
+	background:url(../../img/bg-mobile-rightpanel.png) right repeat-y !important
+	
+}
+#jPanelMenu-menu
+{
+	border-top:3px solid #34b5d0;
+	background:url(../../img/bg-shadow-sidebar.png) right repeat-y;
+}
+.nav-list
+{
+	background:url(../../img/pattern-dottedline.gif) bottom repeat-x;
+}
+/*	--------------------------------------------------
+	:: 
+	-------------------------------------------------- */
+.custom-ContainerHeight
+{
+	background:url(../img/pattern-dottedline-vert.gif) repeat-y top right;
+}
+.custom-SidePanel
+{
+	background:url(../../img/bg-shadow-sidebar.png) top left repeat-y;
+}
+
+/*	--------------------------------------------------
+	:: Main Menu
+	-------------------------------------------------- */
+.nav .nav-header
+{
+	background:url(../../img/pattern-dottedline.gif) bottom repeat-x;
+}
+
+.nav > li {
+  position: relative;
+  display: block;
+}
+
+.nav > li > a {
+  position: relative;
+  display: block;
+  padding: 10px 15px;
+  color:#383838;
+}
+
+.nav > li > a:hover
+{
+  text-decoration: underline;
+  background-color:transparent;
+  color:#19a1bd;
+}
+.nav > li.disabled > a {
+  color: #999999;
+}
+
+.nav > li.disabled > a:hover,
+.nav > li.disabled > a:focus {
+  color: #19a1bd;
+  text-decoration: none;
+  cursor: not-allowed;
+  background-color: transparent;
+}
+
+.nav .open > a,
+.nav .open > a:hover,
+.nav .open > a:focus {
+  background-color: #eeeeee;
+  border-color: #428bca;
+}
+
+.nav .nav-divider {
+  height: 1px;
+  margin: 9px 0;
+  overflow: hidden;
+  background-color: #e5e5e5;
+}
+
+.nav > li > a > img {
+  max-width: none;
+}
+/*	--------------------------------------------------
+	:: Share On 
+	-------------------------------------------------- */
+.custom-ShareOn ul.socialmenu li a
+{
+	background:#acacac;
+	color:#fff;
+}
+.custom-ShareOn ul.socialmenu li a:hover
+{
+	background:#9b9b9b;
+}
+.custom-ShareOn .icon-share-alt
+{
+	background:#34b5d0;
+	color:#fff;
+}
+/*	--------------------------------------------------
+	:: Social Media
+	-------------------------------------------------- */
+.custom-WebSocialPresence li a
+{
+	color:#888888;
+}
+.custom-WebSocialPresence li a i:hover
+{
+	text-decoration:none;
+}
+.custom-WebSocialPresence li a:hover
+{
+	color:#19a1bd;
+}
+.custom-WebSocialPresence li.custom-Twitter a i
+{
+	background:url(../../img/iconsprite.png) 0 -36px no-repeat transparent;
+}
+.custom-WebSocialPresence li.custom-Facebook a i
+{
+	background:url(../../img/iconsprite.png) -35px -36px no-repeat transparent;
+}
+.custom-WebSocialPresence li.custom-GooglePlus a i
+{
+	background:url(../../img/iconsprite.png) -72px -36px no-repeat transparent;
+}
+.custom-WebSocialPresence li.custom-WebURL a i
+{
+	background:url(../../img/iconsprite.png) -108px -36px no-repeat transparent;
+}
+/* Hover */
+.custom-WebSocialPresence li.custom-Twitter a:hover i
+{
+	background:url(../../img/iconsprite.png) 0 -72px no-repeat transparent;
+}
+.custom-WebSocialPresence li.custom-Facebook a:hover i
+{
+	background:url(../../img/iconsprite.png) -35px -72px no-repeat transparent;
+}
+.custom-WebSocialPresence li.custom-GooglePlus a:hover i
+{
+	background:url(../../img/iconsprite.png) -72px -72px no-repeat transparent;
+}
+.custom-WebSocialPresence li.custom-WebURL a:hover i
+{
+	background:url(../../img/iconsprite.png) -108px -72px no-repeat transparent;
+}

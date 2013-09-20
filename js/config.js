@@ -25,7 +25,7 @@ require.config({
 require(['jquery','bootstrap','jquery.jpanelmenu','jRespond.min'],function() {
 	// set up the slide-out menu
 	var jPM = $.jPanelMenu({
-		openPosition: '150px'
+		openPosition: '185px'
 	});
 	
 	// set up jRespond
@@ -53,7 +53,7 @@ require(['jquery','bootstrap','jquery.jpanelmenu','jRespond.min'],function() {
 	// Breakpoint functions to handle the menu display
 	function enterNarrowView() {
 		jPM.on();
-		$('.jPanelMenu-panel #menu').hide();
+		$('.jPanelMenu-panel .custom-SidePanel').hide();
 		$('#main').addClass('expanded');
 		// make sure the new menu links also get the close handler
 		$('.sidebar-nav').on('click','a',function(e) {
@@ -64,7 +64,7 @@ require(['jquery','bootstrap','jquery.jpanelmenu','jRespond.min'],function() {
 	
 	function exitNarrowView() {
 		jPM.off();
-		$('#menu').show();
+		$('.custom-SidePanel').show();
 		$('#main').removeClass('expanded');
 		var test = $('#socialmini .dropdown-toggle');
 		$('#socialmini').removeClass('open'); // close the dropdown menu if open when we switch from one view to the other

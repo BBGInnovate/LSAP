@@ -8,6 +8,7 @@ define({
 	embedPlayer: null,
 	popoutPlayer: null,
 	metadataRemoteService: 'http://apps.innovation-series.com/streamreader/remote.streaminfo.php', //url to remote file that reads metadata - should be on same domain as it uses json
+	feedparserRemoteService: 'http://apps.innovation-series.com/streamreader/remote.feedparser.php', //url to remote file that reads metadata - should be on same domain as it uses json
 	configFolder: 'config/',
 	styleFolder: 'css/',
 	trackIncrement: 30, // number of seconds in between duration tracking calls

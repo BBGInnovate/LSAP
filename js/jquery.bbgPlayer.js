@@ -11,7 +11,7 @@
 	 * 
 	 * REQUIRED IN OPTIONS:
 	 * Either config or overrideStream must be passed in.  Everything else is optional.
-
+	 *
 	 * overrideStream: 			An override MP3 stream to be played without passing any config
 	 * config:					The configuration id to use for the player.  This is the filename in the config file folder without the xml extension
 	 * playerOpts:				An object of options to be passed directly to JPlayer
@@ -29,10 +29,12 @@
 	 * 		statusPaused:		Shows the status indicator when paused
 	 * 		statusEnded:		Shows the status indicator when ended
 	 *		statusNotStarted:	Shows the status indicator that is shown until play is initiated the first time
-	 * 		social:				The social media area where options should be written out
+	 * 		social:				The social media connect menu area for options to be written
+	 * 		share:				The social media share area for options to be written
 	 * 		brandingLink:		The a tag to populate with branding link
 	 * 		footer:				The footer content area
 	 * 		menu:				A configured menu list element (used for mobile sites only)
+	 *		location:   		The selector to output station location info
 	 * embedded: 				Indicates if this is an embedded player offsite
 	 * popped: 					Indicates if this is a popped out player
 	 * 
@@ -48,7 +50,12 @@
 	 * autoplay: 				Indicates if stream should autoplay on load
 	 * showSiteUrl:				Indicates if url should be included in station listing
 	 * showPosters:				Indicates if artwork should be displayed
-	 * social:					An object of options for sharing the player
+	 * social: 					An object of options for the social menu connect menu
+	 *		facebookUrl: 		URL to station's facebook page
+	 *		twitterHandle: 		Twitter username
+	 * 		googlePlusUrl: 		Google Plus URL
+	 *		websiteUrl: 		URL to station's website   
+	 * share:					An object of options for sharing the player
 	 * 		shareLink:			The link to share for a player social components.  This defaults to the current url
 	 * 		facebook:			Facebook options
 	 * 			enabled:		Indicates if facebook share is enabled
@@ -62,6 +69,10 @@
 	 *			enabled:		Indicates if share by embed is enabled
 	 *			instructions:	Text to display for embed options instructions
 	 *			hide:			label for the hide button
+	 * location:   				Station geographic location info
+	 *		city:    			Station City
+	 *		country:     		Station Country
+	 * 		location: 			user defined location string
 	 * brandingLink:			URL to indicate the brandingLink anchor tag
 	 * footerContent:			Any HTML content to be displayed within the footer
 	 */
@@ -69,7 +80,7 @@
 		var jplayerReady = false; // true when jPlayer is instantiated and ready
 		var self = this;
 		self.$elem = $(elem);
-		
+	
 		var STATUS_PENDING = 0;
 		var STATUS_CONNECTING = 1;
 		var STATUS_CONNECTED = 2;
@@ -77,7 +88,7 @@
 		var STATUS_PAUSED = 4;
 		
 		// to allow for console logging for debug - safety feature for IE, etc.
-		var console=console||{"log":function(){}};
+		//var console=console||{"log":function(){}};
 		
 		// holds configuration stream data until ready to display
 		var configStreamsXml;
@@ -90,8 +101,7 @@
 			bbgCssSelectors: {
 				title: '.jp-song',
 				station: '.jp-station',
-				share: '.jp-share',
-				sharePanel: '.jp-share-panel',
+				category: '.jp-category',
 				streams: '.jp-streams',
 				pop: '.jp-pop',
 				poster: '.jp-poster',
@@ -101,7 +111,10 @@
 				statusPaused: '.jp-status-paused',
 				statusEnded: '.jp-status-ended',
 				statusNotStarted: '.jp-status-not-started',
-				social: '.jp-social ul',
+				share: '.jp-share ul',
+				sharePanel: '.jp-share-panel',
+				social: '.jp-social',
+				location: '.jp-location',
 				brandingLink: '.player-branding a',
 				footer: '#footer',
 				menu: '#menu ul.nav'
@@ -122,7 +135,13 @@
 			autoplay: true,
 			showSiteUrl: false, // shows a site url from the configuration file in the station name
 			showPosters: true, // shows the poster image for a channel when provided
-			social: { // true or false for each social sharing option
+			social: {
+				facebookUrl: null,
+				twitterHandle: null,
+				googlePlusUrl: null,
+				websiteUrl: null
+			},
+			share: { // true or false for each sharing option
 				shareLink: getLoadedUrl(), // the link to share in social media outlets
 				facebook: {
 					enabled: true
@@ -140,6 +159,11 @@
 					instructions: 'Copy the following to embed the player:',
 					hide: 'Hide'
 				}
+			},
+			location: {
+				city: null,
+				country: null,
+				local: null
 			},
 			brandingLink: null, // the link to show in the header branding
 			footerContent: '<p>A BBG Player</p>' // the HTML to display within the footer
@@ -333,9 +357,20 @@
 			if (self.options.footerContent && self.options.footerContent.length > 0) {
 				self.bbgCss.jq.footer.html(self.options.footerContent);
 			}
+
+			//output the Station category
+			if (self.options.category !== undefined && self.options.category.length > 0) {
+				setCategory(self.options.category);
+			}
+			//output the Station Location
+			if (self.options.location !== undefined) {
+				setLocation(self.options.location);
+			}
 			
 			// set up social media and sharing
-			generateSocialBar();
+			generateShareBar();
+			//populate the social media menu
+			generateSocialMediaMenu();
 			
 			// set out pop out function
 			if (!self.options.popped && self.bbgCss.jq.pop && self.bbgCss.jq.pop.length > 0) {
@@ -405,7 +440,7 @@
 		function parseMenu(xml) {
 			var menuHtml = '';
 			xml.find('option').each(function(i) {
-				menuHtml += '<li><a href="' + $(this).attr('href') + '">' + $(this).text() + '</a></li>';
+				menuHtml += '<li><a data-toggle="tab" href="' + $(this).attr('href') + '">' + $(this).text() + '</a></li>';
 			});
 			self.bbgCss.jq.menu.append(menuHtml);
 		}
@@ -585,8 +620,19 @@
 				},
 				success: function(data) {
 					if (data.success == 'true') {
-						if (data.metadata.streamtitle) {
-							setTitle(data.metadata.streamtitle);
+					    if (data.metadata.streamtitle) {
+					        var splitTitle = data.metadata.streamtitle.split('-'),
+					            returnTitle;
+					        splitTitle.forEach(function (val, idx) {
+					            if (idx === 0) {
+					                returnTitle = val + '<br />';
+					            } else if (idx > 0 && idx !== splitTitle.length - 1) {
+					                returnTitle += val + '<br />';
+					            } else {
+					                returnTitle += val;
+					            }
+					        });
+							setTitle(returnTitle);
 						} else {
 							setTitle();
 						}
@@ -650,9 +696,9 @@
 		 * @param title the title to display (may include HTML)
 		 */
 		function setTitle(title) {
-			var show = false;
+		    var show = false;
 			if (self.options.overrideTitle != null) {
-				show = true;
+			    show = true;
 				self.bbgCss.jq.title.html(self.options.overrideTitle);
 			} else if (typeof(title) != 'undefined') {
 				self.bbgCss.jq.title.html(title);
@@ -690,7 +736,34 @@
 				self.bbgCss.jq.station.hide();
 			}
 		}
-		
+
+		/**
+		 * Updates the category display
+		 * @param category string (category text)
+		 */
+		function setCategory(category) {
+			var textElem = $('<span>' + category + '</span>');
+			$(textElem).appendTo(self.bbgCss.jq.category);
+		}
+
+		/**
+		 * Updates the Location display
+		 * @param location object with location properties (city,country,local)
+		 */
+		function setLocation(location) {
+			if(location.city !== undefined && location.city.length > 0){
+				$('<span>' + location.city + '</span>').appendTo(self.bbgCss.jq.location.find('div.city'));
+			}
+			if(location.country !== undefined && location.country.length > 0){
+				$('<span>' + location.country + '</span>').appendTo(self.bbgCss.jq.location.find('div.country'));
+			}
+			if(location.local !== undefined && location.local.length > 0){
+				$('<span>' + location.local + '</span>').appendTo(self.bbgCss.jq.location.find('div.local'));
+			}
+			
+
+		}
+
 		/**
 		 * Updates the poster displayed.
 		 * Note: this is outside of jPlayer's poster functionality because
@@ -858,44 +931,44 @@
 		}
 // SHARING & EMBED
 		/**
-		 * Generates the social media bar of options
+		 * Generates the share bar of options
 		 */
-		function generateSocialBar() {
+		function generateShareBar() {
 			var jq = null;
 			var code = null;
-			// email
-			if (self.options.social.email.enabled) {
-				code = '<a class="jp-email-share" target="_blank" href="mailto:?subject=' + self.options.social.email.subject + '&body=' + self.options.social.email.body + '%0A%0A' + self.options.social.shareLink + '"><i class="icon-envelope icon-fixed-width"></i> Email</a>';
-				jq = $('<li>' + code + '</li>').appendTo(self.bbgCss.jq.social);
-				jq.children("a").on("click",function(e) {
-					trackEmail(getMediaTitleForTracking());
-				});
-			}
-			// facebook
-			if (self.options.social.facebook.enabled) {
-				code = '<li><a href="https://www.facebook.com/sharer/sharer.php?u=' + encodeURI(self.options.social.shareLink) + '" target="_blank" class="jp-facebook-share"><i class="icon-facebook icon-fixed-width"></i> Facebook</a></li>';
-				jq = $(code).appendTo(self.bbgCss.jq.social);
-				jq.children("a").on("click",function(e) {
-					trackFacebook(getMediaTitleForTracking());
-				});
-			}
 			// twitter
-			if (self.options.social.twitter.enabled) {
-				code = '<li><a href="https://mobile.twitter.com/compose/tweet?status=' + encodeURI(self.options.social.shareLink) + '" target="_blank" class="jp-twitter-share"><i class="icon-twitter icon-fixed-width"></i> Twitter</a></li>';
-				jq = $(code).appendTo(self.bbgCss.jq.social);
+			if (self.options.share.twitter.enabled) {
+				code = '<li><a href="https://mobile.twitter.com/compose/tweet?status=' + encodeURI(self.options.share.shareLink) + '" target="_blank" class="jp-twitter-share"><i class="icon-twitter icon-2x"></i></a></li>';
+				jq = $(code).appendTo(self.bbgCss.jq.share);
 				jq.children("a").on("click",function(e) {
 					trackTwitter(getMediaTitleForTracking());
 				});
 			}
+			// facebook
+			if (self.options.share.facebook.enabled) {
+				code = '<li><a href="https://www.facebook.com/sharer/sharer.php?u=' + encodeURI(self.options.share.shareLink) + '" target="_blank" class="jp-facebook-share"><i class="icon-facebook icon-2x"></i></a></li>';
+				jq = $(code).appendTo(self.bbgCss.jq.share);
+				jq.children("a").on("click",function(e) {
+					trackFacebook(getMediaTitleForTracking());
+				});
+			}
+			// email
+			if (self.options.share.email.enabled) {
+				code = '<a class="jp-email-share" target="_blank" href="mailto:?subject=' + self.options.share.email.subject + '&body=' + self.options.share.email.body + '%0A%0A' + self.options.share.shareLink + '"><i class="icon-envelope icon-2x"></i></a>';
+				jq = $('<li>' + code + '</li>').appendTo(self.bbgCss.jq.share);
+				jq.children("a").on("click",function(e) {
+					trackEmail(getMediaTitleForTracking());
+				});
+			}
 			// embed
-			if (self.options.social.embed.enabled) {
+			if (self.options.share.embed.enabled) {
 				if (self.bbgCss.jq.sharePanel && self.bbgCss.jq.sharePanel.length > 0) {
-					$(self.bbgCss.css.sharePanel + ' .instructions').html(self.options.social.embed.instructions);
-					$(self.bbgCss.css.sharePanel + ' .share-hide').val(self.options.social.embed.hide);
+					$(self.bbgCss.css.sharePanel + ' .instructions').html(self.options.share.embed.instructions);
+					$(self.bbgCss.css.sharePanel + ' .share-hide').val(self.options.share.embed.hide);
 					// use existing share panel
 					if (!self.bbgCss.jq.share || self.bbgCss.jq.share.length == 0) {
-						// add to social bar and save to bbgCss for usage later
-						self.bbgCss.jq.social.append('<a href="javascript:;" class="jp-share">Share</a>');
+						// add to share bar and save to bbgCss for usage later
+						self.bbgCss.jq.shaare.append('<a href="javascript:;" class="jp-share">Share</a>');
 						self.bbgCss.css.share = self.bbgCss.css.ancestor + ' .jp-share';
 						self.bbgCss.jq.share = $(self.bbgCss.css.share);
 					}
@@ -910,7 +983,35 @@
 				}
 			}
 		}
-		
+
+		/**
+		 * Populate the social media menu
+		 */
+		function generateSocialMediaMenu() {
+			var markup = null;
+			// facebook
+			if (self.options.social.facebookUrl !== undefined) {
+				markup = '<li><a href="' + encodeURI(self.options.social.facebookUrl) + '" target="_blank" class="jp-facebook-social"><i class="icon-facebook icon-2x"></i><span>Facebook</span></a></li>';
+				$(markup).appendTo(self.bbgCss.jq.social);
+			}
+			// twitter
+			if (self.options.social.twitterHandle !== undefined) {
+				markup = '<li><a href="https://twitter.com/' + encodeURI(self.options.social.twitterHandle) + '" target="_blank" class="jp-twitter-social"><i class="icon-twitter icon-2x"></i><span>Twitter</span></a></li>';
+				$(markup).appendTo(self.bbgCss.jq.social);
+			}
+			// google plus
+			if (self.options.social.googlePlusUrl !== undefined) {
+				markup = '<li><a href="' + encodeURI(self.options.social.googlePlusUrl) + '" target="_blank" class="jp-google-plus-social"><i class="icon-google-plus icon-2x"></i><span>Google</span></a></li>';
+				$(markup).appendTo(self.bbgCss.jq.social);
+			}
+			// website
+			if (self.options.social.websiteUrl !== undefined) {
+				markup = '<li><a href="' + encodeURI(self.options.social.websiteUrl) + '" target="_blank" class="jp-web-social"><i class="icon-external-link icon-2x"></i> <span>Web</span></a></li>';
+				$(markup).appendTo(self.bbgCss.jq.social);
+			}
+
+		}
+
 		/**
 		 * Displays the share options panel
 		 */
