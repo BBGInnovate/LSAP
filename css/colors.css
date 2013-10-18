@@ -1,0 +1,57 @@
+body {
+	border-top: 3px solid #34b5d0;
+}
+a {
+	color: #34b5d0;
+}
+a:hover, a:focus {
+	color: #34b5d0;
+}
+.btn {
+	background: #34b5d0;
+}
+#footer {
+	background-color: #34b5d0;
+}
+div.jp-play-bar, div.jp-podcast-play-bar {
+	background: #34b5d0;
+}
+.jp-station {
+	color: #34b5d0;
+}
+.bbgPCRow.playing {
+	background: #34b5d0;
+}
+.bbgPCRow .bbgPCurl a, #podcastDetails .detailPCUrl a, .custom-LiveStreamStationName #btnPlayPause span {
+	background-color: #34b5d0;
+}
+.bbgPCRow.playing .bbgPCurl a {
+	background-color: transparent;
+}
+.jp-volume-bar {
+	background-color: #34b5d0;
+}
+div.jp-play-bar, div.jp-podcast-play-bar {
+	background: #34b5d0;
+}
+.nav > li > a:hover {
+	color: #34b5d0;
+}
+.nav > li.disabled > a:hover, .nav > li.disabled > a:focus {
+	color: #34b5d0;
+}
+.custom-ShareOn .icon-share-alt {
+	background: #34b5d0;
+}
+.custom-WebSocialPresence li a:hover {
+	color: #34b5d0;
+}
+.custom-AboutStation .custom-Header {
+	color: #34b5d0;
+}
+#jPanelMenu-menu {
+	border-top: 3px solid #34b5d0;
+}
+.custom-SidePanel .custom-Preloader i, #bbgContentTall .custom-Preloader i {
+	color: #34b5d0;
+}

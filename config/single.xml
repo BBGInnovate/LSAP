@@ -48,7 +48,7 @@
 		<brandingLink>http://www.npr.org</brandingLink>
 	</config>
 	<menu>
-		<option href="#listen">listen</option>
+		<option href="#listen">live stream</option>
 		<option href="#schedule">schedule</option>
 		<option href="#podcasts">podcasts</option>
 		<option href="#about">about</option>

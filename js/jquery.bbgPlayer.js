@@ -233,10 +233,10 @@
 		function initializePlayer() {
 			var nextTrackTime = self.config.trackIncrement;
 		
-			
 			// initialize player
 			self.$elem.jPlayer({
 				ready: function (event) {
+					console.log( 'does IE reach this point?' );
 					initializeBbgCustom(event.jPlayer);
 					jplayerReady = true;
 					if (self.options.autoplay) {
