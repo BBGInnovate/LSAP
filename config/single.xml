@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <playerconfig>
 	<streams>
-		<item channelid="kledu" type="live">
+		<item channelid="logan-circle-dc" type="live">
 			<streamUrl format="mp3">http://sc9.iad.llnw.net/stream/npr_music2</streamUrl>
-			<title>Kledu Radio</title>
+			<title>LoganCircleDC</title>
 			<description />
 			<siteUrl>http://ourawesomewebapp.com</siteUrl>
 			<podcastUrl>http://www.npr.org/rss/podcast.php?id=510299</podcastUrl>

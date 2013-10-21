@@ -100,6 +100,7 @@
 			playerOpts: {},
 			bbgCssSelectors: {
 				title: '.jp-song',
+				streamTitle: '.jp-stream-title',
 				station: '.jp-station',
 				category: '.jp-category',
 				streams: '.jp-streams',
@@ -236,7 +237,6 @@
 			// initialize player
 			self.$elem.jPlayer({
 				ready: function (event) {
-					console.log( 'does IE reach this point?' );
 					initializeBbgCustom(event.jPlayer);
 					jplayerReady = true;
 					if (self.options.autoplay) {
@@ -347,7 +347,7 @@
 			if (self.options.brandingLink && self.options.brandingLink.length > 0) {
 				self.bbgCss.jq.brandingLink.attr('href',self.options.brandingLink).attr('target','bbgPlayer');
 			}
-			
+
 			// write in any stream listings
 			if (configStreamsXml) {
 				parseStreams(configStreamsXml);
@@ -361,6 +361,11 @@
 			//output the Station category
 			if (self.options.category !== undefined && self.options.category.length > 0) {
 				setCategory(self.options.category);
+			}
+
+			//output the Stream Title 
+			if (self.currentStream.title !== undefined && self.currentStream.title.length > 0) {
+				setStreamTitle(self.currentStream.title);
 			}
 			//output the Station Location
 			if (self.options.location !== undefined) {
@@ -744,6 +749,14 @@
 		function setCategory(category) {
 			var textElem = $('<span>' + category + '</span>');
 			$(textElem).appendTo(self.bbgCss.jq.category);
+		}
+
+		/**
+		 * Updates the station name 
+		 * @param category string (station name text)
+		 */
+		function setStreamTitle(text) {
+			self.bbgCss.jq.streamTitle.text(text);
 		}
 
 		/**
