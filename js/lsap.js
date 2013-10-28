@@ -143,9 +143,10 @@
 					            '</div>' +
 					            '<div class="bbgPCContents">' +
 					                '<div class="bbgPCtitle">' + '<span>' + bbg_podcastArray[x].title + '</span>' + '<i class="icon-info-sign bbgPodcastInfoDetails "></i>' + '</div>' +
+									//'<div class="bbgPCtitle">' + '<span><a href="javascript:alert(\'test\');">' + bbg_podcastArray[x].title + '</a></span>' + '<i class="icon-info-sign bbgPodcastInfoDetails "></i>' + '</div>' +
 					                '<div class="bbgDTL">' +
 					                    '<div class="bbgDTL-Date"><span>Date:</span> ' + justDate + '</div>' +
-					                    '<div class="bbgDTL-Time"><span>Time:</span> ' + justTime + '</div>' +
+					                    // '<div class="bbgDTL-Time"><span>Time:</span> ' + justTime + '</div>' +
 					                    '<div class="bbgDTL-Length"><span>Length:</span> ' + bbg_podcastArray[x].dur + '</div>' +
 					                '</div>' +
 					            '</div>' +
@@ -172,7 +173,8 @@
 				$('.podcast-pause').click(podcastPlayPauseToggle);
 				$('.podcast-resume').click(podcastPlayPauseToggle);
 
-				$('.bbgPCContents').click(showPodcastDetails);
+				// $('.bbgPCContents').click(showPodcastDetails);
+				$('.bbgPCContents .icon-info-sign').click(showPCDetails);
 
 				$('.jp-podcast-play').click({ isResumeClicked: true }, showHideMainPlayPauseBtns);
 				$('.jp-podcast-pause').click({ isResumeClicked: false }, showHideMainPlayPauseBtns);
@@ -215,13 +217,48 @@
 	    }
 	}
 
+	function showPCDetails(){
+		var renderHtml = '';
+
+	    $('#podcasts .custom-Content').hide();			// hide podcast list
+		$('.custom-SectionHeader.staticButton').hide(); // hide the default podcast breadcrumb
+		$('.custom-SectionHeader.backButton').show(); 	// show back to podcast list button
+		
+		renderHtml =	'<h3>' + $(this).closest('.bbgPCRow').siblings('h3').text() + '</h3>' +
+						'<div class="bbgDTWrapContent clearfix">' +
+							'<div class="detailPCUrl">' +
+								'<a href="javascript:playPodcast(\'' + $(this).closest('.bbgPCRow').children('#hdnPCUrl').val() + '\');" class="detailPC-play" style="' + $(this).closest('.bbgPCRow').find('.podcast-play').attr('style') + '" >Play</a>' +
+								'<a href="javascript:;" class="detailPC-pause" style="' + $(this).closest('.bbgPCRow').find('.podcast-pause').attr('style') + '">Pause</a>' +
+								'<a href="javascript:;" class="detailPC-resume" style="' + $(this).closest('.bbgPCRow').find('.podcast-resume').attr('style') + '">Play</a>' +
+							'</div>' +
+							'<div class="bbgDTWrapContent">' +
+								'<div class="bbgPCtitle">' + $(this).closest('.bbgPCRow').children('#hdnPCTitle').val() + '</div>' +
+								'<div class="bbgDTL">' +
+									'<span class="bbgDTL-Date">Date: ' + $(this).closest('.bbgPCRow').children('#hdnPCDate').val() + '</span>' +
+									'<span class="bbgDTL-Length">Length: ' + $(this).closest('.bbgPCRow').children('#hdnPCDur').val() + '</span>' +
+								'</div>' +
+								'<div class="bbgDesc">' + $(this).closest('.bbgPCRow').children('#hdnPCDesc').text() + '</div>' +
+							'</div>' +
+						'<div>'
+		
+		$('#podcastDetails').html(renderHtml).show(); // populate and show the generated HTML
+		$('#showAllPodcasts').click($(this).closest('.bbgPCRow'), showPodcastList);
+		$('.detailPC-play').click($(this).closest('.bbgPCRow'), podcastPlayPauseToggle);
+	    $('.detailPC-pause').click($(this).closest('.bbgPCRow'), podcastPlayPauseToggle);
+	    $('.detailPC-resume').click($(this).closest('.bbgPCRow'), podcastPlayPauseToggle);
+
+	}
+
 	function showPodcastDetails() {
                 
 	    var renderHtml = '';
 
 	    $('#podcasts .custom-Content').hide();
-
-	    renderHtml = '<a href="javascript:;" id="showAllPodcasts">Show All Podcasts</a>' +
+		
+		$('.custom-SectionHeader.backButton').show(); //staticButton
+		$('.custom-SectionHeader.staticButton').hide(); 
+	
+	    renderHtml = // '<a href="javascript:;" id="showAllPodcasts">Show All Podcasts</a>' +
                     '<h3>' + $(this).closest('.bbgPCRow').siblings('h3').text() + '</h3>' +
 					
 					'<div class="bbgDTWrapContent clearfix">' +
@@ -235,7 +272,7 @@
 							'<div class="bbgPCtitle">' + $(this).siblings('#hdnPCTitle').val() + '</div>' +
 							'<div class="bbgDTL">' +
 								'<span class="bbgDTL-Date">Date: ' + $(this).siblings('#hdnPCDate').val() + '</span>' +
-								'<span class="bbgDTL-Time">Time: ' + $(this).siblings('#hdnPCTime').val() + '</span>' +
+								// '<span class="bbgDTL-Time">Time: ' + $(this).siblings('#hdnPCTime').val() + '</span>' +
 								'<span class="bbgDTL-Length">Length: ' + $(this).siblings('#hdnPCDur').val() + '</span>' +
 							'</div>' +
 							'<div class="bbgDesc">' + $(this).siblings('#hdnPCDesc').text() + '</div>' +
@@ -243,18 +280,19 @@
 					'<div>'
 					
 					;
-					
-					
-					
-
+		
 	    $('#podcastDetails').html(renderHtml).show();
 	    $('#showAllPodcasts').click($(this).closest('.bbgPCRow'), showPodcastList);
 	    $('.detailPC-play').click($(this).closest('.bbgPCRow'), podcastPlayPauseToggle);
 	    $('.detailPC-pause').click($(this).closest('.bbgPCRow'), podcastPlayPauseToggle);
 	    $('.detailPC-resume').click($(this).closest('.bbgPCRow'), podcastPlayPauseToggle);
+
 	}
 
 	function showPodcastList(e) {
+		
+		$('.custom-SectionHeader.backButton').hide();
+		$('.custom-SectionHeader.staticButton').show(); 
 
 	    var $targetContainerRow = $(e.data);
 	    $targetContainerRow.find('.podcast-play').attr('style', $('.detailPC-play').attr('style'));
