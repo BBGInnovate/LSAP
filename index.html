@@ -15,19 +15,19 @@
 <!-- FBOG: Description of content being shared -->
 <meta property="og:description" content="Show text from About Page here."/>
 <!-- FBOG: Image being shared -->
-<meta property="og:image" content="http://oddi.bbg.gov/sandbox/hportillo/LSAP/v2/img/tempimage-brandlogo.gif"/>
+<meta property="og:image" content="img/tempimage-brandlogo.gif"/>
 <!-- FBOG: URL of the page being shared -->
-<meta property="og:url" content="http://oddi.bbg.gov/sandbox/hportillo/LSAP/v2/mocks.html"/>
+<meta property="og:url" content=""/>
 
 <!-- Twitter Cards Meta Tags -->
 <!-- TC: URL of the page being shared -->
-<meta name="twitter:url" content="http://oddi.bbg.gov/sandbox/hportillo/LSAP/v2/mocks.html">
+<meta name="twitter:url" content="">
 <!-- TC:  Title of Content -->
 <meta name="twitter:title" content="Now Playing, Channel Name Here">
 <!-- TC: Description of content being shared -->
 <meta name="twitter:description" content="Show text from About Page here.">
 <!-- TC: Image being shared -->
-<meta name="twitter:image" content="http://oddi.bbg.gov/sandbox/hportillo/LSAP/v2/img/tempimage-brandlogo.gif">
+<meta name="twitter:image" content="img/tempimage-brandlogo.gif">
 
 
 <!-- Bootstrap 3.0 -->
@@ -110,7 +110,7 @@
                      <!-- End Play/Pause Toggle button -->
                     <h2 class="brand jp-station">Station name</h2>
                 </div>
-              <hr class="custom-solidline" />
+              <hr class="custom-dottedline" />
               <!-- End Live Stream Play Pause Toggle button and Station Name -->
               
                 <!-- ******* The date below needs to pull in dynamically ******* -->
@@ -135,7 +135,8 @@
             <!-- End Schedule --> 
             <!-- Begin Podcasts -->
             <div class="tab-pane fade" id="podcasts">
-              <h2 class="custom-SectionHeader">Podcasts</h2>
+              <h2 class="custom-SectionHeader staticButton">Podcasts</h2>
+              <h2 class="custom-SectionHeader backButton"><a href="javascript:;" id="showAllPodcasts"><i class="icon-chevron-left"></i> All Podcasts</a></h2>
               <div id="podcastDetails" style="display: none;"></div>
               <div class="custom-Content"> </div>
             </div>
@@ -155,10 +156,7 @@
                         <div class="country"> <span class="custom-Header">Country</span> </div>
                       </div>
                     </div>
-                    <div class="custom-Content">
-                    	<p> Maecenas eget nulla malesuada, accumsan ligula quis, ultricies ipsum. Quisque varius velit ut lectus mattis, et mollis erat semper. Nam ultrices libero lorem, non consectetur justo euismod quis. Integer vitae ante turpis. Aenean ultricies ut elit sit amet scelerisque. </p>
-		                <p> Donec arcu enim, congue sit amet metus sit amet, pulvinar scelerisque risus. Integer et nulla mauris. Maecenas non rhoncus nisi, ac tincidunt est. Maecenas nisi velit, convallis non lorem nec, rhoncus accumsan lorem. Sed bibendum eros vel convallis suscipit. Nunc sed metus quis magna vestibulum viverra. Maecenas at velit tempor, egestas nibh at, commodo massa. Nulla vitae dapibus metus. </p>
-                    </div>        
+                    <div id="about-text" class="custom-Content"></div>        
             </div>
             <!-- End About --> 
             <!-- Begin Help -->
