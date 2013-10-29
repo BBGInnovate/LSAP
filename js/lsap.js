@@ -28,7 +28,7 @@
 			// the Podcast stream/rss URL
 			var stream = '';
 			// where the XML file is at
-			var feedXMLtitle = "config/single.xml";
+			var feedXMLtitle = "config/" + app.config + ".xml";
 				
 			// CONNECT TO THE XML
 			$.get(feedXMLtitle, function( data ) {

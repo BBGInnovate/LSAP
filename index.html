@@ -378,15 +378,15 @@
 <script type="text/javascript" src="js/require.js"></script> 
 <script type="text/javascript" src="js/config.js"></script>
 <script>
+  //set config name
+  var app= {
+    config: 'single'
+  };
 	// Player Initialization
-	require(['util','jquery','jquery.jplayer.min','jquery.bbgPlayer','util'],function(util) {
-	    var config = util.getUrlParameter('c');
-		if (!config) {
-			config = 'single';
-		}
+	require(['util','jquery','jquery.jplayer.min','jquery.bbgPlayer','util', 'lsap'],function(util) {
 		$("#jp-player").bbgPlayer({
 			overrideStream: null,
-			config: config,
+			config: app.config,
 			trackingEnabled: true,
 			metadataStreamEnabled: true,
 			showPosters: false,
@@ -402,7 +402,6 @@
 		});
 	});
 </script> 
-<script type="text/javascript" src="js/lsap.js"></script>
 
 </body>
 </html>
