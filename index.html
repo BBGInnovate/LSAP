@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Responsive Mock</title>
+<title>Stream Player</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="author" content="">
@@ -63,8 +63,6 @@
 </head>
 
 <body>
-<!-- hector testing -->
-<!-- Begin Template Customization --> 
 
 <!-- Wrap all page content here -->
 <div id="wrap"> 
@@ -368,13 +366,6 @@
 
 <!-- End Footer --> 
 
-<!-- Bootstrap core JavaScript
-================================================== --> 
-<!-- Placed at the end of the document so the pages load faster --> 
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
-<script src="//code.jquery.com/jquery.js"></script> 
-<!-- Latest compiled and minified JavaScript --> 
-<script src="js/bootstrap.js"></script> 
 <script type="text/javascript" src="js/require.js"></script> 
 <script type="text/javascript" src="js/config.js"></script>
 <script>
@@ -383,7 +374,7 @@
     config: 'single'
   };
 	// Player Initialization
-	require(['util','jquery','jquery.jplayer.min','jquery.bbgPlayer','util', 'lsap'],function(util) {
+	require(['jquery','jquery.jplayer.min','jquery.bbgPlayer','lsap'],function() {
 		$("#jp-player").bbgPlayer({
 			overrideStream: null,
 			config: app.config,
