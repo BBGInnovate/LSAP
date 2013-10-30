@@ -269,17 +269,28 @@ a:focus {
 {
 	text-transform:uppercase;
 	font-weight:bold;
+	display:inline-block;
+	float:left;
+	border:1px solid #34b5d0;
+	border-right:0;
+	-webkit-border-radius: 5px 0px 0px 5px;
+	border-radius: 5px 0px 0px 5px;
+	background:url(../img/dottedbg.gif) bottom repeat;
+	line-height:47px;
+	padding:0 8px;
+	
 }
 .custom-ShareOn ul.socialmenu
 {
 	list-style:none;
 	padding:0;
-	margin:15px 0 0 0;
+	margin:0;
+	float:left;
 }
 .custom-ShareOn ul.socialmenu li
 {
 	float:left;
-	margin:0 2px 0 0;
+	margin:0 1px 0 0;
 }
 .custom-ShareOn ul.socialmenu li a
 {
@@ -287,13 +298,18 @@ a:focus {
 	text-align:center;
 	width:50px;
 	padding:10px 0;
-	background:#acacac;
+	background:#34b5d0;
 	color:#fff;
 }
 .custom-ShareOn ul.socialmenu li a:hover
 {
 	text-decoration:none;
 	background:#9b9b9b;
+}
+.custom-ShareOn ul.socialmenu li:last-child a
+{
+	-webkit-border-radius: 0 5px 5px 0;
+	border-radius: 0 5px 5px 0;
 }
 .custom-ShareOn ul.socialmenu li a.jp-email-share
 {
