@@ -663,8 +663,19 @@ bbgPCRow .bbgPCurl
 {
 	text-decoration:underline !important;
 }
-.bbgPCRow .bbgPCtitle i
+.bbgPCRow .bbgPCtitle i.bbgPodcastInfoDetails 
 {
+	display:inline-block;
+	height:22px;
+	width:22px;
+	background-image:url(../img/iconsprite.png);
+	background-repeat:no-repeat;
+	background-position: -58px -83px;
+}
+.bbgPCRow.playing .bbgPCtitle i.bbgPodcastInfoDetails 
+{	background-image:url(../img/iconsprite.png);
+	background-repeat:no-repeat;
+	background-position: -88px -83px;
 }
 .bbgPCRow .bbgDTL div
 {

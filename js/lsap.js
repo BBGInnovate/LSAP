@@ -143,7 +143,7 @@
 						                '<a href="javascript:;" class="podcast-resume" style="display: none;">Play</a>' +
 						            '</div>' +
 						            '<div class="bbgPCContents">' +
-						                '<div class="bbgPCtitle">' + '<span>' + bbg_podcastArray[x].title + '</span>' + '<i class="icon-info-sign bbgPodcastInfoDetails "></i>' + '</div>' +
+						                '<div class="bbgPCtitle">' + '<span>' + bbg_podcastArray[x].title + '</span>' + '<i class="bbgPodcastInfoDetails "></i>' + '</div>' +
 										//'<div class="bbgPCtitle">' + '<span><a href="javascript:alert(\'test\');">' + bbg_podcastArray[x].title + '</a></span>' + '<i class="icon-info-sign bbgPodcastInfoDetails "></i>' + '</div>' +
 						                '<div class="bbgDTL">' +
 						                    '<div class="bbgDTL-Date"><span>Date:</span> ' + justDate + '</div>' +
