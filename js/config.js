@@ -3,19 +3,23 @@ require.config({
 	paths: {
 		'jquery': '//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min',
 		'bootstrap': 'bootstrap.min',
-		'jquery.bbgPlayer.config': 'jquery.bbgPlayer.config.mobile'
+		'jquery.bbgPlayer.config': 'jquery.bbgPlayer.config.mobile', 
+		'lsap' : 'lsap'
 	},
 	shim: {
 		'bootstrap': {
 			deps: ['jquery']
 		},
 		'jquery.jplayer.min': {
-			deps:	['jquery']
+			deps: ['jquery']
 		},
 		'jquery.jpanelmenu': {
 			deps: ['jquery']
 		},
 		'qRespond.min': {
+			deps: ['jquery']
+		},
+		'lsap': {
 			deps: ['jquery']
 		}
 	}
