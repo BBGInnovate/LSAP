@@ -501,6 +501,10 @@
 		}
 	});
 
+	$('h2.jp-station').click(function(){
+		$(this).siblings('#btnPlayPause').children('span:visible').click();
+	});
+
 	$(document).ready(function(){
 		$('.custom-Preloader').delay( 500 ).fadeOut( function(){
 			$('.audio-stream').show();
