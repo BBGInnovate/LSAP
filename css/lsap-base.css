@@ -355,7 +355,9 @@ div.jp-audio div.jp-type-single div.jp-interface{ padding-top: 11px; }
 {
 	text-transform:uppercase;
 	max-width: 80%;
+	cursor: pointer;
 }
+	.jp-station:hover{ text-decoration: underline; }
 .jp-volume-bar-value {
 	background-color: white;
 }

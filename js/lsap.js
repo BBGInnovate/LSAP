@@ -174,8 +174,8 @@
 					$('.podcast-pause').click(podcastPlayPauseToggle);
 					$('.podcast-resume').click(podcastPlayPauseToggle);
 
-					// $('.bbgPCContents').click(showPodcastDetails);
-					$('.bbgPCContents .icon-info-sign').click(showPCDetails);
+					$('.bbgPCContents').click(showPodcastDetails);
+					// $('.bbgPCContents .icon-info-sign').click(showPCDetails);
 
 					$('.jp-podcast-play').click({ isResumeClicked: true }, showHideMainPlayPauseBtns);
 					$('.jp-podcast-pause').click({ isResumeClicked: false }, showHideMainPlayPauseBtns);
