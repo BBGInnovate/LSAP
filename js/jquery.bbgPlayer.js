@@ -200,8 +200,6 @@
 				url: configUrl,
 				dataType: 'xml',
 				success: function(xml) {
-					console.log( $(xml).find("menu") );
-					
 					configMenuXml = $(xml).find("menu");
 					parseStyles($(xml).find("styles"));
 					parseConfig($(xml).find("config"));
@@ -434,9 +432,7 @@
 		 */
 		function parseStyles(xml) {
 			var styleUrl = '';
-			console.log( 'test' );
 			xml.find("stylesheet").each(function(i) {
-				console.log( $(this).text() );
 				styleUrl = self.config.styleFolder + $(this).text();
 				$('head').append('<link rel="stylesheet" href="' + styleUrl + '">');
 			});
