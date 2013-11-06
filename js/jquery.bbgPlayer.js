@@ -476,7 +476,7 @@
 						format: $(this).attr('format'),
 						url: $(this).text()
 					});
-					
+					$('.jp-no-solution').html( '<a href="' + $(this).text() + '" >' +  $(this).text() + '</a>' );
 				});
 				streams.push(stream);
 			});

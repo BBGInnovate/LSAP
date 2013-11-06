@@ -40,8 +40,16 @@ div.jp-play-bar, div.jp-podcast-play-bar {
 .nav > li.disabled > a:hover, .nav > li.disabled > a:focus {
 	color: #34b5d0;
 }
+.custom-ShareOn span
+{
+	border-color:#34b5d0;
+}
 .custom-ShareOn .icon-share-alt {
 	background: #34b5d0;
+}
+.custom-ShareOn ul.socialmenu li a
+{
+	background-color:#34b5d0;
 }
 .custom-WebSocialPresence li a:hover {
 	color: #34b5d0;

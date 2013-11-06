@@ -271,7 +271,7 @@ a:focus {
 	font-weight:bold;
 	display:inline-block;
 	float:left;
-	border:1px solid #34b5d0;
+	border:1px solid;
 	border-right:0;
 	-webkit-border-radius: 5px 0px 0px 5px;
 	border-radius: 5px 0px 0px 5px;
@@ -298,7 +298,6 @@ a:focus {
 	text-align:center;
 	width:50px;
 	padding:10px 0;
-	background:#34b5d0;
 	color:#fff;
 }
 .custom-ShareOn ul.socialmenu li a:hover
