@@ -39,6 +39,7 @@ a:focus {
 {
 	color:#fff;
 }
+.clear{ clear: both; }
 /*	--------------------------------------------------
 	:: Header
 	-------------------------------------------------- */
@@ -309,6 +310,39 @@ a:focus {
 {
 	-webkit-border-radius: 0 5px 5px 0;
 	border-radius: 0 5px 5px 0;
+}
+#scheduleTabs{ height: 31px; }
+#scheduleTabs .topList, #scheduleTabs .dayList{
+	height: 31px;
+	padding: 0px;
+	margin-top: 20px;
+}
+#scheduleTabs li{
+	float: left;
+	list-style-type: none;
+	list-style-position: outside;
+	text-transform: uppercase;
+	margin-right: 10px;
+}
+.bbgTabButton
+{
+	text-decoration:none;
+	padding: 10px 20px;
+	width: 200px;
+	color: #FFFFFF;
+}
+.bbgTabButton:hover{ 
+	background-color:#9b9b9b;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+.bbgTabButton.inactive{ background-color:#cccccc; color: #999999; }
+.dayList a{
+	color: #9b9b9b;
+	text-decoration: none;
+}
+.dayList a:hover, .dayList a.active{
+	text-decoration: underline;
 }
 .custom-ShareOn ul.socialmenu li a.jp-email-share
 {

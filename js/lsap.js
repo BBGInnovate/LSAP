@@ -513,3 +513,27 @@
 		});
 	});
 	
+	var todaysDay = null;
+	/* SCHEDULE PAGE DATA POPULATION AND CONTROLS */
+	$(document).on('click', '.custom-SideMenu a[href^="#schedule"]', function(){
+		// Daylist will automatically have an active element based on the date
+		// if this has been set, then we don't need to re-run
+		if( !todaysDay ){
+			todaysDay = new Date().getDay();
+			$('.dayList li a').each(function(){
+				if( parseInt( $(this).attr('attr-dayID') ) == todaysDay ){
+					$(this).addClass( 'active' );
+				}
+			});
+			
+			$.ajax({
+				type: "GET",
+				url: "http://airtime.isourblock.org/api/week-info?callback=x",
+				dataType: "jsonp",
+				success: function(data) {
+					console.log( data ); 
+				}
+			});
+			
+		}
+	});
