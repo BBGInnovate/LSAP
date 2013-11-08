@@ -344,6 +344,8 @@ a:focus {
 .dayList a:hover, .dayList a.active{
 	text-decoration: underline;
 }
+.dailylineupContent{ display: none; }
+.dailylineupContent.active{ display: block; }
 .custom-ShareOn ul.socialmenu li a.jp-email-share
 {
 }
