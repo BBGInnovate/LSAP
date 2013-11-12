@@ -591,3 +591,13 @@
 		$('.dailylineupContent').removeClass( 'active' );
 		$('#dlu' + num ).addClass( 'active' );
 	}
+	
+	function showShdContent( sectionName ){
+		$('.shdTab').removeClass('active');
+		$('#' + sectionName ).addClass('active');
+	}
+	
+	$('.bbgTabButton').click(function(){
+		$('.bbgTabButton').removeClass('inactive').addClass('inactive');
+		$(this).removeClass('inactive');
+	});

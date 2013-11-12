@@ -134,69 +134,140 @@
               <div id="scheduleTabs">
               	<ul class="topList">
                 	<li>
-                    	<a href="#" class="bbgTabButton">
+                    	<a href="javascript:showShdContent('dailyLineupContent');" class="bbgTabButton">
                         	Daily Lineup
                         </a>
                     </li>
                     <li>
-                    	<a href="#" class="bbgTabButton inactive">
+                    	<a href="javascript:showShdContent('allProgramsContent');" class="bbgTabButton inactive">
                         	All Programs
                         </a>
                     </li>
                 </ul>
                 
                         <div class="clear"></div>
+                        
+                <div id="dailyLineupContent" class="shdTab active">
                 
-                <ul class="dayList">
-                	<li>
-                    	<a href="javascript:changeDLUdisplay(1);" attr-dayID="1" id="dayList1">
-                        	Mon
-                        </a>
-                    </li>
-                    <li>
-                    	<a href="javascript:changeDLUdisplay(2);" attr-dayID="2" id="dayList2">
-                        	Tue
-                        </a>
-                    </li>
-                    <li>
-                    	<a href="javascript:changeDLUdisplay(3);" attr-dayID="3" id="dayList3">
-                        	Wed
-                        </a>
-                    </li>
-                    <li>
-                    	<a href="javascript:changeDLUdisplay(4);" attr-dayID="4" id="dayList4">
-                        	Thu
-                        </a>
-                    </li>
-                    <li>
-                    	<a href="javascript:changeDLUdisplay(5);" attr-dayID="5" id="dayList5">
-                        	Fri
-                        </a>
-                    </li>
-                    <li>
-                    	<a href="javascript:changeDLUdisplay(6);" attr-dayID="6" id="dayList6">
-                        	Sat
-                        </a>
-                    </li>
-                    <li>
-                    	<a href="javascript:changeDLUdisplay(0);" attr-dayID="0" id="dayList0">
-                        	Sun
-                        </a>
-                    </li>
+                    <ul class="dayList">
+                        <li>
+                            <a href="javascript:changeDLUdisplay(1);" attr-dayID="1" id="dayList1">
+                                Mon
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:changeDLUdisplay(2);" attr-dayID="2" id="dayList2">
+                                Tue
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:changeDLUdisplay(3);" attr-dayID="3" id="dayList3">
+                                Wed
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:changeDLUdisplay(4);" attr-dayID="4" id="dayList4">
+                                Thu
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:changeDLUdisplay(5);" attr-dayID="5" id="dayList5">
+                                Fri
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:changeDLUdisplay(6);" attr-dayID="6" id="dayList6">
+                                Sat
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:changeDLUdisplay(0);" attr-dayID="0" id="dayList0">
+                                Sun
+                            </a>
+                        </li>
+                        
+                    </ul>
                     
-                </ul>
-        		
-                      <div class="clear"></div>
-                      
-              	<div class="dailylineupContent" id="dlu1"></div><!-- END #dlu1 || MONDAY -->
-                <div class="dailylineupContent" id="dlu2"></div><!-- END #dlu2 || TUESDAY -->
-                <div class="dailylineupContent" id="dlu3"></div><!-- END #dlu3 || WEDNESDAY -->
-                <div class="dailylineupContent" id="dlu4"></div><!-- END #dlu4 || THURSDAY -->
-                <div class="dailylineupContent" id="dlu5"></div><!-- END #dlu5 || FRIDAY -->
-                <div class="dailylineupContent" id="dlu6"></div><!-- END #dlu6 || SATURDAY -->
-                <div class="dailylineupContent" id="dlu0"></div><!-- END #dlu0 || SUNDAY -->
-                      
-                      <div class="clear"><br /><br /></div>
+                          <div class="clear"></div>
+                          
+                    <div class="dailylineupContent" id="dlu1"></div><!-- END #dlu1 || MONDAY -->
+                    <div class="dailylineupContent" id="dlu2"></div><!-- END #dlu2 || TUESDAY -->
+                    <div class="dailylineupContent" id="dlu3"></div><!-- END #dlu3 || WEDNESDAY -->
+                    <div class="dailylineupContent" id="dlu4"></div><!-- END #dlu4 || THURSDAY -->
+                    <div class="dailylineupContent" id="dlu5"></div><!-- END #dlu5 || FRIDAY -->
+                    <div class="dailylineupContent" id="dlu6"></div><!-- END #dlu6 || SATURDAY -->
+                    <div class="dailylineupContent" id="dlu0"></div><!-- END #dlu0 || SUNDAY -->
+                          
+                          <div class="clear"><br /><br /></div>
+              
+              </div><!-- END #dailyLineupContent -->
+              
+              <div id="allProgramsContent" class="shdTab">
+              
+              			<div class="clear"></div>
+                        
+              		<div class="shdProgCont">
+                        <div class="shdTopRow">
+	                    	<div class="shdTitle">Live Stream Program Name</div>
+                            <div class="shdDays" >MONDAYS AND FRIDAYS     </div>
+                            <div class="shdTimes">12:00PM-2:00PM          </div>
+                    	</div>
+                        <div class="clear"></div>
+                        <div class="shdBtmRow">
+                        	<p>
+                            	Program description porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    	<div class="clear"></div>
+                    <div class="shdProgCont">
+                        <div class="shdTopRow">
+	                    	<div class="shdTitle">Live Stream Program Name</div>
+                            <div class="shdDays" >WEEKDAYS                </div>
+                            <div class="shdTimes">12:00PM-2:00PM          </div>
+                    	</div>
+                        <div class="clear"></div>
+                        <div class="shdBtmRow">
+                        	<p>
+                            	Program description porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    	<div class="clear"></div>
+                    <div class="shdProgCont">
+                        <div class="shdTopRow">
+	                    	<div class="shdTitle">Live Stream Program Name</div>
+                            <div class="shdDays" >TUESDAYS                </div>
+                            <div class="shdTimes">7:00PM-8:00PM          </div>
+                    	</div>
+                        <div class="clear"></div>
+                        <div class="shdBtmRow">
+                        	<p>
+                            	Program description Duis accumsan lorem non augue bibendum, a blandit odio sagittis. Curabitur metus lectus, varius eu vulputate et, aliquet id dui. Nullam purus ipsum.
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    	<div class="clear"></div>
+                    <div class="shdProgCont">
+                        <div class="shdTopRow">
+	                    	<div class="shdTitle">Live Stream Program Name</div>
+                            <div class="shdDays" >TUESDAYS AND THRUSDAYS  </div>
+                            <div class="shdTimes">2:00PM-4:00PM          </div>
+                    	</div>
+                        <div class="clear"></div>
+                        <div class="shdBtmRow">
+                        	<p>
+                            	Program description adipiscing nisi sit amet, suscipit metus. Maecenas pellentesque tristique nunc ac ultrices. Aliquam ullamcorper nisl dui, nec sollic.
+                            </p>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    	<div class="clear"></div>
+              
+              </div><!-- END #allProgramsContent -->
                       
               </div><!-- END #scheduleTabs -->
               

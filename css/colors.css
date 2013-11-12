@@ -72,3 +72,4 @@ div.jp-play-bar, div.jp-podcast-play-bar {
 .bbgTabButton{ background-color: #34B5D0; }
 #scheduleTabs .topList{ border-bottom: solid 2px #34B5D0; }
 .dayList a:hover, .dayList a.active{color: #34B5D0; }
+/* a.bbgTabButton:focus{ color: #FFFFFF; } */

@@ -141,7 +141,7 @@ a:focus {
 	-------------------------------------------------- */
 .custom-PlayerHeader
 {
-	margin:0 0 20px 0;
+/*	margin:0 0 20px 0; */
 	padding:15px 10px 20px 10px;
 }
 .custom-PlayerHeader h1
@@ -171,6 +171,7 @@ a:focus {
   display: block;
 }
 #menu{ margin-top: 30px; }
+.jPanelMenu h1{ font-size: 18px; }
 .jPanelMenu #menu{ margin-top: 0px; }
 .custom-SideMenu{ display: none; }
 .custom-SideMenu .nav > li > a
@@ -346,6 +347,9 @@ a:focus {
 }
 .dailylineupContent{ display: none; }
 .dailylineupContent.active{ display: block; }
+.shdTab{ display: none; }
+.shdTab.active{ display: block; }
+
 .custom-ShareOn ul.socialmenu li a.jp-email-share
 {
 }
