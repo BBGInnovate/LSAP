@@ -91,7 +91,7 @@
         <div class="custom-MCArea">
           <div class="tab-content"> 
             <!-- Begin Listen -->
-            <div class="tab-pane active" id="listen"> 
+            <div class="tab-pane active" id="listen" itemprop="audio" itemscope itemtype="http://schema.org/AudioObject"> 
               <!-- Begin Player -->
               <!-- Begin Text: Live Stream -->
               <div class="player-branding"><a></a></div>
@@ -107,14 +107,14 @@
                         <span id="btnPause" style="display: none;">Pause</span>
                      </div>
                      <!-- End Play/Pause Toggle button -->
-                    <h2 class="brand jp-station">Station name</h2>
+                    <h2 class="brand jp-station" itemprop="author">Station name</h2>
                 </div>
               <hr class="custom-dottedline" />
               <!-- End Live Stream Play Pause Toggle button and Station Name -->
               
                 <!-- ******* The date below needs to pull in dynamically ******* -->
-                <p class="jp-date">August 21<sup>st</sup>, 2013 - 9:00PM to 10:30PM </p>
-                <h3 class="jp-song">Song Name</h3>
+                <p class="jp-date" itemprop="datePublished">August 21<sup>st</sup>, 2013 - 9:00PM to 10:30PM </p>
+                <h3 class="jp-song" itemprop="name">Song Name</h3>
                 <div class="jp-poster hidden-phone"></div>
                 <!-- End Player --> 
                 <!-- Begin Share -->
@@ -124,8 +124,12 @@
                 </div>
                 <!-- End Share --> 
               </div>
+
+              <meta itemprop="encodingFormat" content="mp3" />
+
             </div>
             <!-- End Listen --> 
+
             <!-- Begin Schedule -->
             <div class="tab-pane fade" id="schedule">
               <h2 class="custom-SectionHeader">Schedule</h2>
