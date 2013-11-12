@@ -103,6 +103,7 @@
 				streamTitle: '.jp-stream-title',
 				station: '.jp-station',
 				category: '.jp-category',
+				callLetters: '.jp-call-letters',
 				streams: '.jp-streams',
 				pop: '.jp-pop',
 				poster: '.jp-poster',
@@ -256,7 +257,7 @@
 
 					// set initial metadata from overall station info provided by client
 					if (self.currentStream.title) {
-						setStation(self.currentStream.title,self.currentStream.siteurl);
+						setStation(self.currentStream.title,self.currentStream.siteurl,self.currentStream.callLetters);
 					} else {
 						setStation();
 					}
@@ -367,6 +368,12 @@
 			if (self.currentStream.title !== undefined && self.currentStream.title.length > 0) {
 				setStreamTitle(self.currentStream.title);
 			}
+
+			//output the Station Call Letters
+			if (self.currentStream.callLetters !== undefined) {
+				setCallLetters(self.currentStream.callLetters);
+			}
+
 			//output the Station Location
 			if (self.options.location !== undefined) {
 				setLocation(self.options.location);
@@ -468,6 +475,7 @@
 					formats: [],
 					type: $(this).attr("streamtype"),
 					description: $(this).find("description").text(),
+					callLetters: $(this).find("callLetters").text(),
 					siteurl: $(this).find("siteUrl").text(),
 					poster: $(this).find("poster").text()
 				};
@@ -587,6 +595,9 @@
 			}
 			if (streamData.description) {
 				newStream.description = streamData.description;
+			}
+			if (streamData.callLetters) {
+				newStream.callLetters = streamData.callLetters;
 			}
 			if (self.options.showPosters && streamData.poster) {
 				newStream.poster = streamData.poster;
@@ -723,7 +734,7 @@
 		 * @param station the station to display (may include HTML)
 		 * @param url the url to the station website
 		 */
-		function setStation(station,url) {
+		function setStation(station,url,callLetters) {
 			var show = false;
 			if (typeof(station) != 'undefined') {
 				if (self.options.showSiteUrl && url != 'undefined') {
@@ -740,6 +751,7 @@
 			} else {
 				self.bbgCss.jq.station.hide();
 			}
+
 		}
 
 		/**
@@ -757,6 +769,14 @@
 		 */
 		function setStreamTitle(text) {
 			self.bbgCss.jq.streamTitle.text(text);
+		}
+
+		/**
+		 * Updates the station call letters 
+		 * @param text string (station call letters text)
+		 */
+		function setCallLetters(text) {
+			self.bbgCss.jq.callLetters.text(text);
 		}
 
 		/**
@@ -934,11 +954,11 @@
 				type += '-offsite';
 			}
 			if (typeof(value) == 'undefined') { 
-				console.log("Tracking event " + type + ": " + title);
+				//console.log("Tracking event " + type + ": " + title);
 				_gaq.push(['_trackEvent', self.config.trackEventCategory, type, title]);
 			} else {
 				trackValue = Math.round(value);
-				console.log("Tracking event " + type + ": " + title + ' at ' + trackValue);
+				//console.log("Tracking event " + type + ": " + title + ' at ' + trackValue);
 				_gaq.push(['_trackEvent', self.config.trackEventCategory, type, title, trackValue]);
 			}
 		}
