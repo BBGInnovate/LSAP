@@ -13,6 +13,10 @@ require.config({
 		'jquery.jplayer.min': {
 			deps: ['jquery']
 		},
+		'lsap': {
+			deps:	['jquery'],
+			deps:	['jquery.jplayer.min']
+		},
 		'jquery.jpanelmenu': {
 			deps: ['jquery']
 		},

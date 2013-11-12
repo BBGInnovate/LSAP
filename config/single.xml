@@ -4,7 +4,8 @@
 		<item channelid="logan-circle-dc" type="live">
 			<streamUrl format="mp3">http://sc9.iad.llnw.net/stream/npr_music2</streamUrl>
 			<title>LoganCircleDC</title>
-			<description />
+			<description>Demo</description>
+			<callLetters>FM 00.0</callLetters>
 			<siteUrl>http://ourawesomewebapp.com</siteUrl>
 			<podcastUrl>http://www.npr.org/rss/podcast.php?id=510299</podcastUrl>
 		</item>
