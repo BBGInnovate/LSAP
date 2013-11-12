@@ -39,6 +39,7 @@ a:focus {
 {
 	color:#fff;
 }
+.clear{ clear: both; }
 /*	--------------------------------------------------
 	:: Header
 	-------------------------------------------------- */
@@ -271,7 +272,7 @@ a:focus {
 	font-weight:bold;
 	display:inline-block;
 	float:left;
-	border:1px solid #34b5d0;
+	border:1px solid;
 	border-right:0;
 	-webkit-border-radius: 5px 0px 0px 5px;
 	border-radius: 5px 0px 0px 5px;
@@ -298,7 +299,6 @@ a:focus {
 	text-align:center;
 	width:50px;
 	padding:10px 0;
-	background:#34b5d0;
 	color:#fff;
 }
 .custom-ShareOn ul.socialmenu li a:hover
@@ -311,6 +311,41 @@ a:focus {
 	-webkit-border-radius: 0 5px 5px 0;
 	border-radius: 0 5px 5px 0;
 }
+#scheduleTabs{ height: 31px; }
+#scheduleTabs .topList, #scheduleTabs .dayList{
+	height: 31px;
+	padding: 0px;
+	margin-top: 20px;
+}
+#scheduleTabs li{
+	float: left;
+	list-style-type: none;
+	list-style-position: outside;
+	text-transform: uppercase;
+	margin-right: 10px;
+}
+.bbgTabButton
+{
+	text-decoration:none;
+	padding: 10px 20px;
+	width: 200px;
+	color: #FFFFFF;
+}
+.bbgTabButton:hover{ 
+	background-color:#9b9b9b;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+.bbgTabButton.inactive{ background-color:#cccccc; color: #999999; }
+.dayList a{
+	color: #9b9b9b;
+	text-decoration: none;
+}
+.dayList a:hover, .dayList a.active{
+	text-decoration: underline;
+}
+.dailylineupContent{ display: none; }
+.dailylineupContent.active{ display: block; }
 .custom-ShareOn ul.socialmenu li a.jp-email-share
 {
 }
@@ -355,7 +390,9 @@ div.jp-audio div.jp-type-single div.jp-interface{ padding-top: 11px; }
 {
 	text-transform:uppercase;
 	max-width: 80%;
+	cursor: pointer;
 }
+	.jp-station:hover{ text-decoration: underline; }
 .jp-volume-bar-value {
 	background-color: white;
 }

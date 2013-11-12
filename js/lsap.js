@@ -174,8 +174,8 @@
 					$('.podcast-pause').click(podcastPlayPauseToggle);
 					$('.podcast-resume').click(podcastPlayPauseToggle);
 
-					// $('.bbgPCContents').click(showPodcastDetails);
-					$('.bbgPCContents .icon-info-sign').click(showPCDetails);
+					$('.bbgPCContents').click(showPodcastDetails);
+					// $('.bbgPCContents .icon-info-sign').click(showPCDetails);
 
 					$('.jp-podcast-play').click({ isResumeClicked: true }, showHideMainPlayPauseBtns);
 					$('.jp-podcast-pause').click({ isResumeClicked: false }, showHideMainPlayPauseBtns);
@@ -501,6 +501,10 @@
 		}
 	});
 
+	$('h2.jp-station').click(function(){
+		$(this).siblings('#btnPlayPause').children('span:visible').click();
+	});
+
 	$(document).ready(function(){
 		$('.custom-Preloader').delay( 500 ).fadeOut( function(){
 			$('.audio-stream').show();
@@ -509,3 +513,81 @@
 		});
 	});
 	
+	var todaysDay = null;
+	/* SCHEDULE PAGE DATA POPULATION AND CONTROLS */
+	$(document).on('click', '.custom-SideMenu a[href^="#schedule"]', function(){
+		// Daylist will automatically have an active element based on the date
+		// if this has been set, then we don't need to re-run
+		if( !todaysDay ){
+			todaysDay = new Date().getDay();
+			$('.dayList li a').each(function(){
+				if( parseInt( $(this).attr('attr-dayID') ) == todaysDay ){
+					$(this).addClass( 'active' );
+					$('.dailylineupContent').removeClass( 'active' );
+					$('#dlu' + parseInt( $(this).attr('attr-dayID') ) ).addClass( 'active' );
+				}
+			});
+			
+			var dayArray = [ 'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 
+							 // 0    , // 1    , // 2     , // 3       , // 4      , // 5    , // 6
+							 'nextsunday', 'nextmonday', 'nexttuesday', 'nextwednesday', 'nextthursday', 'nextfriday', 'nextsaturday' ];
+							 // 7        , // 8        , // 9         , // 10          , // 11         , // 12       , // 13
+			
+			$.ajax({
+				type: "GET",
+				url: "http://airtime.isourblock.org/api/week-info?callback=x",
+				dataType: "jsonp",
+				success: function(data) {
+					populateDailyLineup( data );
+				}
+			});
+			
+			function populateDailyLineup( i ){
+				var popCount = todaysDay;
+				for( var x=0; x < 7; x++ ){
+					var output = i[dayArray[popCount]];
+					// console.log( popCount + ' ::: ' + [dayArray[popCount]] + ' ::: ' +  output.length );
+					// console.log( output );
+					var containerCounter = ( popCount < 7 ) ? popCount : popCount - 7;
+					var container = '#dlu' + containerCounter;
+					if( output.length > 0 ){
+						for( var y=0; y<output.length; y++){							
+							$(container).append( cleanTimestamp( output[y]['start_timestamp'] )   + ' -- '   );
+							$(container).append( cleanTimestamp( output[y]['end_timestamp']   )   + '<br />' );
+							$(container).append(                 output[y]['name']                + '<br />' );
+							$(container).append(                 output[y]['description']         + '<br />' );
+						}
+					}else{
+						$(container).html( '<p>This is placeholder text for daily lineup.</p>' );
+					}
+					// $('#outputtestarea').append( output );
+					popCount++;
+				}
+			}// end functino populateDailyLineup
+			
+			function cleanTimestamp( stamp ){
+				var stampSplit = stamp.split( ' ' );
+				stamp = stampSplit[1];
+				stampSplit = [];
+				stampSplit = stamp.split( ':' );
+				if( stampSplit[0].substring(0,1) == '0' ){ 
+					stampSplit[0] = stampSplit[0].substring(1,2); 
+				}
+				var amPM = 'am';
+				if( parseInt( stampSplit[0] ) > 12 ){ 
+					stampSplit[0] = parseInt( stampSplit[0] ) - 12;
+					amPM = 'pm';
+				}
+				stamp = stampSplit[0] + ':' + stampSplit[1] + ' ' + amPM;
+				return stamp;
+			}// END function cleanTimestamp( stamp )
+			
+		}// END if( !todaysDay )
+	});// END $(document).on('click', '.custom-SideMenu a[href^="#schedule"]', function()
+	
+	function changeDLUdisplay( num ){
+		$('.dayList a').removeClass( 'active' );
+		$('a#dayList' + num).addClass( 'active' );
+		$('.dailylineupContent').removeClass( 'active' );
+		$('#dlu' + num ).addClass( 'active' );
+	}
