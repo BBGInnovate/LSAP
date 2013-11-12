@@ -257,7 +257,7 @@
 
 					// set initial metadata from overall station info provided by client
 					if (self.currentStream.title) {
-						setStation(self.currentStream.title,self.currentStream.siteurl,self.currentStream.callLetters);
+						setStation(self.currentStream.title,self.currentStream.siteurl);
 					} else {
 						setStation();
 					}
@@ -734,7 +734,7 @@
 		 * @param station the station to display (may include HTML)
 		 * @param url the url to the station website
 		 */
-		function setStation(station,url,callLetters) {
+		function setStation(station,url) {
 			var show = false;
 			if (typeof(station) != 'undefined') {
 				if (self.options.showSiteUrl && url != 'undefined') {
