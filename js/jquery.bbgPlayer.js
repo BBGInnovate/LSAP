@@ -971,7 +971,8 @@
 			var code = null;
 			// twitter
 			if (self.options.share.twitter.enabled) {
-				code = '<li><a href="https://mobile.twitter.com/compose/tweet?status=' + encodeURI(self.options.share.shareLink) + '" target="_blank" class="jp-twitter-share"><i class="icon-twitter icon-2x"></i></a></li>';
+				var handle = (self.options.social.twitterHandle !== undefined) ? encodeURI(self.options.social.twitterHandle) : '';
+				code = '<li><a href="https://mobile.twitter.com/compose/tweet?status=@' + handle + ' ' + encodeURI(self.options.share.shareLink) + '" target="_blank" class="jp-twitter-share"><i class="icon-twitter icon-2x"></i></a></li>';
 				jq = $(code).appendTo(self.bbgCss.jq.share);
 				jq.children("a").on("click",function(e) {
 					trackTwitter(getMediaTitleForTracking());
