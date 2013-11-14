@@ -50,8 +50,8 @@
 	</config>
 	<menu>
 		<option href="#listen">live stream</option>
-		<option href="#schedule">schedule</option>
-		<option href="#podcasts">podcasts</option>
+		<option href="#schedule">live schedule</option>
+		<option href="#podcasts">audio library</option>
 		<option href="#about">about</option>
 		<option href="#help">help</option>
 	</menu>
