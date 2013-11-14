@@ -525,6 +525,12 @@
 					$(this).addClass( 'active' );
 					$('.dailylineupContent').removeClass( 'active' );
 					$('#dlu' + parseInt( $(this).attr('attr-dayID') ) ).addClass( 'active' );
+					if( todaysDay != 0 ){
+						console.log( todaysDay - 1 );
+						for( var x=0; x<todaysDay; x++){
+							$('ul.dayList').find('li#dayliList' + x).appendTo('ul.dayList');
+						}
+					}
 				}
 			});
 			
@@ -552,10 +558,10 @@
 					var container = '#dlu' + containerCounter;
 					if( output.length > 0 ){
 						for( var y=0; y<output.length; y++){							
-							$(container).append( cleanTimestamp( output[y]['start_timestamp'] )   + ' -- '   );
-							$(container).append( cleanTimestamp( output[y]['end_timestamp']   )   + '<br />' );
-							$(container).append(                 output[y]['name']                + '<br />' );
-							$(container).append(                 output[y]['description']         + '<br />' );
+							$(container).append( '<div class="schTimestamp">' + cleanTimestamp( output[y]['start_timestamp'] )   + ' -- '   );
+							$(container).append(                                cleanTimestamp( output[y]['end_timestamp']   )   + '</div>' );
+							$(container).append( '<div class="schName">' +      output[y]['name']                                + '</div>' );
+							$(container).append( '<div class="schDesc">' +      output[y]['description']                         + '</div>' );
 						}
 					}else{
 						$(container).html( '<p>This is placeholder text for daily lineup.</p>' );
