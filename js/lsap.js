@@ -557,11 +557,10 @@
 					var containerCounter = ( popCount < 7 ) ? popCount : popCount - 7;
 					var container = '#dlu' + containerCounter;
 					if( output.length > 0 ){
-						for( var y=0; y<output.length; y++){							
-							$(container).append( '<div class="schTimestamp">' + cleanTimestamp( output[y]['start_timestamp'] )   + ' -- '   );
-							$(container).append(                                cleanTimestamp( output[y]['end_timestamp']   )   + '</div>' );
-							$(container).append( '<div class="schName">' +      output[y]['name']                                + '</div>' );
-							$(container).append( '<div class="schDesc">' +      output[y]['description']                         + '</div>' );
+						for( var y=0; y<output.length; y++){	
+													
+							$(container).append( '<div class="custom-Row clearfix"><div class="pull-left schTime"><div class="schTimestamp">' + cleanTimestamp( output[y]['start_timestamp'] )   + ' -- '  + cleanTimestamp( output[y]['end_timestamp']   )   + '</div></div>' + '<div class="pull-left schDetails"><div class="schName">' +  output[y]['name'] + '</div>' + '<div class="schDesc">' + output[y]['description'] + '</div></div></div>');							
+
 						}
 					}else{
 						$(container).html( '<p>This is placeholder text for daily lineup.</p>' );
