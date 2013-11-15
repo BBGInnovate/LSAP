@@ -565,7 +565,7 @@
 
 						}
 					}else{
-						$(container).html( '<p>This is placeholder text for daily lineup.</p>' );
+						$(container).html( '<p>Nothing scheduled.</p>' );
 					}
 					// $('#outputtestarea').append( output );
 					popCount++;

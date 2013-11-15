@@ -2,12 +2,12 @@
 <playerconfig>
 	<streams>
 		<item channelid="logan-circle-dc" type="live">
-			<streamUrl format="mp3">http://sc9.iad.llnw.net/stream/npr_music2</streamUrl>
-			<title>LoganCircleDC</title>
-			<description>Demo</description>
+			<streamUrl format="mp3">http://airtime.isourblock.org:8000/stream</streamUrl>
+			<title>BBGInnovate</title>
+			<description>This is a demo of the BBG stream player.</description>
 			<callLetters>FM 00.0</callLetters>
-			<siteUrl>http://ourawesomewebapp.com</siteUrl>
-			<podcastUrl>http://www.npr.org/rss/podcast.php?id=510299</podcastUrl>
+			<siteUrl>http://www.innovation-series.com</siteUrl>
+			<podcastUrl>http://www.voanews.com/podcast/?count=20&amp;zoneId=1452</podcastUrl>
 		</item>
 	</streams>
 	<styles>
@@ -18,12 +18,12 @@
 		<autoplay>false</autoplay>
 		<showPosters>false</showPosters>
 		<showSiteUrl>false</showSiteUrl>
-		<category>Sports and Leisure</category>
+		<category>News</category>
 		<social>
-			<facebookUrl>https://www.facebook.com/wamu885</facebookUrl>
-			<twitterHandle>NPR</twitterHandle>
-			<googlePlusUrl>https://plus.google.com/+NPR/posts</googlePlusUrl>
-			<websiteUrl>https://www.npr.org</websiteUrl>
+			<facebookUrl>https://www.facebook.com/pages/VOA-News/145869735428186</facebookUrl>
+			<twitterHandle>BBGinnovate</twitterHandle>
+			<googlePlusUrl>https://plus.google.com/112189007157857171173/posts</googlePlusUrl>
+			<websiteUrl>http://www.innovation-series.com</websiteUrl>
 		</social>
 		<share>
 			<layout>compact</layout>
@@ -41,12 +41,12 @@
 			</embed>
 		</share>
 		<location>
-			<city>Washington</city>
-			<country>DC</country>
-			<local>Southeast</local>
+			<city>Washington, DC</city>
+			<country>USA</country>
+			<local>Southwest</local>
 		</location>
 		<footerContent />
-		<brandingLink>http://www.npr.org</brandingLink>
+		<brandingLink>http://www.innovation-series.com</brandingLink>
 	</config>
 	<menu>
 		<option href="#listen">live stream</option>

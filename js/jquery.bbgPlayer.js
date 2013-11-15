@@ -1023,24 +1023,24 @@
 		 */
 		function generateSocialMediaMenu() {
 			var markup = null;
-			// facebook
-			if (!!self.options.social.facebookUrl && self.options.social.facebookUrl !== undefined) {
-				markup = '<li><a href="' + encodeURI(self.options.social.facebookUrl) + '" target="_blank" class="jp-facebook-social"><i class="icon-facebook icon-2x"></i><span>Facebook</span></a></li>';
-				$(markup).appendTo(self.bbgCss.jq.social);
-			}
 			// twitter
 			if (!!self.options.social.twitterHandle && self.options.social.twitterHandle !== undefined) {
-				markup = '<li><a href="https://twitter.com/' + encodeURI(self.options.social.twitterHandle) + '" target="_blank" class="jp-twitter-social"><i class="icon-twitter icon-2x"></i><span>Twitter</span></a></li>';
+				markup = '<li><a href="https://twitter.com/' + encodeURI(self.options.social.twitterHandle) + '" target="_blank" class="jp-twitter-social"><i class="icon-twitter icon-2x"></i><span>Follow Us</span></a></li>';
+				$(markup).appendTo(self.bbgCss.jq.social);
+			}
+			// facebook
+			if (!!self.options.social.facebookUrl && self.options.social.facebookUrl !== undefined) {
+				markup = '<li><a href="' + encodeURI(self.options.social.facebookUrl) + '" target="_blank" class="jp-facebook-social"><i class="icon-facebook icon-2x"></i><span>Like Us</span></a></li>';
 				$(markup).appendTo(self.bbgCss.jq.social);
 			}
 			// google plus
 			if (!!self.options.social.googlePlusUrl && self.options.social.googlePlusUrl !== undefined) {
-				markup = '<li><a href="' + encodeURI(self.options.social.googlePlusUrl) + '" target="_blank" class="jp-google-plus-social"><i class="icon-google-plus icon-2x"></i><span>Google</span></a></li>';
+				markup = '<li><a href="' + encodeURI(self.options.social.googlePlusUrl) + '" target="_blank" class="jp-google-plus-social"><i class="icon-google-plus icon-2x"></i><span>Join Our Circle</span></a></li>';
 				$(markup).appendTo(self.bbgCss.jq.social);
 			}
 			// website
 			if (!!self.options.social.websiteUrl && self.options.social.websiteUrl !== undefined) {
-				markup = '<li><a href="' + encodeURI(self.options.social.websiteUrl) + '" target="_blank" class="jp-web-social"><i class="icon-external-link icon-2x"></i> <span>Web</span></a></li>';
+				markup = '<li><a href="' + encodeURI(self.options.social.websiteUrl) + '" target="_blank" class="jp-web-social"><i class="icon-external-link icon-2x"></i> <span>Bookmark Our Site</span></a></li>';
 				$(markup).appendTo(self.bbgCss.jq.social);
 			}
 

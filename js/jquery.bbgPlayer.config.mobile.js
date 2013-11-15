@@ -7,7 +7,7 @@
 define({
 	embedPlayer: null,
 	popoutPlayer: null,
-	metadataRemoteService: 'http://apps.innovation-series.com/streamreader/remote.streaminfo.php', //url to remote file that reads metadata - should be on same domain as it uses json
+	metadataRemoteService: 'http://apps.innovation-series.com/streamreader/remote.airtime.php?l=http://airtime.isourblock.org/api/live-info', //url to remote file that reads metadata - should be on same domain as it uses json
 	feedparserRemoteService: 'http://apps.innovation-series.com/streamreader/remote.feedparser.php', //url to remote file that reads metadata - should be on same domain as it uses json
 	configFolder: 'config/',
 	styleFolder: 'css/',
