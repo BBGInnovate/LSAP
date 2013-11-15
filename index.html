@@ -74,15 +74,16 @@
       <div id="bbgContentTall" class="col-md-9"> 
         <!-- Begin header -->
         <div class="custom-PlayerHeader clearfix">
-          <div class="station-branding brand pull-left"><img src="img/tempimage-brandlogo.gif" alt="" /></div>
           <div class="pull-left"> 
+          	<div class="jp-call-letters"></div>
             <h1 class="jp-stream-title"></h1>
-            <h2 class="jp-call-letters"></h2>
             <!-- ******* 
                 	The location below needs to pull in dynamically. The product owner requested the following fields in order:
                     Location / City / Country                 
                  ******* --> 
-            <span class="jp-location">Washington, DC</span> </div>
+            <div class="custom-LocationContainer">Your Neighborhood: <span class="jp-location">Washington, DC</span></div>
+            
+            </div>
           <button type="button" class="btn btn-navbar menu-trigger pull-right hidden-lg"><i class="icon-reorder"></i></button>
         </div>
         <!-- End header --> 
@@ -390,8 +391,11 @@
       <!-- Begin Right Column -->
       <div class="col-md-3 custom-SidePanel"> 
       <div class="custom-Preloader"><i class="icon-spinner icon-spin icon-4x"></i></div>
-        <!-- Begin Side Menu -->
+      
+        <!-- Begin Side Menu and Station Brand Logo -->
         <div id="menu" class="custom-SideMenu">
+        <!-- Begin Station Brand Logo -->
+      <div class="station-branding brand"><img src="img/tempimage-brandlogo.gif" alt="" /></div>
           <div class="sidebar-nav">
             <ul class="nav nav-list">
               <li class="nav-header">Menu</li>

@@ -143,12 +143,13 @@
 						                '<a href="javascript:;" class="podcast-resume" style="display: none;">Play</a>' +
 						            '</div>' +
 						            '<div class="bbgPCContents">' +
-						                '<div class="bbgPCtitle">' + '<span>' + bbg_podcastArray[x].title + '</span>' + '<i class="bbgPodcastInfoDetails "></i>' + '</div>' +
+						                '<div class="bbgPCtitle">' + '<span>' + bbg_podcastArray[x].title + '</span>' + '</div>' +
 										//'<div class="bbgPCtitle">' + '<span><a href="javascript:alert(\'test\');">' + bbg_podcastArray[x].title + '</a></span>' + '<i class="icon-info-sign bbgPodcastInfoDetails "></i>' + '</div>' +
 						                '<div class="bbgDTL">' +
-						                    '<div class="bbgDTL-Date"><span>Date:</span> ' + justDate + '</div>' +
+						                    '<div class="bbgDTL-Date"><span>Air Date:</span> ' + justDate + '</div>' +
 						                    // '<div class="bbgDTL-Time"><span>Time:</span> ' + justTime + '</div>' +
 						                    '<div class="bbgDTL-Length"><span>Length:</span> ' + bbg_podcastArray[x].dur + '</div>' +
+											'<i class="bbgPodcastInfoDetails "></i>' +
 						                '</div>' +
 						            '</div>' +
 						            '<input type="hidden" id="hdnPCUrl" value="' + bbg_podcastArray[x].url + '">' +
@@ -174,6 +175,7 @@
 					$('.podcast-pause').click(podcastPlayPauseToggle);
 					$('.podcast-resume').click(podcastPlayPauseToggle);
 
+					//$('.bbgPodcastInfoDetails ').click(showPodcastDetails);
 					$('.bbgPCContents').click(showPodcastDetails);
 					// $('.bbgPCContents .icon-info-sign').click(showPCDetails);
 
@@ -272,7 +274,7 @@
 							'<div class="bbgDTWrapContent">' +
 								'<div class="bbgPCtitle">' + $(this).siblings('#hdnPCTitle').val() + '</div>' +
 								'<div class="bbgDTL">' +
-									'<span class="bbgDTL-Date">Date: ' + $(this).siblings('#hdnPCDate').val() + '</span>' +
+									'<span class="bbgDTL-Date">Air Date: ' + $(this).siblings('#hdnPCDate').val() + '</span>' +
 									// '<span class="bbgDTL-Time">Time: ' + $(this).siblings('#hdnPCTime').val() + '</span>' +
 									'<span class="bbgDTL-Length">Length: ' + $(this).siblings('#hdnPCDur').val() + '</span>' +
 								'</div>' +

@@ -63,10 +63,14 @@ div.jp-play-bar, div.jp-podcast-play-bar {
 .custom-SidePanel .custom-Preloader i, #bbgContentTall .custom-Preloader i {
 	color: #34b5d0;
 }
-.bbgPCRow .bbgPCtitle i,
-.bbgPCRow.playing .bbgPCtitle i
+.bbgPCRow i,
+.bbgPCRow.playing i
 {
 	background-color:#34b5d0;
+}
+.bbgPCRow .bbgPCtitle
+{
+	color:#34b5d0;
 }
 
 .bbgTabButton{ background-color: #34B5D0; }
