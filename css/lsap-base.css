@@ -452,10 +452,12 @@ ul.jp-controls li a {
 {
 	font-size:16px;
 }
-.custom-LocationContainer
+.jp-location
 {
-	font-weight:700;
 	font-size:12px;
+}
+.jp-location .local{
+	font-weight:700;
 }
 .jPanelMenu-panel. {
  height: 100%;

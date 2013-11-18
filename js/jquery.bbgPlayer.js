@@ -784,17 +784,15 @@
 		 * @param location object with location properties (city,country,local)
 		 */
 		function setLocation(location) {
+			if(location.local !== undefined && location.local.length > 0){
+				self.bbgCss.jq.location.find('span.local').text(location.local + ', ');
+			}
 			if(location.city !== undefined && location.city.length > 0){
-				$('<span>' + location.city + '</span>').appendTo(self.bbgCss.jq.location.find('div.city'));
+				self.bbgCss.jq.location.find('span.city').text(location.city);
 			}
 			if(location.country !== undefined && location.country.length > 0){
-				$('<span>' + location.country + '</span>').appendTo(self.bbgCss.jq.location.find('div.country'));
-			}
-			if(location.local !== undefined && location.local.length > 0){
-				$('<span>' + location.local + '</span>').appendTo(self.bbgCss.jq.location.find('div.local'));
-			}
-			
-
+				self.bbgCss.jq.location.find('span.country').text(', ' + location.country);
+			}			
 		}
 
 		/**
@@ -1040,7 +1038,7 @@
 			}
 			// website
 			if (!!self.options.social.websiteUrl && self.options.social.websiteUrl !== undefined) {
-				markup = '<li><a href="' + encodeURI(self.options.social.websiteUrl) + '" target="_blank" class="jp-web-social"><i class="icon-external-link icon-2x"></i> <span>Bookmark Our Site</span></a></li>';
+				markup = '<li><a href="' + encodeURI(self.options.social.websiteUrl) + '" target="_blank" class="jp-web-social"><i class="icon-external-link icon-2x"></i> <span>Visit Our Site</span></a></li>';
 				$(markup).appendTo(self.bbgCss.jq.social);
 			}
 

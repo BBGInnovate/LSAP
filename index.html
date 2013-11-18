@@ -77,11 +77,12 @@
           <div class="pull-left"> 
           	<div class="jp-call-letters"></div>
             <h1 class="jp-stream-title"></h1>
-            <!-- ******* 
-                	The location below needs to pull in dynamically. The product owner requested the following fields in order:
-                    Location / City / Country                 
-                 ******* --> 
-            <div class="custom-LocationContainer">Your Neighborhood: <span class="jp-location">Washington, DC</span></div>
+
+            <div class="custom-LocationContainer jp-location">
+              <span class="local"></span>
+              <span class="city"></span>
+              <span class="country"></span>
+            </div>
             
             </div>
           <button type="button" class="btn btn-navbar menu-trigger pull-right hidden-lg"><i class="icon-reorder"></i></button>
@@ -546,7 +547,8 @@
 			bbgCssSelectors: {
 				menu: '.sidebar-nav ul.nav',
 				seekBar: '.jp-seek-bar',
-				playBar: '.jp-play-bar'
+				playBar: '.jp-play-bar',
+        location: '.jp-location'
 			}
 		});
 	});
