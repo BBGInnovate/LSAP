@@ -116,7 +116,7 @@
               
                 <!-- ******* The date below needs to pull in dynamically ******* -->
                 <p class="jp-date" itemprop="datePublished">August 21<sup>st</sup>, 2013 - 9:00PM to 10:30PM </p>
-                <h3 class="jp-song" itemprop="name">Song Name</h3>
+                <h3 class="jp-song" itemprop="name">Station data unavailable.</h3>
                 <div class="jp-poster hidden-phone"></div>
                 <!-- End Player --> 
                 <!-- Begin Share -->
@@ -297,20 +297,16 @@
             <!-- End Podcats --> 
             <!-- Begin About -->
             <div class="tab-pane fade" id="about">
-            <h2 class="custom-SectionHeader">About</h2>
-            <div class="custom-AboutStation clearfix">
-                      <div class="jp-category"> <span class="custom-Header">Category</span> </div>
-                      <div class="jp-location">
-                        <div class="local"> <span class="custom-Header">Location</span> </div>
-                       </div>
-                       <div class="jp-location">
-                        <div class="city"> <span class="custom-Header">City</span> </div>
-                        </div>
-                        <div class="jp-location">
-                        <div class="country"> <span class="custom-Header">Country</span> </div>
-                      </div>
-                    </div>
-                    <div id="about-text" class="custom-Content"></div>        
+              <h2 class="custom-SectionHeader staticButton">About</h2>
+              <div class="row">
+                  <div class="col-md-2 custom-Header">Category</div>
+                  <div class="jp-category col-md-8"></div>
+              </div>
+              <div class="row">
+                  <div class="col-md-2 custom-Header">About</div>
+                  <div id="about-text" class="jp-description col-md-8"></div>  
+              </div>      
+
             </div>
             <!-- End About --> 
             <!-- Begin Help -->
@@ -548,7 +544,8 @@
 				menu: '.sidebar-nav ul.nav',
 				seekBar: '.jp-seek-bar',
 				playBar: '.jp-play-bar',
-        location: '.jp-location'
+        location: '.jp-location',
+        title: '.jp-song'
 			}
 		});
 	});

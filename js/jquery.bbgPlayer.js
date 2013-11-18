@@ -101,6 +101,7 @@
 			bbgCssSelectors: {
 				title: '.jp-song',
 				streamTitle: '.jp-stream-title',
+				streamDesc: '.jp-description',
 				station: '.jp-station',
 				category: '.jp-category',
 				callLetters: '.jp-call-letters',
@@ -369,6 +370,11 @@
 				setStreamTitle(self.currentStream.title);
 			}
 
+			//output the Stream Description 
+			if (self.currentStream.description !== undefined && self.currentStream.description.length > 0) {
+				setStreamDesc(self.currentStream.description);
+			}
+
 			//output the Station Call Letters
 			if (self.currentStream.callLetters !== undefined) {
 				setCallLetters(self.currentStream.callLetters);
@@ -615,7 +621,7 @@
 			self.currentStream = stream;
 		}
 
-// METADATA
+		// METADATA
 		/**
 		 * Loads the current metadata from the stream and updates title and station data
 		 * @param single boolean to indicate if data should only be pulled once (true) or continually pulled (false)
@@ -631,9 +637,9 @@
 			$.ajax({
 				dataType: "json",
 				url: self.config.metadataRemoteService,
-				data: {
+				/*data: {
 					l: self.currentStream.mp3
-				},
+				},*/
 				success: function(data) {
 					if (data.success == 'true') {
 					    if (data.metadata.streamtitle) {
@@ -655,11 +661,11 @@
 						if (data.metadata.station) {
 							setStation(data.metadata.station,data.metadata.stationurl);
 						} else {
-							setStation();
+							setStation(self.currentStream.title);
 						}
 					} else {
 						setTitle('Station data unavailable.');
-						setStation();
+						setStation(self.currentStream);
 					}
 					if (!single) {
 						// call again after the timeout
@@ -769,6 +775,14 @@
 		 */
 		function setStreamTitle(text) {
 			self.bbgCss.jq.streamTitle.text(text);
+		}
+
+		/**
+		 * Updates the station description 
+		 * @param desc string 
+		 */
+		function setStreamDesc(text) {
+			self.bbgCss.jq.streamDesc.text(text);
 		}
 
 		/**

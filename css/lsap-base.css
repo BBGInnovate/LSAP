@@ -561,25 +561,13 @@ ul.jp-controls li a {
 .custom-panel .accordion-toggle i {
 	margin: 0 5px 0 0;
 }
-/*	--------------------------------------------------
-	:: Note: 
-	-------------------------------------------------- */
-.custom-AboutStation {
-	margin: 15px 0 20px 0;
-	font-family: 'Roboto', sans-serif;
-}
-.custom-AboutStation .jp-category, .custom-AboutStation .jp-location {
-	float: left;
-	margin: 0 25px 0 0;
-}
-.custom-AboutStation span {
-	font-size: 16px;
-}
-.custom-AboutStation .custom-Header {
+#about .custom-Header{
 	text-transform: uppercase;
-	font-size: 12px;
-	display: block;
-	font-weight: 700;
+	font-size: larger;
+	padding: 0;
+}
+#about .row{
+	margin: 0 0 10px 0;
 }
 .custom-SectionHeader {
 	border-bottom: 1px solid #e0e0e0;

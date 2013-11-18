@@ -3,7 +3,7 @@
 	<streams>
 		<item channelid="logan-circle-dc" type="live">
 			<streamUrl format="mp3">http://airtime.isourblock.org:8000/stream</streamUrl>
-			<title>BBGInnovate</title>
+			<title>Community Radio</title>
 			<description>This is a demo of the BBG stream player.</description>
 			<callLetters>FM 00.0</callLetters>
 			<siteUrl>http://www.innovation-series.com</siteUrl>
