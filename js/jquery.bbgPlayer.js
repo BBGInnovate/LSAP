@@ -105,6 +105,7 @@
 				station: '.jp-station',
 				category: '.jp-category',
 				callLetters: '.jp-call-letters',
+				callSign: '.jp-call-sign',
 				streams: '.jp-streams',
 				pop: '.jp-pop',
 				poster: '.jp-poster',
@@ -379,6 +380,10 @@
 			if (self.currentStream.callLetters !== undefined) {
 				setCallLetters(self.currentStream.callLetters);
 			}
+			//output the Station Call Sign
+			if (self.currentStream.callSign !== undefined) {
+				setCallSign(self.currentStream.callSign);
+			}
 
 			//output the Station Location
 			if (self.options.location !== undefined) {
@@ -482,6 +487,7 @@
 					type: $(this).attr("streamtype"),
 					description: $(this).find("description").text(),
 					callLetters: $(this).find("callLetters").text(),
+					callSign: $(this).find("callSign").text(),
 					siteurl: $(this).find("siteUrl").text(),
 					poster: $(this).find("poster").text()
 				};
@@ -604,6 +610,9 @@
 			}
 			if (streamData.callLetters) {
 				newStream.callLetters = streamData.callLetters;
+			}
+			if (streamData.callSign) {
+				newStream.callSign = streamData.callSign;
 			}
 			if (self.options.showPosters && streamData.poster) {
 				newStream.poster = streamData.poster;
@@ -791,6 +800,13 @@
 		 */
 		function setCallLetters(text) {
 			self.bbgCss.jq.callLetters.text(text);
+		}
+		/**
+		 * Updates the station call sign 
+		 * @param text string 
+		 */
+		function setCallSign(text) {
+			self.bbgCss.jq.callSign.text(text);
 		}
 
 		/**
