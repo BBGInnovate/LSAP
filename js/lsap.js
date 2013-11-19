@@ -220,6 +220,8 @@
 		        $('.detailPC-resume').show();
 		    }
 		}
+		
+		// $('.bbgPCRow:not(.playing) .detailPC-resume').hide();
 
 		function showPCDetails(){
 			var renderHtml = '';
@@ -242,7 +244,8 @@
 										'<span class="bbgDTL-Length">Length: ' + $(this).closest('.bbgPCRow').children('#hdnPCDur').val() + '</span>' +
 									'</div>' +
 									'<div class="bbgDesc">' + $(this).closest('.bbgPCRow').children('#hdnPCDesc').text() + '</div>' +
-								'</div>' +
+									'<div style="width: 100%; height: 80px;"> <br /> <br /> </div>' +
+								'</div>' + 
 							'<div>'
 			
 			$('#podcastDetails').html(renderHtml).show(); // populate and show the generated HTML
@@ -310,6 +313,9 @@
 		function playPodcast(pcUrl) {
 
 		    if ($('.jp-pause').css('display') === 'block') $("#jp-player").jPlayer("stop");
+			
+			// $('.detailPC-pause').css('display', 'none');
+			// $('.detailPC-resume').css('display', 'none');
 
 		    if (!isPodcastActive()) {
 		        $('#jp-podcast-main-container').show();
@@ -665,6 +671,7 @@
 					
 					$('#allProgramsContent').append( output );
 				}// END for( var x=0; x<apIDarray.length; x++ )
+				$('#allProgramsContent').append( '<div class="clear"></div>' );
 				
 				function combineDays( dayoutput ){
 				/*	if( dayoutput.length == 1 ){ 

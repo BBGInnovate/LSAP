@@ -278,7 +278,7 @@ a:focus {
 	border-radius: 0 5px 5px 0;
 }
 #scheduleTabs {
-	height: 31px;
+/*	height: 31px;	*/
 }
 #scheduleTabs .topList, #scheduleTabs .dayList {
 	height: 31px;
@@ -330,6 +330,7 @@ a:focus {
 }
 .dailylineupContent.active {
 	display: block;
+	margin-bottom: 100px;
 }
 .shdTab {
 	display: none;
@@ -361,6 +362,7 @@ a:focus {
 #allProgramsContent
 {
 	padding:20px 0 0 0;
+	margin-bottom: 100px;
 }
 .schRow1 .shdTitle,
 .schRow1 .shdDays,
