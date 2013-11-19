@@ -124,7 +124,8 @@
 
 						for (var y = 0; y <= 5; y++) {
 						    if (y === 0) {
-						        justDate = arrayDate[y] + ' ';
+						        // justDate = arrayDate[y] + ' ';
+								justDate = ' ';
 						    } else if (y === 3) {
 						        justDate += arrayDate[y];
 						    } else if (y === 4) {
@@ -176,8 +177,8 @@
 					$('.podcast-resume').click(podcastPlayPauseToggle);
 
 					//$('.bbgPodcastInfoDetails ').click(showPodcastDetails);
-					$('.bbgPCContents').click(showPodcastDetails);
-					// $('.bbgPCContents .icon-info-sign').click(showPCDetails);
+					//$('.bbgPCContents').click(showPodcastDetails);
+					$('.bbgPCContents .bbgPodcastInfoDetails').click(showPCDetails);
 
 					$('.jp-podcast-play').click({ isResumeClicked: true }, showHideMainPlayPauseBtns);
 					$('.jp-podcast-pause').click({ isResumeClicked: false }, showHideMainPlayPauseBtns);
@@ -505,6 +506,16 @@
 
 	$('h2.jp-station').click(function(){
 		$(this).siblings('#btnPlayPause').children('span:visible').click();
+	});
+	
+	$(document).on('click', '.bbgPCtitle', function(){
+		var pcResumeVis = $(this).parent().siblings('.bbgPCurl').children('a.podcast-resume').css('display');
+		var pcPauseVis  = $(this).parent().siblings('.bbgPCurl').children('a.podcast-pause' ).css('display');
+		if( pcResumeVis == 'none' && pcPauseVis == 'none' ){
+			var podcastURL = $(this).parent().siblings('.bbgPCurl').children('a:first-child').attr('href').split("'");
+			playPodcast( podcastURL[1] );
+		}
+		$(this).parent().siblings('.bbgPCurl').children('a:visible').click();
 	});
 
 	$(document).ready(function(){
