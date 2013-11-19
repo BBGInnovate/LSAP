@@ -250,6 +250,7 @@
 					}
 					trackPlayer();
 				},
+				volume: '0.5',
 				play: function(event) {
 					showLoading(false);
 					showStatus(STATUS_CONNECTED);

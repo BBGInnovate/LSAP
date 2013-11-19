@@ -334,7 +334,8 @@
 		            stop: '.jp-podcast-stop',
 		            seekBar: '.jp-podcast-seek-bar',
 		            playBar: '.jp-podcast-play-bar'
-		        }
+		        },
+				volume: '0.5'
 		    });                    
 		}
 
@@ -413,7 +414,7 @@
 		        destroyPodcastPlayer();
 		        $('#jp-player').jPlayer({
 		            ready: function () {
-		                alert('i am ready!');
+		                // alert('i am ready!');
 		            }
 		        });
 		        setTimeout(function () {
