@@ -547,6 +547,7 @@
 				dataType: "jsonp",
 				success: function(data) {
 					populateDailyLineup( data );
+					populateAllPrograms( data );
 				}
 			});
 			
@@ -588,6 +589,156 @@
 				stamp = stampSplit[0] + ':' + stampSplit[1] + ' ' + amPM;
 				return stamp;
 			}// END function cleanTimestamp( stamp )
+			
+			function populateAllPrograms( i ){
+				
+				var apIDs = []; // All Programs IDs Array;
+				function apID( idNum, dayNum, name, description, startTm, endTm ){
+					this.id    = parseInt( idNum );
+					this.days  = [ dayNum ];
+					this.title = name;
+					this.desc  = description;
+					this.start = startTm;
+					this.end   = endTm;
+					
+					this.addAPday = function( dayToAdd ){
+						this.days.push( dayToAdd);
+					}
+				};
+				for( var x=0; x<dayArray.length; x++){
+					for( var y=0; y<i[ dayArray[x] ].length; y++ ){
+						var content = i[dayArray[x]][y];
+						if( apIDs.length > 0 ){
+							var idExists = -1;
+							for( var z=0; z<apIDs.length; z++ ){
+								if( content['id'] == apIDs[z]['id'] ){ idExists = z; }
+							}
+							if( idExists == -1 ){
+								var apIDnew = new apID( content['id'], x, content['name'], content['description'], content['start_timestamp'], content['end_timestamp'] );
+								apIDs.push( apIDnew );
+							}else{
+								apIDs[idExists].addAPday( x );
+							}
+						}else{
+							var apIDnew = new apID( content['id'], x, content['name'], content['description'], content['start_timestamp'], content['end_timestamp'] );
+							apIDs.push( apIDnew );
+						}
+					}// END for( var x=0; x<dayArray.length; x++)
+				}// END for( var y=0; y<i[ dayArray[x] ].length; y++ )
+				
+				populateAllProgramsHTML( apIDs );
+						
+			}// END function populateAllPrograms( i )
+			
+			function populateAllProgramsHTML( apIDarray ){
+				
+				var outputHTML    = [];
+					outputHTML[0] = '<div class="custom-Row">';
+					outputHTML[1] = '		<div class="schRow1">';
+					outputHTML[2] = '			<div class="shdTitle">{{title}}</div>';
+					outputHTML[3] = '			<div class="shdDays" >{{days}} </div>';
+					outputHTML[4] = '			<div class="shdTimes">{{times}}</div>';
+					outputHTML[5] = '		</div>';
+					outputHTML[6] = '		<div>';
+					outputHTML[7] = '			<p>{{description}}</p>';
+					outputHTML[8] = '		</div>';
+					outputHTML[9] = '</div>';
+					
+				$('#allProgramsContent').html( '' );
+					
+				for( var x=0; x<apIDarray.length; x++ ){
+					var dayoutput = combineDays( apIDarray[x]['days'] );
+					var output = outputHTML.join( '' ).replace(/{{title}}/, apIDarray[x]['title'] ).replace(/{{days}}/, dayoutput).replace(/{{description}}/, apIDarray[x]['desc'] );
+					
+					$('#allProgramsContent').append( output );
+				}// END for( var x=0; x<apIDarray.length; x++ )
+				
+				function combineDays( dayoutput ){
+				/*	if( dayoutput.length == 1 ){ 
+						return dayArray[ parseInt( dayoutput[0] ) ];
+					}else{  */
+						var dayArrayz = [];
+						for( var x=0; x<dayoutput.length; x++ ){
+							var dayNum = ( dayoutput[x] < 7 )? parseInt( dayoutput[x] ) : parseInt( dayoutput[x] ) - 7;
+							var inArray = false;
+							for( var y=0; y<dayArrayz.length; y++ ){
+								if( dayArrayz[y] == dayNum ){ inArray = true; }									
+							}// END for( var y=0; y<dayArrayz.length; y++ )
+							if( !inArray ){
+								dayArrayz.push( dayNum );
+							}
+						}// END for( var x=0; x<dayoutput.length; x++ )
+						dayoutput = [];
+						var shortHand = true;
+						switch (dayArrayz.length){
+							case 1:
+								var output = dayArray[ parseInt( dayArrayz[0] ) ];
+								return output.toUpperCase() + 'S';
+								break;
+							case 2:
+								var testArray = [0, 6]; // WEEKENDS
+								for( var x=0; x<2; x++ ){
+									if( dayArrayz[x] != testArray[x] ){ shortHand = false; }
+								}
+								if( shortHand ){ 
+									dayoutput = [ 'WEEKENDS' ]; 
+								}else{
+									dayoutput = [];
+									for( var x=0; x<2; x++ ){
+										dayoutput[x] = dayArray[ parseInt( dayArrayz[x] ) ].toUpperCase() + 'S';
+									}
+								}
+								return dayoutput.join( ' AND ' );
+								break;
+							case 5:
+								var testArray = [1, 2, 3, 4, 5]; // WEEKDAYS
+								for( var x=0; x<5; x++ ){
+									if( dayArrayz[x] != testArray[x] ){ shortHand = false; }
+								}
+								if( shortHand ){ 
+									dayoutput = [ 'WEEKDAYS' ]; 
+									return dayoutput[0];
+								}else{
+									var output = '';
+									for( var x=0; x<(dayArrayz.length - 1); x++ ){
+										output += dayArray[ parseInt( dayArrayz[x] ) ].toUpperCase() + 'S, ';
+									}// END for( var x=0; x<dayArrayz.length; x++ )
+									output += ' AND ' + dayArray[ (dayArrayz.length) ].toUpperCase() + 'S';
+									return output;
+								}
+								break;
+							case 7:
+								var testArray = [0, 1, 2, 3, 4, 5, 6] // ALL WEEK
+								for( var x=0; x<7; x++ ){
+									if( dayArrayz[x] != testArray[x] ){ shortHand = false; }
+								}
+								if( shortHand ){ 
+									dayoutput = [ 'ALL WEEK' ]; 
+									return dayoutput[0];
+								}else{
+									var output = '';
+									for( var x=0; x<(dayArrayz.length - 1); x++ ){
+										output += dayArray[ parseInt( dayArrayz[x] ) ].toUpperCase() + 'S, ';
+									}// END for( var x=0; x<dayArrayz.length; x++ )
+									output += ' AND ' + dayArray[ (dayArrayz.length) ].toUpperCase() + 'S';
+									return output;
+								}
+								break;
+							default:
+								var output = '';
+								for( var x=0; x<(dayArrayz.length - 1); x++ ){
+									output += dayArray[ parseInt( dayArrayz[x] ) ].toUpperCase() + 'S, ';
+								}// END for( var x=0; x<dayArrayz.length; x++ )
+								output += ' AND ' + dayArray[ (dayArrayz.length) ].toUpperCase() + 'S';
+								return output;
+								break;
+						}
+
+					//}// END if( dayoutput.length == 1 ) else
+					
+				}// END function combineDays()
+				
+			}// END function populateAllProgramsHTML( apIDarray )
 			
 		}// END if( !todaysDay )
 	});// END $(document).on('click', '.custom-SideMenu a[href^="#schedule"]', function()
