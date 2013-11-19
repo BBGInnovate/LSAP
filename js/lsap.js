@@ -648,7 +648,8 @@
 					
 				for( var x=0; x<apIDarray.length; x++ ){
 					var dayoutput = combineDays( apIDarray[x]['days'] );
-					var output = outputHTML.join( '' ).replace(/{{title}}/, apIDarray[x]['title'] ).replace(/{{days}}/, dayoutput).replace(/{{description}}/, apIDarray[x]['desc'] );
+					var times     = cleanTimestamp( apIDarray[x]['start'] ) + ' - ' + cleanTimestamp( apIDarray[x]['end'] );
+					var output    = outputHTML.join( '' ).replace(/{{title}}/, apIDarray[x]['title'] ).replace(/{{days}}/, dayoutput).replace(/{{times}}/, times ).replace(/{{description}}/, apIDarray[x]['desc'] );
 					
 					$('#allProgramsContent').append( output );
 				}// END for( var x=0; x<apIDarray.length; x++ )
