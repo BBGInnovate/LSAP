@@ -1,5 +1,3 @@
-/* Hello ERIC this is a test */
-
 /*	--------------------------------------------------
 	:: Import Google Fonts
 	-------------------------------------------------- */
@@ -299,6 +297,11 @@ a:focus {
 {
 	margin-right:2px;
 }
+
+.nav > li > a.active{
+	font-weight: bold;
+}
+
 .bbgTabButton {
 	text-decoration: none;
 	padding: 10px 20px;

@@ -34,7 +34,7 @@ div.jp-play-bar, div.jp-podcast-play-bar {
 div.jp-play-bar, div.jp-podcast-play-bar {
 	background: #34b5d0;
 }
-.nav > li > a:hover {
+.nav > li > a:hover, .nav > li > a.active {
 	color: #34b5d0;
 }
 .nav > li.disabled > a:hover, .nav > li.disabled > a:focus {

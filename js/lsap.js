@@ -5,6 +5,11 @@
 	    }
 	    contentResize();
 	    $(window).resize(function () { contentResize(); });
+
+		$(document).on('click', '.custom-SideMenu a', function(){
+			$('.custom-SideMenu a').removeClass('active');
+			$(this).addClass('active');
+		});
 		
 		// class for the BBG podcast content
 		function bbg_podcastContent(){

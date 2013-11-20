@@ -463,8 +463,10 @@
 		 */
 		function parseMenu(xml) {
 			var menuHtml = '';
+			var firstMenuItem = true;
 			xml.find('option').each(function(i) {
-				menuHtml += '<li><a data-toggle="tab" href="' + $(this).attr('href') + '">' + $(this).text() + '</a></li>';
+				var className = (firstMenuItem)? ' class="active" ' : '' ; firstMenuItem = false;
+				menuHtml += '<li><a data-toggle="tab" ' + className + ' href="' + $(this).attr('href') + '">' + $(this).text() + '</a></li>';
 			});
 			self.bbgCss.jq.menu.append(menuHtml);
 		}
