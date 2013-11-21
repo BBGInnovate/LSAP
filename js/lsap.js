@@ -184,6 +184,8 @@
 					//$('.bbgPodcastInfoDetails ').click(showPodcastDetails);
 					//$('.bbgPCContents').click(showPodcastDetails);
 					$('.bbgPCContents .bbgPodcastInfoDetails').click(showPCDetails);
+					$('.bbgPCContents .bbgDTL-Length').click(showPCDetails);
+					$('.bbgPCContents .bbgDTL-Date').click(showPCDetails);
 
 					$('.jp-podcast-play').click({ isResumeClicked: true }, showHideMainPlayPauseBtns);
 					$('.jp-podcast-pause').click({ isResumeClicked: false }, showHideMainPlayPauseBtns);
